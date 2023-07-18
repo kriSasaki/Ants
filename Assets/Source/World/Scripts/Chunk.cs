@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Chunk : MonoBehaviour
 {
-    [SerializeField] private Transform _spawnPoint;
-
-    public Transform SpawnPoint=> _spawnPoint;
+    [SerializeField] private Transform _beginPoint;
+    [SerializeField] private Transform _endPoint;
+     
+    public Transform BeginPoint => _beginPoint;
+    public Transform EndPoint => _endPoint;
 }

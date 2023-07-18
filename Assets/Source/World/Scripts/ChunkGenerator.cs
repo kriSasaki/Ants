@@ -1,21 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ChunkGenerator : MonoBehaviour
 {
-    [SerializeField] private Chunk[] _startChunks;
-    [SerializeField] private Chunk[] _chunks;
+    private ChunkStorage _chunkStorage;
 
-    private void Start()
+    private int _chunkMinCount = 4;
+    private int _chunkMaxCount = 5;
+    private int _chunkTotalCount;
+    private int _chunkCount;
+
+    private bool _isTransitionalSpawned = false;
+
+    private void Awake()
     {
-        Instantiate(_startChunks[Random.Range(0, _chunks.Length-1)]);
+        _chunkTotalCount = Random.Range(_chunkMinCount, _chunkMaxCount);
+        _chunkStorage = GetComponent<ChunkStorage>();
+        Instantiate(_chunkStorage.GetRandomStartChunk());
     }
 
-    public void SpawnChank(Chunk chunk)
+    public void SpawnChunk(Chunk chunk)
     {
-        Chunk newChunk = Instantiate(_chunks[Random.Range(0, _chunks.Length)]);
-
-        newChunk.transform.position = chunk.SpawnPoint.position - newChunk.SpawnPoint.localPosition;
+        Debug.Log("1");
+        Chunk newChunk = Instantiate(_chunkStorage.GetRandomTransitionalChunk());
+        newChunk.transform.position = chunk.BeginPoint.position - newChunk.EndPoint.localPosition;
+        _chunkCount++;
     }
 }

@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2127533523465179192
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2127533523465179194}
+  - component: {fileID: 2127533523465179193}
+  - component: {fileID: 2127533523465179195}
+  m_Layer: 0
+  m_Name: ChunkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2127533523465179194
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127533523465179192}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2127533523465179193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127533523465179192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f3ac59448a68c148be0d75bb20b55cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startChunks: []
+  _transitionalChunks:
+  - {fileID: 6781408754544423440, guid: c6eea778be634be4facf1a4d0880a4f3, type: 3}
+  - {fileID: 3710442036911917152, guid: e00c46ca9fab6aa43b58da1bd0d97434, type: 3}
+  _chunks: []
+--- !u!114 &2127533523465179195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127533523465179192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 212c611b780c9754c88668074eebee09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startChunks:
+  - {fileID: 5961012413644409540, guid: 35a0cca2641eab04f8fd56233c0d5674, type: 3}
+  _transitionalChunks:
+  - {fileID: 6781408754544423440, guid: c6eea778be634be4facf1a4d0880a4f3, type: 3}
+  - {fileID: 3710442036911917152, guid: e00c46ca9fab6aa43b58da1bd0d97434, type: 3}
+  _chunks:
+  - {fileID: 5859820695389567361, guid: 906e81c279b503b4594538d87090333b, type: 3}
+  - {fileID: 7262732170807126523, guid: e2417f77a1dda4f4eb45079bbd7d37fd, type: 3}

@@ -7,11 +7,14 @@ public class PlayerChecker : MonoBehaviour
     [SerializeField] private ChunkGenerator _chunkGenerator;
     [SerializeField] private Chunk _chunk;
 
+    private bool _isSpawned = false;
+
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.TryGetComponent(out Player player))
+        if (collider.gameObject.TryGetComponent(out Player player) && _isSpawned==false)
         {
-            _chunkGenerator.SpawnChank(_chunk);
+            _chunkGenerator.SpawnChunk(_chunk);
+            _isSpawned = true;
         }
     }
 }
