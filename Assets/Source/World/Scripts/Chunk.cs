@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class Chunk : MonoBehaviour
 {
-    [SerializeField] private Transform _beginPoint;
-    [SerializeField] private Transform _endPoint;
-     
-    public Transform BeginPoint => _beginPoint;
-    public Transform EndPoint => _endPoint;
+    private PieceOfChunk[] _pieces;
+
+    private void Start()
+    {
+        _pieces = GetComponentsInChildren<PieceOfChunk>();
+    }
+
+    public void GetUp()
+    {
+        foreach(PieceOfChunk piece in _pieces)
+        {
+            piece.GetUp();
+        }
+    }
 }
