@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerChecker : MonoBehaviour
 {
-    [SerializeField] private Chunk _chunk;
+    [SerializeField] private Chunk[] _chunks;
 
     private bool _isSpawned = false;
 
@@ -12,8 +12,13 @@ public class PlayerChecker : MonoBehaviour
     {
         if (collider.gameObject.TryGetComponent(out Player player) && _isSpawned==false)
         {
-            _chunk.GetUp();
+            foreach(Chunk chunk in _chunks) 
+            {
+                chunk.GetUp();
+            }
+
             _isSpawned = true;
+            Destroy(gameObject);
         }
     }
 }
