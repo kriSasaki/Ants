@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerChecker : MonoBehaviour
 {
     [SerializeField] private Chunk[] _chunks;
+    [SerializeField] private Mushroom[] mushrooms;
 
     private bool _isSpawned = false;
 
