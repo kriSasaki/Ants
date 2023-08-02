@@ -157,6 +157,10 @@ MonoBehaviour:
   _jumpPower: 2
   _jumpCount: 1
   _jumpDuration: 0.5
+  _shakeDuration: 0.7
+  _shakeStrength: 100
+  _shakeVibration: 10
+  _shakeRandomness: 100
 --- !u!135 &883598183132388984
 SphereCollider:
   m_ObjectHideFlags: 0
