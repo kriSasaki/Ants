@@ -9,17 +9,24 @@ public class PlayerChecker : MonoBehaviour
 
     private bool _isSpawned = false;
 
+    private void Start()
+    {
+        
+    }
+
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.TryGetComponent(out Player player) && _isSpawned==false)
         {
+            
+
             foreach(Chunk chunk in _chunks) 
             {
                 chunk.GetUp();
             }
 
             _isSpawned = true;
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 }
