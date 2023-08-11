@@ -15,9 +15,7 @@ public class Collector : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out Mushroom mushroom))
         {
-            _player.AddMushroom(mushroom);
-            mushroom.JumpIn(_player.transform.position);
-            
+            _player.AddMushroom(mushroom);           
         }
     }
 }

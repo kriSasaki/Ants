@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,28 +6,42 @@ using UnityEngine;
 public class PlayerChecker : MonoBehaviour
 {
     [SerializeField] private Chunk[] _chunks;
-    [SerializeField] private Mushroom[] mushrooms;
 
     private bool _isSpawned = false;
+    private ResourceChecker _resourceChecker;
+    private IDetectableObject _detectableObject;
 
-    private void Start()
+    private void Awake()
     {
-        
+        _resourceChecker = GetComponent<ResourceChecker>();
+        _detectableObject = GetComponent<IDetectableObject>();
     }
 
-    private void OnTriggerEnter(Collider collider)
+    private void OnEnable()
     {
-        if (collider.gameObject.TryGetComponent(out Player player) && _isSpawned==false)
+        _detectableObject.OnGameObjectDetectEvent += OnGameObjectDetect;
+    }
+
+    private void OnDisable()
+    {
+        _detectableObject.OnGameObjectDetectEvent -= OnGameObjectDetect;
+    }
+
+    private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
+    {
+        if(source.TryGetComponent(out Player player))
         {
-            
+            player.GiveAwayResources();
 
-            foreach(Chunk chunk in _chunks) 
+            if (_resourceChecker.CheckResources(player))
             {
-                chunk.GetUp();
-            }
+                Destroy(gameObject);
 
-            _isSpawned = true;
-            //Destroy(gameObject);
+                foreach (Chunk chunk in _chunks)
+                {
+                    chunk.GetUp();
+                }
+            }
         }
     }
 }

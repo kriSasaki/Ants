@@ -5,9 +5,12 @@ using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
-    private List<Mushroom> _mushrooms;
     public event UnityAction<int> MushroomsAmountChanged;
+    public Mushroom[] Mushrooms => _mushrooms.ToArray();
 
+    private List<Mushroom> _mushrooms;
+    private float _delay;
+    private float _timeSecond = 1;
 
     private void Start()
     {
@@ -18,5 +21,30 @@ public class Player : MonoBehaviour
     {
         _mushrooms.Add(mushroom);
         MushroomsAmountChanged?.Invoke(_mushrooms.Count);
+    }
+
+    public void DeleteMushrooms()
+    {
+        
+    }
+
+    public IEnumerator GiveAwayResources()
+    {
+        _delay += Time.deltaTime;
+
+         if(_delay == _timeSecond)
+        {
+
+        }
+
+        yield return null;
+    }
+
+    public void FilterNewItem(GameObject item)
+    {
+        if(item.TryGetComponent(out Mushroom mushroom))
+        {
+            AddMushroom(mushroom);
+        }
     }
 }
