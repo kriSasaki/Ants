@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MushroomAmount : Amount
+public class MushroomResourceIcon : ResourceIcon
 {
     private void OnEnable()
     {
-        Inventory.MushroomsAmountChanged += OnValueChanged;
+        Inventory.CollectedMushroom += ResearchRecources;
     }
 
     private void OnDisable()
     {
-        Inventory.MushroomsAmountChanged -= OnValueChanged;
+        Inventory.CollectedMushroom -= ResearchRecources;
     }
 }

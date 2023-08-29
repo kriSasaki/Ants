@@ -7,6 +7,8 @@ public class PlayerChecker : MonoBehaviour
 {
     [SerializeField] private Chunk[] _chunks;
 
+    public static event Action PlayerEnter;
+
     private bool _isSpawned = false;
     private ResourceChecker _resourceChecker;
     private IDetectableObject _detectableObject;
@@ -29,12 +31,11 @@ public class PlayerChecker : MonoBehaviour
 
     private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
     {
-        if(source.TryGetComponent(out Player player))
+        if (source.TryGetComponent(out Player player))
         {
-            player.GiveAwayResources();
-
-            if (_resourceChecker.CheckResources(player))
+            if (_resourceChecker.MushroomCollected)
             {
+                PlayerEnter?.Invoke();
                 Destroy(gameObject);
 
                 foreach (Chunk chunk in _chunks)

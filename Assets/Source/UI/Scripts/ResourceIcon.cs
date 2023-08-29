@@ -6,19 +6,37 @@ using UnityEngine;
 public class ResourceIcon : MonoBehaviour
 {
     [SerializeField] private TMP_Text _text;
-
-    private float _neededAmount;
+     
+    protected float _neededAmount;
     private float _collectedAmount;
 
     private void Start()
     {
-        
+        SetAmount();
     }
 
-    public void SetAmount(int amount) 
+    private void OnEnable()
+    {
+        PlayerChecker.PlayerEnter += SetAmount;
+    }
+
+    private void OnDisable()
+    {
+        PlayerChecker.PlayerEnter -= SetAmount;
+    }
+
+    public void SetAmount() 
+    {
+        _text.text = $"{_collectedAmount}/{_neededAmount}";
+    }
+
+    public void SetNeededAmount(int amount)
     {
         _neededAmount = amount;
     }
 
-
+    protected void ResearchRecources()
+    {
+        _collectedAmount += 1;
+    }
 }

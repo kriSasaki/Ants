@@ -8,8 +8,6 @@ public class Detector : MonoBehaviour, IDetector
     public event ObjectDetectedHandler OnGameObjectDetectedEvent;
     public event ObjectDetectedHandler OnGameObjectDetectionReleasedEvent;
 
-    public GameObject[] DetectedObjects => _detectedObjects.ToArray();
-
     private List<GameObject> _detectedObjects = new List<GameObject>();
 
     public void Detect(IDetectableObject detectableObject)

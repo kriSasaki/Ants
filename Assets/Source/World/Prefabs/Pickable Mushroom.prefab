@@ -96,7 +96,6 @@ GameObject:
   - component: {fileID: -1578541026127106130}
   - component: {fileID: 883598183132388984}
   - component: {fileID: 279926460781430740}
-  - component: {fileID: -6510254230579042678}
   m_Layer: 0
   m_Name: Pickable Mushroom
   m_TagString: Untagged
@@ -156,6 +155,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37b82298cd5b687468d9a90ad6f50650, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _jumpPower: 3
+  _jumpCount: 1
+  _jumpDuration: 0.3
+  _shakeDuration: 1
+  _shakeStrength: 500
+  _shakeVibration: 1
+  _shakeRandomness: 1
 --- !u!135 &883598183132388984
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -181,26 +187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6d26aa85afa8854296a97216667499e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-6510254230579042678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5440707293445505367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94c791605240b53499c1125dabe80eb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _target: {fileID: 5560732405537916267, guid: a7a1b8156ac4d734189510481a1f4e8b, type: 3}
-  _jumpPower: 3
-  _jumpCount: 1
-  _jumpDuration: 0.3
-  _shakeDuration: 1
-  _shakeStrength: 500
-  _shakeVibration: 1
-  _shakeRandomness: 1
 --- !u!1 &8258542438926114849
 GameObject:
   m_ObjectHideFlags: 0

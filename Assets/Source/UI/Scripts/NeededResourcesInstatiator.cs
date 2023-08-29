@@ -14,7 +14,7 @@ public class NeededResourcesInstatiator : MonoBehaviour
         if (_resourceChecker.Mushrooms > _zero)
         {
             _resourceIcon = Instantiate(_neededResources[_mushroomIcon], transform);
-            _resourceIcon.SetAmount(_resourceChecker.Mushrooms);
+            _resourceIcon.SetNeededAmount(_resourceChecker.Mushrooms);
         }
     }
 }

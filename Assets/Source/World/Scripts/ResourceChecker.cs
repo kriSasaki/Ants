@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,9 +10,28 @@ public class ResourceChecker : MonoBehaviour
 
     public int Mushrooms => _mushrooms;
     public int Legs => _legs;
+    public bool MushroomCollected = _mushroomCollected;
 
-    public bool CheckResources(Player player) 
+    private int _mushroomCount;
+    private static bool _mushroomCollected = false;
+
+    private void OnEnable()
     {
-        return _mushrooms == player.Mushrooms.Length;
+        Inventory.CollectedMushroom += ResearchRecources;
+    }
+
+    private void OnDisable()
+    {
+        Inventory.CollectedMushroom -= ResearchRecources;
+    }
+
+    private void ResearchRecources()
+    {
+        _mushroomCount += 1;
+
+        if (_mushroomCount >= _mushrooms)
+        {
+            _mushroomCollected = true;
+        }
     }
 }
