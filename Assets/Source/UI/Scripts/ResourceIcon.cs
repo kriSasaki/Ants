@@ -11,23 +11,8 @@ public class ResourceIcon : MonoBehaviour
     private float _collectedAmount;
 
     private void Start()
-    {
+    {    
         SetAmount();
-    }
-
-    private void OnEnable()
-    {
-        PlayerChecker.PlayerEnter += SetAmount;
-    }
-
-    private void OnDisable()
-    {
-        PlayerChecker.PlayerEnter -= SetAmount;
-    }
-
-    public void SetAmount() 
-    {
-        _text.text = $"{_collectedAmount}/{_neededAmount}";
     }
 
     public void SetNeededAmount(int amount)
@@ -35,8 +20,13 @@ public class ResourceIcon : MonoBehaviour
         _neededAmount = amount;
     }
 
-    protected void ResearchRecources()
+    protected void SetAmount() 
     {
-        _collectedAmount += 1;
+        _text.text = $"{_collectedAmount}/{_neededAmount}";
+    }
+
+    protected void ResearchRecources(int amount)
+    {
+        _collectedAmount = amount;
     }
 }

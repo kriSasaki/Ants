@@ -10,9 +10,9 @@ public class Movement : MonoBehaviour
     private AnimationPlayer _animationPlayer;
     private PlayerInput _input;
     private Vector3 _moveDirection;
-    private Vector3 _move;
-    private Vector3 _rotation;
     private float _zero = 0f;
+    private float _scaledMoveSpeed;
+    private float _scaledRotationSpeed;
 
     private void Awake()
     {
@@ -40,16 +40,16 @@ public class Movement : MonoBehaviour
 
     private void Move(Vector3 direction)
     {
-        float scaledMoveSpeed = _moveSpeed * Time.deltaTime;
-        float scaledRotationSpeed = _rotationSpeed * Time.deltaTime;
+        _scaledMoveSpeed = _moveSpeed * Time.deltaTime;
+        _scaledRotationSpeed = _rotationSpeed * Time.deltaTime;
 
         Vector3 moveDirection = new Vector3(direction.x, _zero, direction.y);
-        transform.position += moveDirection * scaledMoveSpeed;
+        transform.position += moveDirection * _scaledMoveSpeed;
 
         if (moveDirection != Vector3.zero)
         {
             Quaternion transformPoint = Quaternion.LookRotation(moveDirection);
-            transform.rotation = Quaternion.Lerp(transform.rotation, transformPoint, scaledRotationSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, transformPoint, _scaledRotationSpeed);
         }
     }
 }

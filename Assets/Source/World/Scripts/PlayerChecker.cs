@@ -31,11 +31,13 @@ public class PlayerChecker : MonoBehaviour
 
     private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
     {
+
         if (source.TryGetComponent(out Player player))
         {
-            if (_resourceChecker.MushroomCollected)
+            PlayerEnter?.Invoke();
+
+            if (_resourceChecker.MushroomCollected == true)
             {
-                PlayerEnter?.Invoke();
                 Destroy(gameObject);
 
                 foreach (Chunk chunk in _chunks)

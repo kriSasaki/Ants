@@ -10,28 +10,27 @@ public class ResourceChecker : MonoBehaviour
 
     public int Mushrooms => _mushrooms;
     public int Legs => _legs;
-    public bool MushroomCollected = _mushroomCollected;
+    public bool MushroomCollected { get; private set; }
 
     private int _mushroomCount;
-    private static bool _mushroomCollected = false;
 
     private void OnEnable()
     {
-        Inventory.CollectedMushroom += ResearchRecources;
+        Inventory.MushroomsAmountChanged += ResearchRecources;
     }
 
     private void OnDisable()
     {
-        Inventory.CollectedMushroom -= ResearchRecources;
+        Inventory.MushroomsAmountChanged -= ResearchRecources;
     }
 
-    private void ResearchRecources()
+    private void ResearchRecources(int amount)
     {
-        _mushroomCount += 1;
+        _mushroomCount = amount;
 
         if (_mushroomCount >= _mushrooms)
         {
-            _mushroomCollected = true;
+            MushroomCollected = true;
         }
     }
 }
