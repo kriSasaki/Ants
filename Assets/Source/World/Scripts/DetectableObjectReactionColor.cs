@@ -1,21 +1,19 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(DetectableObject))]
 public class DetectableObjectReactionColor : MonoBehaviour
 {
     [SerializeField] private Color _colorReaction = Color.white;
+    [SerializeField] private Image _image;
 
     private IDetectableObject _detectableObject;
     private Color _defaultColor;
-    private Material _material;
 
     private void Awake()
     {
         _detectableObject= GetComponent<IDetectableObject>();
-
-        var Renderer = GetComponentInChildren<Renderer>();
-        _material = Renderer.material;
-        _defaultColor = _material.color;
+        _defaultColor = _image.color;
     }
 
     private void OnEnable()
@@ -42,6 +40,6 @@ public class DetectableObjectReactionColor : MonoBehaviour
 
     private void SetColor(Color color)
     {
-        _material.SetColor("_Color", color);
+        _image.color = color;
     }
 }

@@ -14,6 +14,7 @@ public class IncreasingDistanceTransition : Transition
 
     private void Update()
     {
+        Debug.Log(Vector2.Distance(transform.position, Target.transform.position));
         if (Vector2.Distance(transform.position, Target.transform.position) > _transitionRange)
         {
             NeedTransit = true;

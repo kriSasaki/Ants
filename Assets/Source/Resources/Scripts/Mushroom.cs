@@ -18,9 +18,11 @@ public class Mushroom : MonoBehaviour
 
     private SphereCollider _sphereCollider;
     private IDetectableObject _detectableObject;
+    private PickUpAnimation _pickUpAnimation;
 
     private void Awake()
     {
+        _pickUpAnimation= GetComponent<PickUpAnimation>();
         _detectableObject = GetComponent<IDetectableObject>();
     }
 
@@ -42,8 +44,7 @@ public class Mushroom : MonoBehaviour
     public void JumpIn(Vector3 playerPosition)
     {
         _sphereCollider.enabled = false;
-        transform.DOJump(playerPosition, _jumpPower, _jumpCount, _jumpDuration);
-        transform.DOShakeRotation(_shakeDuration, _shakeStrength, _shakeVibration, _shakeRandomness);
+        _pickUpAnimation.enabled = true;
         Destroy(gameObject, _jumpDuration);
     }
 

@@ -7,6 +7,12 @@ public class State : MonoBehaviour
     [SerializeField] private List<Transition> _transitions;
 
     protected Player Target { get; set; }
+    protected Animator Animator { get; set; }
+
+    private void Awake()
+    {
+        Animator = GetComponent<Animator>();
+    }
 
     public void Enter(Player target)
     {
