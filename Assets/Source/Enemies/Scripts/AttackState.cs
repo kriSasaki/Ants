@@ -1,16 +1,20 @@
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 [RequireComponent(typeof(Animator))]
 public class AttackState : State
 {
     [SerializeField] private int _damage;
     [SerializeField] private float _delay;
+    [SerializeField] private float _radianAngle;
 
     private float _lastAttackTime;
     private string _attackType;
 
     private void Update()
     {
+        LookToTarget();
+
         if (_lastAttackTime <= 0)
         {
             Attack(Target);
@@ -23,7 +27,7 @@ public class AttackState : State
 
     private void OnEnable()
     {
-        _lastAttackTime = 1;
+        _lastAttackTime = _delay;
     }
 
     private void Attack(Player target)
@@ -31,6 +35,12 @@ public class AttackState : State
         _attackType = ((AttackType)Random.Range((int)AttackType.AntAttack0, (int)AttackType.AntAttack02 + 1)).ToString();
         Animator.SetTrigger(_attackType);
         target.GetDamage(_damage);
+    }
+
+    private void LookToTarget()
+    {
+        Vector3 newDir = Vector3.RotateTowards(transform.forward, (Target.transform.position - transform.position), _radianAngle, 0.0F);
+        transform.rotation = Quaternion.LookRotation(newDir);
     }
 
     private enum AttackType

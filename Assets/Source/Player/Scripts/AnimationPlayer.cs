@@ -5,6 +5,8 @@ using UnityEngine;
 public class AnimationPlayer : MonoBehaviour
 {
     private const string Speed = "Speed";
+    private const string Attack = "Attack";
+    private const string GetHit = "GetHit";
 
     private Animator _animator;
 
@@ -21,5 +23,15 @@ public class AnimationPlayer : MonoBehaviour
     {
         _speed = speed;
         _animator.SetFloat(Speed, speed);
+    }
+
+    public void PlayAttack()
+    {
+        _animator.SetTrigger(Attack);
+    }
+
+    public void PlayGetHit()
+    {
+        _animator.SetTrigger(GetHit);
     }
 }

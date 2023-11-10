@@ -20,6 +20,7 @@ public class DropAnimation : MonoBehaviour
 
     private void Awake()
     {
+        _pickUpAnimation = GetComponent<PickUpAnimation>();
         _deviationX = Random.Range(_minDeviationX, _maxDeviationX);
         _deviationZ = Random.Range(_minDeviationZ, _maxDeviationZ);
         transform.DOJump(new Vector3(transform.position.x + _deviationX, transform.position.y, transform.position.z + _deviationZ), _jumpPower, _jumpAmount, _duration);
@@ -34,5 +35,10 @@ public class DropAnimation : MonoBehaviour
             _pickUpAnimation.enabled = true;
             Destroy(gameObject, _duration);
         }
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position;
     }
 }

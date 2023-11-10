@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class IncreasingDistanceTransition : Transition
 {
+    [SerializeField] private Transform _target;
     [SerializeField] private float _transitionRange;
     [SerializeField] private float _rangeSpread;
 
@@ -14,8 +15,7 @@ public class IncreasingDistanceTransition : Transition
 
     private void Update()
     {
-        Debug.Log(Vector2.Distance(transform.position, Target.transform.position));
-        if (Vector2.Distance(transform.position, Target.transform.position) > _transitionRange)
+        if (Vector3.Distance(transform.position, _target.transform.position) > _transitionRange)
         {
             NeedTransit = true;
         }

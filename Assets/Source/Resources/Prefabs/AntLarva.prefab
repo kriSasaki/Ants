@@ -291,6 +291,8 @@ GameObject:
   - component: {fileID: 3293477492850509251}
   - component: {fileID: 3293477492844613171}
   - component: {fileID: 1422310840592947322}
+  - component: {fileID: 2323902828698548118}
+  - component: {fileID: -1907318829201632870}
   m_Layer: 0
   m_Name: AntLarva
   m_TagString: Untagged
@@ -306,7 +308,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3293477492857779727}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: -0.63338184, z: -33.28}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 12, y: 12, z: 12}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -344,7 +346,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3293477492857779727}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29097382ee159c64990643f034d12e34, type: 3}
   m_Name: 
@@ -355,7 +357,7 @@ MonoBehaviour:
   _minDeviationZ: -0.7
   _jumpPower: 1.4
   _jumpAmount: 1
-  _duration: 0.6
+  _duration: 1
 --- !u!114 &1422310840592947322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,7 +365,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3293477492857779727}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90182c8d3749c09409985729cd3b3483, type: 3}
   m_Name: 
@@ -372,7 +374,7 @@ MonoBehaviour:
   _p1: {fileID: 3624030962412245966}
   _p2: {fileID: 2833341471296728329}
   _p3: {fileID: 0}
-  _card: {fileID: 0}
+  _card: {fileID: 3293477492858268207}
   _duration: 1
   _translationInterpolation:
     serializedVersion: 2
@@ -449,6 +451,31 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2323902828698548118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3293477492857779727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc460977583f72a4a84181c2f14225f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &-1907318829201632870
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3293477492857779727}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.4
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7385843582748714237
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,7 +500,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7385843582748714237}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.159, z: 0}
+  m_LocalPosition: {x: 0, y: 0.0664, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

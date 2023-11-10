@@ -61,4 +61,9 @@ public class PickUpAnimation : MonoBehaviour
 
     static Vector3 SampleBezierCurve(float t, Vector3 a, Vector3 b, Vector3 c, Vector3 d)
         => a * Mathf.Pow((1f - t), 3) + b * (3f * t * Mathf.Pow((1f - t), 2f)) + c * (3f * Mathf.Pow(t, 2f) * (1f - t)) + d * Mathf.Pow(t, 3f);
+
+    public void SetPosition3(Transform target)
+    {
+        _p3 = target;
+    }
 }
