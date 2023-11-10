@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Resource : MonoBehaviour
+public abstract class Resource : MonoBehaviour
 {
+    private bool ResourceCollected = false;
+
     protected Enemy _parent;
 
     protected DropAnimation _dropAnimation;
@@ -15,10 +17,13 @@ public class Resource : MonoBehaviour
         _dropAnimation = GetComponent<DropAnimation>();
     }
 
+    protected abstract void NoticeResource();
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent(out Enemy enemy))
+        if (other.TryGetComponent(out Enemy enemy) && ResourceCollected == false)
         {
+            ResourceCollected = true;
             _parent = enemy.GetComponent<Enemy>();
             DropResource();
         }
@@ -26,7 +31,7 @@ public class Resource : MonoBehaviour
 
     private void DropResource()
     {
-        Debug.Log("lol");
+        NoticeResource();
         _pickUpAnimation.SetPosition3(_parent.Target.transform);
         _dropAnimation.enabled = true;
     }

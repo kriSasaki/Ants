@@ -1902,7 +1902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetState: {fileID: -5449544466363056303}
-  _transitionRange: 2
+  _transitionRange: 2.5
   _rangeSpread: 0
 --- !u!114 &-5449544466363056303
 MonoBehaviour:
@@ -2011,7 +2011,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.93
+  m_Radius: 1.1
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}

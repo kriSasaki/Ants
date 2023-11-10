@@ -59,7 +59,7 @@ public class PlayerAttackState : MonoBehaviour
             enabled = true;
         }
 
-        Debug.Log(_enemies);
+        //Debug.Log(_enemies);
 
         LookAtEnemy(enemy);
     }
@@ -72,6 +72,8 @@ public class PlayerAttackState : MonoBehaviour
         {
             enabled = false;
         }
+
+        Debug.Log(_enemies);
 
         _tween.Kill();
     }

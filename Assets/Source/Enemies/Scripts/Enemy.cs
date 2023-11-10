@@ -18,7 +18,6 @@ public class Enemy : MonoBehaviour
     public Player Target => _target;
 
     public static event Action Dying;
-    public event Action OnDying;
     public event Action<int, int> OnHealthChange;
 
     private AudioSource _audio;
@@ -26,6 +25,7 @@ public class Enemy : MonoBehaviour
     private int _maxHealth;
     private int _zero=0;
     private bool IsDetected = false;
+    private bool IsDead = false;
 
     private void Start()
     {
@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour
 
     private void TakeDamage(int damage)
     {
-        if (IsDetected)
+        if (IsDetected && IsDead == false)
         {
             _health -= damage;
             OnHealthChange?.Invoke(_health, _maxHealth);
@@ -55,8 +55,8 @@ public class Enemy : MonoBehaviour
 
             if (_health <= 0)
             {
+                IsDead = true;
                 Dying?.Invoke();
-                OnDying?.Invoke();
                 DropResources();
                 Destroy(gameObject, 2);
             }
