@@ -37,8 +37,6 @@ public class PlayerAttackState : MonoBehaviour
 
     private void Update()
     {
-
-
         if (_lastAttackTime <= 0)
         {
             Attacked?.Invoke(_damage);
@@ -59,7 +57,6 @@ public class PlayerAttackState : MonoBehaviour
             enabled = true;
         }
 
-        //Debug.Log(_enemies);
 
         LookAtEnemy(enemy);
     }
@@ -68,12 +65,15 @@ public class PlayerAttackState : MonoBehaviour
     {
         _enemies--;
 
+        if(_enemies<_noTargets)
+        {
+            _enemies = _noTargets;
+        }
+
         if (IsStateActive == false)
         {
             enabled = false;
         }
-
-        Debug.Log(_enemies);
 
         _tween.Kill();
     }

@@ -9,7 +9,6 @@ public class PlayerChecker : MonoBehaviour
 
     public static event Action PlayerEnter;
 
-    private bool _isSpawned = false;
     private ResourceChecker _resourceChecker;
     private IDetectableObject _detectableObject;
 
@@ -31,13 +30,13 @@ public class PlayerChecker : MonoBehaviour
 
     private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
     {
-
-        if (source.TryGetComponent(out Player player))
+        if (source.TryGetComponent(out Inventory inventory))
         {
             PlayerEnter?.Invoke();
 
-            if (_resourceChecker.MushroomCollected == true)
+            if (_resourceChecker.MushroomCollected && _resourceChecker.EggsCollected && _resourceChecker.LegsCollected)
             {
+                inventory.DeleteResources(_resourceChecker.Mushrooms, _resourceChecker.Eggs, _resourceChecker.Legs);
                 Destroy(gameObject);
 
                 foreach (Chunk chunk in _chunks)

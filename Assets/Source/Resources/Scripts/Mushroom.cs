@@ -14,11 +14,12 @@ public class Mushroom : MonoBehaviour
     [SerializeField] private int _shakeVibration;
     [SerializeField] private float _shakeRandomness;
 
-    public static event Action MushroomCollected;
+    public static event Action<int> MushroomCollected;
 
     private SphereCollider _sphereCollider;
     private IDetectableObject _detectableObject;
     private PickUpAnimation _pickUpAnimation;
+    private int _amount = 1;
 
     private void Awake()
     {
@@ -52,7 +53,7 @@ public class Mushroom : MonoBehaviour
     {
         if (source.TryGetComponent(out Player player))
         {
-            MushroomCollected?.Invoke();
+            MushroomCollected?.Invoke(_amount);
             JumpIn(source.transform.position);
         }
     }

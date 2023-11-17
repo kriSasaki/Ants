@@ -9,7 +9,7 @@ public class PieceOfChunk : MonoBehaviour
 
     private void Awake()
     {
-        transform.position = new Vector3(transform.position.x, -5, transform.position.z);
+        transform.position = new Vector3(transform.position.x, -15, transform.position.z);
     }
 
     public void GetUp()

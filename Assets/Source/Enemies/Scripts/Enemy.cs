@@ -16,7 +16,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _legsAmount;
 
     public Player Target => _target;
-
+    public int Health => _health;
+    public int Zero => _zero;
     public static event Action Dying;
     public event Action<int, int> OnHealthChange;
 
@@ -25,7 +26,6 @@ public class Enemy : MonoBehaviour
     private int _maxHealth;
     private int _zero=0;
     private bool IsDetected = false;
-    private bool IsDead = false;
 
     private void Start()
     {
@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour
 
     private void TakeDamage(int damage)
     {
-        if (IsDetected && IsDead == false)
+        if (IsDetected)
         {
             _health -= damage;
             OnHealthChange?.Invoke(_health, _maxHealth);
@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour
 
             if (_health <= 0)
             {
-                IsDead = true;
+                IsDetected = false;
                 Dying?.Invoke();
                 DropResources();
                 Destroy(gameObject, 2);

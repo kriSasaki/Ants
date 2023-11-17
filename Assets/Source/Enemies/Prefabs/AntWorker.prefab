@@ -1696,6 +1696,8 @@ GameObject:
   - component: {fileID: 3115399626918750527}
   - component: {fileID: -2914166980905321054}
   - component: {fileID: 5275387200201226710}
+  - component: {fileID: 8465178532342035221}
+  - component: {fileID: -4410772452102806400}
   - component: {fileID: 5886161632070768483}
   - component: {fileID: 1830379080705811431}
   - component: {fileID: 2669999870605828016}
@@ -1931,7 +1933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetState: {fileID: -2914166980905321054}
-  _transitionRange: 2
+  _transitionRange: 1.5
   _rangeSpread: 0
 --- !u!114 &-2914166980905321054
 MonoBehaviour:
@@ -1947,6 +1949,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transitions:
   - {fileID: 5275387200201226710}
+  - {fileID: 8465178532342035221}
   _damage: 5
   _delay: 2
   _radianAngle: 0
@@ -1966,6 +1969,32 @@ MonoBehaviour:
   _target: {fileID: 0}
   _transitionRange: 2.5
   _rangeSpread: 0
+--- !u!114 &8465178532342035221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5886161632301398980}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 176d66117aa2f9c48abae68747b6b0b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetState: {fileID: -4410772452102806400}
+--- !u!114 &-4410772452102806400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5886161632301398980}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a437b9ad3d38d4b89cb85eb69b9156, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _transitions: []
 --- !u!195 &5886161632070768483
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1980,7 +2009,7 @@ NavMeshAgent:
   m_Acceleration: 15
   avoidancePriority: 50
   m_AngularSpeed: 10000
-  m_StoppingDistance: 2
+  m_StoppingDistance: 1.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -2027,7 +2056,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0

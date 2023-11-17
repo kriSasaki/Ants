@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abadb6b645036324eba0c5ec6cee3fee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _resourceChecker: {fileID: 0}
+  _resourceChecker: {fileID: -5274545032922622473}
   _neededResources:
   - {fileID: 8675966779261101129, guid: 7bb21cbc4c478304584c6875b1d8dec7, type: 3}
   - {fileID: 0}
@@ -393,7 +393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _colorReaction: {r: 0.14586641, g: 0.8113208, b: 0, a: 1}
-  _image: {fileID: 0}
+  _image: {fileID: 882268827545792812}
 --- !u!114 &-5274545032922622473
 MonoBehaviour:
   m_ObjectHideFlags: 0

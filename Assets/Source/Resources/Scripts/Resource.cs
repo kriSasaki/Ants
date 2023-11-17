@@ -7,7 +7,7 @@ public abstract class Resource : MonoBehaviour
     private bool ResourceCollected = false;
 
     protected Enemy _parent;
-
+    protected int _amount = 1;
     protected DropAnimation _dropAnimation;
     protected PickUpAnimation _pickUpAnimation;
 

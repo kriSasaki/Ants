@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class Egg : Resource
 {
-    public static event Action EggCollected;
+    public static event Action<int> EggCollected;
 
     protected override void NoticeResource()
     {
-        EggCollected?.Invoke();
+        EggCollected?.Invoke(_amount);
     }
 }
