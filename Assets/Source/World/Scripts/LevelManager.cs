@@ -6,6 +6,8 @@ using IJunior.TypedScenes;
 
 public class LevelManager : MonoBehaviour
 {
+    public int CurrentLevel => _currentLevel;
+
     private int _currentLevel = 0;
 
     public void AddLevel()
@@ -17,10 +19,12 @@ public class LevelManager : MonoBehaviour
     {
         switch(levelNumber)
         {
+            case 0:
+                Tutorial.Load();
+                break;
             case 1:
                 Level1.Load();
                 break;
-
         }
     }
 }

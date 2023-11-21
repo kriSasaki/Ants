@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,24 +8,38 @@ public class InterfaceManager : MonoBehaviour
 {
     [SerializeField] private GameObject _startButton;
     [SerializeField] private GameObject _pauseButton;
-    [SerializeField] private GameObject _RestartButton;
+    [SerializeField] private GameObject _restartButton;
 
+    public event Action OnGameStarted;
+
+    private CharacterDisplayer _characterDisplayer;
     private bool _isPlaying = false;
-    private LevelManager _gameManager;
+    private LevelManager _levelManager;
+
+    private void Awake()
+    {
+        _characterDisplayer = GetComponentInChildren<CharacterDisplayer>();
+        Time.timeScale = 0;
+    }
 
     private void Start()
     {
-
-        _gameManager = GetComponent<LevelManager>();
-        Time.timeScale = 0;
+        _levelManager = GetComponent<LevelManager>();
     }
 
     public void StartGame()
     {
-        Time.timeScale = 1;
-        _isPlaying = true;
         _startButton.SetActive(false);
         _pauseButton.SetActive(true);
+        _restartButton.SetActive(false);
+        Time.timeScale = 1;
+
+        if (_isPlaying == false)
+        {
+            _characterDisplayer.gameObject.SetActive(false);
+            _isPlaying = true;
+            OnGameStarted?.Invoke();
+        }
     }
 
     public void PauseGame()
@@ -32,20 +47,11 @@ public class InterfaceManager : MonoBehaviour
         Time.timeScale = 0;
         _startButton.SetActive(true);
         _pauseButton.SetActive(false);
+        _restartButton.SetActive(true);
     }
 
     public void RestartGame()
     {
-
-    }
-
-    public void NextCharacter()
-    {
-
-    }
-
-    private void ShowCharacter()
-    {
-
+        _levelManager.LoadLevel(_levelManager.CurrentLevel);
     }
 }
