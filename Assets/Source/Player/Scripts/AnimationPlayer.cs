@@ -6,6 +6,7 @@ public class AnimationPlayer : MonoBehaviour
 {
     private const string Speed = "Speed";
     private const string Attack = "Attack";
+    private const string SwordAttack = "SwordAttack";
     private const string GetHit = "GetHit";
 
     private Animator _animator;
@@ -28,6 +29,11 @@ public class AnimationPlayer : MonoBehaviour
     public void PlayAttack()
     {
         _animator.SetTrigger(Attack);
+    }
+
+    public void PlaySwordAttack()
+    {
+        _animator.SetTrigger(SwordAttack);
     }
 
     public void PlayGetHit()

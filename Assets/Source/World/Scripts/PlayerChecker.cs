@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class PlayerChecker : MonoBehaviour
 {
-    [SerializeField] private Chunk[] _chunks;
-
     public static event Action PlayerEnter;
+    public event Action ConditionIsDone;
 
     private ResourceChecker _resourceChecker;
     private IDetectableObject _detectableObject;
@@ -39,10 +38,7 @@ public class PlayerChecker : MonoBehaviour
                 inventory.DeleteResources(_resourceChecker.Mushrooms, _resourceChecker.Eggs, _resourceChecker.Legs);
                 Destroy(gameObject);
 
-                foreach (Chunk chunk in _chunks)
-                {
-                    chunk.GetUp();
-                }
+                ConditionIsDone?.Invoke();
             }
         }
     }

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a6dc4d53420e54d85c09d29f7a00ce, type: 3}
+  m_Name: Policeman
+  m_EditorClassIdentifier: 
+  CharacterName: Policeman
+  CharacterPrice: 40
+  CharacterModel: {fileID: 4184180527108879941, guid: 503ae6a6822c06a4a978b15d99cd69dd, type: 3}
+  IsBuyed: 0
