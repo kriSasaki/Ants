@@ -1,9 +1,10 @@
+using IJunior.TypedScenes;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Wallet : MonoBehaviour
+public class Wallet : MonoBehaviour, ISceneLoadHandler<SceneLoadHandler>
 {
     [SerializeField] private TMP_Text _goldDisplay;
 
@@ -14,6 +15,11 @@ public class Wallet : MonoBehaviour
     private void Awake()
     {
         _goldDisplay.text = _goldAmount.ToString();
+    }
+
+    public void OnSceneLoaded(SceneLoadHandler argument)
+    {
+        
     }
 
     private void UpdateGold()

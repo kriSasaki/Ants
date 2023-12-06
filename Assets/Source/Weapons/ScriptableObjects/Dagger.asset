@@ -16,6 +16,6 @@ MonoBehaviour:
   Damage: 10
   Price: 20
   WeaponModel: {fileID: -927199367670048503, guid: 46bee165790d2c24f9abecc09e243920, type: 3}
-  IsBuyed: 1
-  IsEquiped: 1
+  IsBuyed: 0
+  IsEquiped: 0
   WeaponRank: 0

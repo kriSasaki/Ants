@@ -11,7 +11,15 @@ public class LevelManager : MonoBehaviour
     public int OpenedLevels {  get; private set; }
     public int CurrentLevel => _currentLevel;
 
+    private SceneLoadHandler _sceneLoadHandler;
     private int _currentLevel = 0;
+    private WeaponChanger _weaponChanger;
+
+    private void Awake()
+    {
+        _sceneLoadHandler = GetComponent<SceneLoadHandler>();
+        _weaponChanger = GetComponentInChildren<WeaponChanger>();
+    }
 
     private void OnEnable()
     {
@@ -34,10 +42,10 @@ public class LevelManager : MonoBehaviour
         switch(levelNumber)
         {
             case 0:
-                Tutorial.Load();
+                Tutorial.Load(_sceneLoadHandler);
                 break;
             case 1:
-                Level1.Load();
+                Level1.Load(_sceneLoadHandler);
                 break;
         }
     }

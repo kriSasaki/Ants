@@ -2,14 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+using IJunior.TypedScenes;
+using System;
 
 public class WeaponChanger : ScriptableObjectChanger
 {
     [SerializeField] private WeaponDisplay _weaponDisplay;
     [SerializeField] private Player _player;
     [SerializeField] private Wallet _wallet;
+    
+    public int CurrentWeapon { get; private set; }
+    public event Action<Weapon> OnWeaponGiven;
 
+    private InterfaceManager _interfaceManager;
     private Weapon _weapon;
+
+    private void Awake()
+    {
+        _interfaceManager = GetComponentInParent<InterfaceManager>();
+    }
 
     private void OnEnable()
     {
@@ -38,9 +49,16 @@ public class WeaponChanger : ScriptableObjectChanger
         }
     }
 
-    public void EquipWeapon()
+    public void StoreWeapon()
     {
-        _player.GetWeapon((Weapon)_scriptableObjects[_currentIndex]);
+        CurrentWeapon = _currentIndex;
+        GiveWeapon();
         _weaponDisplay.DisplayWeapon((Weapon)_scriptableObjects[_currentIndex]);
+    }
+
+    private void GiveWeapon()
+    {
+        OnWeaponGiven?.Invoke((Weapon)_scriptableObjects[CurrentWeapon]);
+        _player.GetWeapon((Weapon)_scriptableObjects[CurrentWeapon]);
     }
 }

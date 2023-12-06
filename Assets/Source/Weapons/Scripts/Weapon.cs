@@ -9,7 +9,7 @@ public class Weapon : ScriptableObject
     public int Damage;
     public int Price;
     public GameObject WeaponModel;
-    public bool IsBuyed;
-    public bool IsEquiped;
+    public bool IsBuyed = false;
+    public bool IsEquiped = false;
     public int WeaponRank;
 }
