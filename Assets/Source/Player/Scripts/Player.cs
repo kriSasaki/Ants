@@ -32,17 +32,6 @@ public class Player : MonoBehaviour
     {
         _detectableObject.OnGameObjectDetectEvent += OnGameObjectDetect;
         _detectableObject.OnGameObjectDetectionReleasedEvent += OnGameObjectDetectionReleased;
-
-        if(_weapon != null)
-        {
-            SpawnWeapon();
-        }
-
-        if(_appearance = GetComponentInChildren<Appearance>())
-        {
-            _health = _health + _appearance.AdditionalHealth;
-            _maxHealth = _health;
-        }
     }
 
     private void OnDisable()
@@ -65,14 +54,22 @@ public class Player : MonoBehaviour
 
     public void GetWeapon(Weapon weapon)
     {
-        if(_weapon != null)
+        if(weapon != null)
         {
-            _weapon.IsEquiped = false;
+            _weapon = weapon;
+            _damage = weapon.Damage;
         }
 
-        _weapon = weapon;
-        _weapon.IsEquiped = true;
-        _damage = weapon.Damage;
+        //if(weapon.WeaponModel != null)
+        //{
+        //    SpawnWeapon();
+        //}
+    }
+
+    public void GetHealth(int health)
+    {
+        _health = _health + health;
+        _maxHealth = _health;
     }
 
     private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
@@ -93,7 +90,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void SpawnWeapon()
+    public void SpawnWeapon()
     {
         Arm arm = GetComponentInChildren<Arm>();
         Instantiate(_weapon.WeaponModel, arm.gameObject.transform.position, arm.transform.rotation, arm.transform);

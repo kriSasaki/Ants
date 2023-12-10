@@ -10,6 +10,5 @@ public class Weapon : ScriptableObject
     public int Price;
     public GameObject WeaponModel;
     public bool IsBuyed = false;
-    public bool IsEquiped = false;
     public int WeaponRank;
 }

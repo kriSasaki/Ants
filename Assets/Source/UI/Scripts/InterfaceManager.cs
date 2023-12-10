@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class InterfaceManager : MonoBehaviour
@@ -10,13 +11,11 @@ public class InterfaceManager : MonoBehaviour
     [SerializeField] private GameObject _startButton;
     [SerializeField] private GameObject _pauseButton;
     [SerializeField] private GameObject _restartButton;
-    [SerializeField] private GameObject _mapButton;
     [SerializeField] private GameObject _mapDisplay;
-    [SerializeField] private GameObject _characterDisplay;
+    [SerializeField] private CharacterDisplay _characterDisplay;
     [SerializeField] private GameObject _collectableDisplay;
     [SerializeField] private GameObject _goldDisplay;
-    [SerializeField] private GameObject _weaponButton;
-    [SerializeField] private GameObject _weaponDisplay;
+    [SerializeField] private WeaponDisplay _weaponDisplay;
     [SerializeField] private CameraFollower _cameraFollower;
     [SerializeField] private float _buttonEnableScale = 1;
     [SerializeField] private float _buttonDisableScale = 0;
@@ -26,11 +25,24 @@ public class InterfaceManager : MonoBehaviour
 
     private bool _isPlaying = false;
     private LevelManager _levelManager;
+    private MapDisplay _mapIcon;
 
     private void Start()
     {
         _levelManager = GetComponent<LevelManager>();
         Time.timeScale = 0;
+    }
+
+    private void OnEnable()
+    {
+        _weaponDisplay.ItemChanged += CheckPossibilityToPlay;
+        _characterDisplay.ItemChanged += CheckPossibilityToPlay;
+    }
+
+    private void OnDisable()
+    {
+        _weaponDisplay.ItemChanged -= CheckPossibilityToPlay;
+        _characterDisplay.ItemChanged -= CheckPossibilityToPlay;
     }
 
     public void StartGame()
@@ -44,9 +56,9 @@ public class InterfaceManager : MonoBehaviour
         {
             _isPlaying = true;
             OnGameStarted?.Invoke();
-            ChangeVisibilityStatus(_weaponButton, _buttonDisableScale, _buttonChangeDuration, false);
-            ChangeVisibilityStatus(_characterDisplay, _buttonDisableScale, _buttonChangeDuration, false);
-            ChangeVisibilityStatus(_mapButton, _buttonDisableScale, _buttonChangeDuration, false);
+            ChangeVisibilityStatus(_mapDisplay, _buttonDisableScale, _buttonChangeDuration, false);
+            ChangeVisibilityStatus(_characterDisplay.gameObject, _buttonDisableScale, _buttonChangeDuration, false);
+            ChangeVisibilityStatus(_weaponDisplay.gameObject, _buttonDisableScale, _buttonChangeDuration, false);
             ChangeVisibilityStatus(_collectableDisplay, _buttonEnableScale, _buttonChangeDuration, true);
             ChangeVisibilityStatus(_goldDisplay, _buttonDisableScale, _buttonChangeDuration, false);
         }
@@ -69,51 +81,30 @@ public class InterfaceManager : MonoBehaviour
         _levelManager.LoadLevel(_levelManager.CurrentLevel);
     }
 
-    public void ChangeMapDisplay(bool enable)
-    {
-        if(enable) 
-        {
-            ChangeVisibilityStatus(_mapButton, _buttonDisableScale, _buttonChangeDuration, false);
-            ChangeVisibilityStatus(_mapDisplay, _buttonEnableScale, _buttonChangeDuration, true);
-            ChangeVisibilityStatus(_startButton, _buttonDisableScale, _buttonChangeDuration, false);
-            ChangeVisibilityStatus(_weaponButton, _buttonDisableScale, _buttonChangeDuration, false);
-            ChangeVisibilityStatus(_characterDisplay, _buttonDisableScale, _buttonChangeDuration, false);
-        }
-        else
-        {
-            ChangeVisibilityStatus(_mapButton, _buttonEnableScale, _buttonChangeDuration, true);
-            ChangeVisibilityStatus(_mapDisplay, _buttonDisableScale, _buttonChangeDuration, false);
-            ChangeVisibilityStatus(_startButton, _buttonEnableScale, _buttonChangeDuration, true);
-            ChangeVisibilityStatus(_weaponButton, _buttonEnableScale, _buttonChangeDuration, true);
-            ChangeVisibilityStatus(_characterDisplay, _buttonEnableScale, _buttonChangeDuration, true);
-        }
-    }
-
-    public void ChangeWeaponDisplay(bool enable)
-    {
-        if (enable)
-        {
-            ChangeVisibilityStatus(_weaponButton, _buttonDisableScale, _buttonChangeDuration, false);
-            ChangeVisibilityStatus(_weaponDisplay, _buttonEnableScale, _buttonChangeDuration, true);
-            ChangeVisibilityStatus(_startButton, _buttonDisableScale, _buttonChangeDuration, false);
-            ChangeVisibilityStatus(_mapButton, _buttonDisableScale, _buttonChangeDuration, false);
-            ChangeVisibilityStatus(_characterDisplay, _buttonDisableScale, _buttonChangeDuration, false);
-        }
-        else
-        {
-            ChangeVisibilityStatus(_weaponButton, _buttonEnableScale, _buttonChangeDuration, true);
-            ChangeVisibilityStatus(_weaponDisplay, _buttonDisableScale, _buttonChangeDuration, false);
-            ChangeVisibilityStatus(_startButton, _buttonEnableScale, _buttonChangeDuration, true);
-            ChangeVisibilityStatus(_mapButton, _buttonEnableScale, _buttonChangeDuration, true);
-            ChangeVisibilityStatus(_characterDisplay, _buttonEnableScale, _buttonChangeDuration, true);
-        }
-    }
-
     private void ChangeVisibilityStatus(GameObject gameObject, float scale, float duration, bool isEnabled)
     {
         gameObject.transform.DOScale(scale, duration).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() =>
         {
             gameObject.SetActive(isEnabled);
         });
+    }
+
+    private void CheckPossibilityToPlay()
+    {
+        ChangeActivityStatus(_startButton, _weaponDisplay.ItemIsBuyed && _characterDisplay.ItemIsBuyed);
+    }
+
+    private void ChangeActivityStatus(GameObject gameObject, bool isActive)
+    {
+        gameObject.GetComponent<Button>().enabled = isActive;
+
+        if (isActive)
+        {
+            gameObject.GetComponent<Image>().color = Color.white;
+        }
+        else
+        {
+            gameObject.GetComponent<Image>().color = Color.gray;
+        }
     }
 }

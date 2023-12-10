@@ -17,5 +17,4 @@ MonoBehaviour:
   Price: 100
   WeaponModel: {fileID: -927199367670048503, guid: 43cf19174db63f549b650fd48a60e071, type: 3}
   IsBuyed: 0
-  IsEquiped: 0
   WeaponRank: 4

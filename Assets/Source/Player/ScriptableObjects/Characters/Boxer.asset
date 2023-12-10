@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Boxer
   m_EditorClassIdentifier: 
   CharacterName: Boxer
-  CharacterPrice: 10
+  CharacterHealth: 20
+  CharacterPrice: 30
   CharacterModel: {fileID: 2716358026623089633, guid: 4232da7776360b2439b2a75f42b24a47, type: 3}
   IsBuyed: 0
+  CharacterRank: 1

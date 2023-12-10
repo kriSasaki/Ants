@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Thief
   m_EditorClassIdentifier: 
   CharacterName: Thief
-  CharacterPrice: 20
+  CharacterHealth: 30
+  CharacterPrice: 40
   CharacterModel: {fileID: 5003703703692407510, guid: cfbc27d754f74d248a496d32fe99d1ae, type: 3}
   IsBuyed: 0
+  CharacterRank: 2

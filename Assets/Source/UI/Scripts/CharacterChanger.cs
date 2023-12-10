@@ -14,7 +14,7 @@ public class CharacterChanger : ScriptableObjectChanger
     private void Awake()
     {
         _interfaceManager = GetComponentInParent<InterfaceManager>();
-        ChangeScriptableObject(_currentIndex);
+        ChangeScriptableObject(0);
     }
 
     private void OnEnable()
@@ -53,6 +53,7 @@ public class CharacterChanger : ScriptableObjectChanger
     {
         _character = (Character)_scriptableObjects[_currentIndex];
         Instantiate(_character.CharacterModel, _player.transform.position, _player.transform.rotation, _player.gameObject.transform);
+        _player.GetHealth(_character.CharacterHealth);
         _player.gameObject.SetActive(true);
     }
 }

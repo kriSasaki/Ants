@@ -27,15 +27,5 @@ namespace IJunior.TypedScenes
         {
             return LoadScene(_sceneName, loadSceneMode, argument);
         }
-        
-        public static void Load(SceneLoadHandler argument, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
-        {
-            LoadScene(_sceneName, loadSceneMode, argument);
-        }
-        
-        public static UnityEngine.AsyncOperation LoadAsync(SceneLoadHandler argument, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
-        {
-            return LoadScene(_sceneName, loadSceneMode, argument);
-        }
     }
 }

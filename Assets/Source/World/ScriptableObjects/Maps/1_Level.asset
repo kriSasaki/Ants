@@ -16,4 +16,4 @@ MonoBehaviour:
   mapName: "\u041F\u0440\u043E\u0441\u0442\u043E\u0440\u043D\u044B\u0435 \u043F\u043E\u043B\u044F"
   nameColor: {r: 0.24834065, g: 0.8301887, b: 0.019579919, a: 1}
   mapImage: {fileID: 0}
-  sceneToLoad: {fileID: 0}
+  sceneToLoad: {fileID: 102900000, guid: 5a992e07a0a873841a9a685b9ec533c0, type: 3}

@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using IJunior.TypedScenes;
 
@@ -8,17 +5,15 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private PlayerChecker _playerChecker;
 
-    public int OpenedLevels {  get; private set; }
+    public int OpenedLevels { get; private set; }
     public int CurrentLevel => _currentLevel;
 
     private SceneLoadHandler _sceneLoadHandler;
     private int _currentLevel = 0;
-    private WeaponChanger _weaponChanger;
 
     private void Awake()
     {
         _sceneLoadHandler = GetComponent<SceneLoadHandler>();
-        _weaponChanger = GetComponentInChildren<WeaponChanger>();
     }
 
     private void OnEnable()
@@ -31,14 +26,16 @@ public class LevelManager : MonoBehaviour
         _playerChecker.ConditionIsDone -= LevelComplete;
     }
 
-    private void LevelComplete()
+    public void SaveLevels(int currentLevel, int openedLevels)
     {
-        _currentLevel++;
-        LoadLevel(_currentLevel);
+        _currentLevel = currentLevel;
+        OpenedLevels = openedLevels;
     }
 
     public void LoadLevel(int levelNumber)
     {
+        _currentLevel = levelNumber;
+
         switch(levelNumber)
         {
             case 0:
@@ -48,5 +45,16 @@ public class LevelManager : MonoBehaviour
                 Level1.Load(_sceneLoadHandler);
                 break;
         }
+    }
+
+    private void LevelComplete()
+    {
+        if(OpenedLevels == _currentLevel)
+        {
+            OpenedLevels++;
+        }
+
+        _currentLevel++;
+        LoadLevel(_currentLevel);
     }
 }

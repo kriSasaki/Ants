@@ -4,22 +4,17 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Wallet : MonoBehaviour, ISceneLoadHandler<SceneLoadHandler>
+public class Wallet : MonoBehaviour
 {
     [SerializeField] private TMP_Text _goldDisplay;
 
     public int GoldAmount => _goldAmount;
 
-    private int _goldAmount=100;
+    private int _goldAmount;
 
     private void Awake()
     {
         _goldDisplay.text = _goldAmount.ToString();
-    }
-
-    public void OnSceneLoaded(SceneLoadHandler argument)
-    {
-        
     }
 
     private void UpdateGold()

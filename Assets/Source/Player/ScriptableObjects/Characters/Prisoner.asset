@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Prisoner
   m_EditorClassIdentifier: 
   CharacterName: Prisoner
-  CharacterPrice: 50
+  CharacterHealth: 70
+  CharacterPrice: 80
   CharacterModel: {fileID: 2240836781792897101, guid: 6455358725813ce419e4da17115c87fc, type: 3}
   IsBuyed: 0
+  CharacterRank: 5

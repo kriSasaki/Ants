@@ -21,4 +21,10 @@ public class ScriptableObjectChanger : MonoBehaviour
             _currentIndex = 0;
         }
     }
+
+    public void SetIndex(int index)
+    {
+        Debug.Log(index);
+        _currentIndex = index;
+    }
 }

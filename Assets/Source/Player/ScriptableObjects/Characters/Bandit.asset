@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Bandit
   m_EditorClassIdentifier: 
   CharacterName: Bandit
-  CharacterPrice: 30
+  CharacterHealth: 40
+  CharacterPrice: 50
   CharacterModel: {fileID: 2846510150889455649, guid: 681cdb8b3e0bf2d45b7f84a14d98e001, type: 3}
   IsBuyed: 0
+  CharacterRank: 3

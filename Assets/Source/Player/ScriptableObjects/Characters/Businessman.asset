@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Businessman
   m_EditorClassIdentifier: 
   CharacterName: Businessman
-  CharacterPrice: 60
+  CharacterHealth: 100
+  CharacterPrice: 100
   CharacterModel: {fileID: 6431620280551177578, guid: 49d69c180d06fdc4b8ce861f6b647f06, type: 3}
   IsBuyed: 0
+  CharacterRank: 6

@@ -8,28 +8,17 @@ public class SceneLoadHandler : MonoBehaviour, ISceneLoadHandler<SceneLoadHandle
     [SerializeField] private Player _player;
     [SerializeField] private WeaponChanger _weaponChanger;
     [SerializeField] private Wallet _wallet;
+    [SerializeField] private LevelManager _levelManager;
 
-    private Weapon _weapon;
-    private int GoldAmount => _wallet.GoldAmount;
-
-    private void OnEnable()
-    {
-        _weaponChanger.OnWeaponGiven += SaveWeapon;
-    }
-
-    private void OnDisable()
-    {
-        _weaponChanger.OnWeaponGiven -= SaveWeapon;
-    }
+    private int _goldAmount => _wallet.GoldAmount;
+    private int _currentLevel => _levelManager.CurrentLevel;
+    private int _openedLevels => _levelManager.OpenedLevels;
+    private int _currentWeapon => _weaponChanger.CurrentWeapon;
 
     public void OnSceneLoaded(SceneLoadHandler argument)
     {
-        _player.GetWeapon(argument._weapon);
-        _wallet.ChangeGoldAmount(argument.GoldAmount);
-    }
-
-    private void SaveWeapon(Weapon weapon)
-    {
-       _weapon = weapon;
+        _wallet.ChangeGoldAmount(argument._goldAmount);
+        _levelManager.SaveLevels(argument._currentLevel, argument._openedLevels);
+        _weaponChanger.ChangeScriptableObject(argument._currentWeapon);
     }
 }

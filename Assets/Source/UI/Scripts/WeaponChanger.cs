@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 using IJunior.TypedScenes;
 using System;
+using System.Reflection;
 
 public class WeaponChanger : ScriptableObjectChanger
 {
@@ -12,7 +13,6 @@ public class WeaponChanger : ScriptableObjectChanger
     [SerializeField] private Wallet _wallet;
     
     public int CurrentWeapon { get; private set; }
-    public event Action<Weapon> OnWeaponGiven;
 
     private InterfaceManager _interfaceManager;
     private Weapon _weapon;
@@ -20,16 +20,23 @@ public class WeaponChanger : ScriptableObjectChanger
     private void Awake()
     {
         _interfaceManager = GetComponentInParent<InterfaceManager>();
+        ChangeScriptableObject(0);
     }
 
     private void OnEnable()
     {
-        ChangeScriptableObject(_currentIndex);
+        _interfaceManager.OnGameStarted += GiveWeapon;
+    }
+
+    private void OnDisable()
+    {
+        _interfaceManager.OnGameStarted -= GiveWeapon;
     }
 
     public override void ChangeScriptableObject(int change)
     {
         base.ChangeScriptableObject(change);
+        CurrentWeapon = _currentIndex;
 
         if (_weaponDisplay != null)
         {
@@ -44,21 +51,19 @@ public class WeaponChanger : ScriptableObjectChanger
         if (_wallet.GoldAmount >= _weapon.Price)
         {
             _weapon.IsBuyed = true;
-            _weaponDisplay.DisplayWeapon((Weapon)_scriptableObjects[_currentIndex]);
+            _weaponDisplay.DisplayWeapon(_weapon);
             _wallet.ChangeGoldAmount(-_weapon.Price);
         }
     }
 
-    public void StoreWeapon()
-    {
-        CurrentWeapon = _currentIndex;
-        GiveWeapon();
-        _weaponDisplay.DisplayWeapon((Weapon)_scriptableObjects[_currentIndex]);
-    }
-
     private void GiveWeapon()
     {
-        OnWeaponGiven?.Invoke((Weapon)_scriptableObjects[CurrentWeapon]);
-        _player.GetWeapon((Weapon)_scriptableObjects[CurrentWeapon]);
+        _weapon = (Weapon)_scriptableObjects[CurrentWeapon];
+        _player.GetWeapon(_weapon);
+
+        if(_weapon.WeaponModel != null)
+        {
+            _player.SpawnWeapon();
+        }
     }
 }

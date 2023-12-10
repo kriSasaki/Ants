@@ -1,23 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class MapChanger : ScriptableObjectChanger
+public class MapChanger : MonoBehaviour
 {
+    [SerializeField] private List<Map> _maps;
     [SerializeField] private MapDisplay _mapDisplay;
+    [SerializeField] private GameObject _mapContainer;
 
-    private void OnEnable()
+    private int _mapIndex;
+
+    private void Start()
     {
-        ChangeScriptableObject(_currentIndex);
+        foreach (var map in _maps)
+        {
+            AddItem(map);
+        }
     }
 
-    public override void ChangeScriptableObject(int change)
+    private void AddItem(Map map)
     {
-        base.ChangeScriptableObject(change);
-
-        if (_mapDisplay != null)
-        {
-            _mapDisplay.DisplayMap((Map)_scriptableObjects[_currentIndex]);
-        }
+        var view = Instantiate(_mapDisplay, _mapContainer.transform);
+        view.DisplayMap(map);
     }
 }
