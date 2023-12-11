@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347657573e6413848b7fa6576f4d18b3, type: 3}
   m_Name: NoWeapon
   m_EditorClassIdentifier: 
-  WeaponName: No weapon
-  Damage: 5
-  Price: 0
-  WeaponModel: {fileID: 0}
-  IsBuyed: 1
-  WeaponRank: 0
+  _name: No weapon
+  _damage: 5
+  _price: 0
+  _model: {fileID: 0}
+  _isBuyed: 1
+  _rank: 0

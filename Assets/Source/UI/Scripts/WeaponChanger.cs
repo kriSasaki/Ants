@@ -1,10 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
-using IJunior.TypedScenes;
-using System;
-using System.Reflection;
 
 public class WeaponChanger : ScriptableObjectChanger
 {
@@ -14,7 +8,6 @@ public class WeaponChanger : ScriptableObjectChanger
     
     public int CurrentWeapon { get; private set; }
 
-    private InterfaceManager _interfaceManager;
     private Weapon _weapon;
 
     private void Awake()
@@ -50,7 +43,7 @@ public class WeaponChanger : ScriptableObjectChanger
 
         if (_wallet.GoldAmount >= _weapon.Price)
         {
-            _weapon.IsBuyed = true;
+            _weapon.BuyItem();
             _weaponDisplay.DisplayWeapon(_weapon);
             _wallet.ChangeGoldAmount(-_weapon.Price);
         }
@@ -61,7 +54,7 @@ public class WeaponChanger : ScriptableObjectChanger
         _weapon = (Weapon)_scriptableObjects[CurrentWeapon];
         _player.GetWeapon(_weapon);
 
-        if(_weapon.WeaponModel != null)
+        if(_weapon.Model != null)
         {
             _player.SpawnWeapon();
         }

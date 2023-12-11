@@ -1,9 +1,6 @@
 using DG.Tweening;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class InterfaceManager : MonoBehaviour
@@ -11,21 +8,29 @@ public class InterfaceManager : MonoBehaviour
     [SerializeField] private GameObject _startButton;
     [SerializeField] private GameObject _pauseButton;
     [SerializeField] private GameObject _restartButton;
-    [SerializeField] private GameObject _mapDisplay;
-    [SerializeField] private CharacterDisplay _characterDisplay;
     [SerializeField] private GameObject _collectableDisplay;
     [SerializeField] private GameObject _goldDisplay;
-    [SerializeField] private WeaponDisplay _weaponDisplay;
     [SerializeField] private CameraFollower _cameraFollower;
-    [SerializeField] private float _buttonEnableScale = 1;
-    [SerializeField] private float _buttonDisableScale = 0;
+    [SerializeField] private float _enableScale = 1;
+    [SerializeField] private float _disableScale = 0;
     [SerializeField] private float _buttonChangeDuration = 0.4f;
 
     public event Action OnGameStarted;
 
     private bool _isPlaying = false;
     private LevelManager _levelManager;
-    private MapDisplay _mapIcon;
+    private WeaponDisplay _weaponDisplay;
+    private MapChanger _mapDisplay;
+    private CharacterDisplay _characterDisplay;
+    private RewardWindow _rewardWindow;
+
+    private void Awake()
+    {
+        _weaponDisplay = GetComponentInChildren<WeaponDisplay>();
+        _mapDisplay = GetComponentInChildren<MapChanger>();
+        _characterDisplay = GetComponentInChildren<CharacterDisplay>();
+        _rewardWindow = GetComponentInChildren<RewardWindow>();
+    }
 
     private void Start()
     {
@@ -37,18 +42,20 @@ public class InterfaceManager : MonoBehaviour
     {
         _weaponDisplay.ItemChanged += CheckPossibilityToPlay;
         _characterDisplay.ItemChanged += CheckPossibilityToPlay;
+        _rewardWindow.OnLevelComplete += ShowRewardWindow;
     }
 
     private void OnDisable()
     {
         _weaponDisplay.ItemChanged -= CheckPossibilityToPlay;
         _characterDisplay.ItemChanged -= CheckPossibilityToPlay;
+        _rewardWindow.OnLevelComplete -= ShowRewardWindow;
     }
 
     public void StartGame()
     {
-        ChangeVisibilityStatus(_startButton, _buttonDisableScale, _buttonChangeDuration, false);
-        ChangeVisibilityStatus(_pauseButton, _buttonEnableScale, _buttonChangeDuration, true);
+        ChangeVisibilityStatus(_startButton, _disableScale, _buttonChangeDuration, false);
+        ChangeVisibilityStatus(_pauseButton, _enableScale, _buttonChangeDuration, true);
         _cameraFollower.enabled = true;
         Time.timeScale = 1;
 
@@ -56,24 +63,33 @@ public class InterfaceManager : MonoBehaviour
         {
             _isPlaying = true;
             OnGameStarted?.Invoke();
-            ChangeVisibilityStatus(_mapDisplay, _buttonDisableScale, _buttonChangeDuration, false);
-            ChangeVisibilityStatus(_characterDisplay.gameObject, _buttonDisableScale, _buttonChangeDuration, false);
-            ChangeVisibilityStatus(_weaponDisplay.gameObject, _buttonDisableScale, _buttonChangeDuration, false);
-            ChangeVisibilityStatus(_collectableDisplay, _buttonEnableScale, _buttonChangeDuration, true);
-            ChangeVisibilityStatus(_goldDisplay, _buttonDisableScale, _buttonChangeDuration, false);
+            ChangeVisibilityStatus(_mapDisplay.gameObject, _disableScale, _buttonChangeDuration, false);
+            _mapDisplay.ChangeButtonsInteractivity(false);
+            ChangeVisibilityStatus(_characterDisplay.gameObject, _disableScale, _buttonChangeDuration, false);
+            _characterDisplay.ChangeInteractivity(false);
+            ChangeVisibilityStatus(_weaponDisplay.gameObject, _disableScale, _buttonChangeDuration, false);
+            _weaponDisplay.ChangeInteractivity(false);
+            ChangeVisibilityStatus(_collectableDisplay, _enableScale, _buttonChangeDuration, true);
+            ChangeVisibilityStatus(_goldDisplay, _disableScale, _buttonChangeDuration, false);
         }
         else
         {
-            ChangeVisibilityStatus(_restartButton, _buttonDisableScale, _buttonChangeDuration, false);
+            ChangeVisibilityStatus(_restartButton, _disableScale, _buttonChangeDuration, false);
         }
     }
 
     public void PauseGame()
     {
         Time.timeScale = 0;
-        ChangeVisibilityStatus(_startButton, _buttonEnableScale, _buttonChangeDuration, true);
-        ChangeVisibilityStatus(_pauseButton, _buttonDisableScale, _buttonChangeDuration, false);
-        ChangeVisibilityStatus(_restartButton, _buttonEnableScale, _buttonChangeDuration, true);
+        ChangeVisibilityStatus(_startButton, _enableScale, _buttonChangeDuration, true);
+        ChangeVisibilityStatus(_pauseButton, _disableScale, _buttonChangeDuration, false);
+        ChangeVisibilityStatus(_restartButton, _enableScale, _buttonChangeDuration, true);
+    }
+
+    private void ShowRewardWindow()
+    {
+        ChangeVisibilityStatus(_rewardWindow.gameObject, _enableScale, _buttonChangeDuration, true);
+        ChangeVisibilityStatus(_restartButton, _enableScale, _buttonChangeDuration, true);
     }
 
     public void RestartGame()
@@ -81,12 +97,20 @@ public class InterfaceManager : MonoBehaviour
         _levelManager.LoadLevel(_levelManager.CurrentLevel);
     }
 
-    private void ChangeVisibilityStatus(GameObject gameObject, float scale, float duration, bool isEnabled)
+    private void ChangeVisibilityStatus(GameObject gameObject, float scale, float duration, bool isEnable)
     {
-        gameObject.transform.DOScale(scale, duration).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() =>
+        if (isEnable)
         {
-            gameObject.SetActive(isEnabled);
-        });
+            gameObject.SetActive(isEnable);
+            gameObject.transform.DOScale(scale, duration).SetEase(Ease.InBack).SetUpdate(true);
+        }
+        else
+        {
+            gameObject.transform.DOScale(scale, duration).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() =>
+            {
+                gameObject.SetActive(isEnable);
+            });
+        }
     }
 
     private void CheckPossibilityToPlay()

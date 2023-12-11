@@ -4348,6 +4348,10 @@ PrefabInstance:
       propertyPath: _cameraFollower
       value: 
       objectReference: {fileID: 1818940640}
+    - target: {fileID: 5102361261357497947, guid: 59304d195565c65448a4589a9ce86263, type: 3}
+      propertyPath: _playerChecker
+      value: 
+      objectReference: {fileID: 1492617547}
     - target: {fileID: 5231540906164539867, guid: 59304d195565c65448a4589a9ce86263, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

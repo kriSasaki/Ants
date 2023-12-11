@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +13,8 @@ public class CharacterDisplay : MonoBehaviour
     [SerializeField] private Transform _rankStars;
     [SerializeField] private GameObject _coin;
     [SerializeField] private Transform _characterHolder;
+    [SerializeField] private Button _leftButton;
+    [SerializeField] private Button _rightButton;
 
     public bool ItemIsBuyed { get; private set; }
     public event Action ItemChanged;
@@ -55,5 +53,12 @@ public class CharacterDisplay : MonoBehaviour
         }
 
         Instantiate(character.CharacterModel, _characterHolder.position, _characterHolder.rotation, _characterHolder);
+    }
+
+    public void ChangeInteractivity(bool isEnable)
+    {
+        _leftButton.enabled = isEnable;
+        _rightButton.enabled = isEnable;
+        _characterPrice.gameObject.GetComponent<Button>().enabled = isEnable;
     }
 }

@@ -1,7 +1,5 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.ProBuilder;
 
 public class Player : MonoBehaviour
 {
@@ -11,10 +9,8 @@ public class Player : MonoBehaviour
     public bool HasWeapon => _weapon;
     public int Damage => _damage;
     public event Action<int, int> OnHealthChange;
-    public PlayerAttackState PlayerAttackState => _playerAttackState;
 
     private Weapon _weapon;
-    private Appearance _appearance;
     private PlayerAttackState _playerAttackState;
     private AnimationPlayer _animationPlayer;
     private IDetectableObject _detectableObject;
@@ -59,11 +55,6 @@ public class Player : MonoBehaviour
             _weapon = weapon;
             _damage = weapon.Damage;
         }
-
-        //if(weapon.WeaponModel != null)
-        //{
-        //    SpawnWeapon();
-        //}
     }
 
     public void GetHealth(int health)
@@ -93,6 +84,6 @@ public class Player : MonoBehaviour
     public void SpawnWeapon()
     {
         Arm arm = GetComponentInChildren<Arm>();
-        Instantiate(_weapon.WeaponModel, arm.gameObject.transform.position, arm.transform.rotation, arm.transform);
+        Instantiate(_weapon.Model, arm.gameObject.transform.position, arm.transform.rotation, arm.transform);
     }
 }

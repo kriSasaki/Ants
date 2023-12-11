@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class WeaponDisplay : MonoBehaviour
@@ -16,13 +13,15 @@ public class WeaponDisplay : MonoBehaviour
     [SerializeField] private Transform _rankStars;
     [SerializeField] private GameObject _coin;
     [SerializeField] private Transform _weaponHolder;
+    [SerializeField] private Button _leftButton;
+    [SerializeField] private Button _rightButton;
 
     public bool ItemIsBuyed { get; private set; }
     public event Action ItemChanged;
 
     public void DisplayWeapon(Weapon weapon)
     {
-        _weaponName.text = weapon.WeaponName;
+        _weaponName.text = weapon.Name;
         _weaponDamage.text = "Урон: " + weapon.Damage.ToString();
 
         if (weapon.IsBuyed == false)
@@ -44,7 +43,7 @@ public class WeaponDisplay : MonoBehaviour
 
         for (int star = 0; star < _rankStars.childCount; star++)
         {
-            _rankStars.GetChild(star).GetChild(0).gameObject.SetActive(star < weapon.WeaponRank);
+            _rankStars.GetChild(star).GetChild(0).gameObject.SetActive(star < weapon.Rank);
         }
 
         if (_weaponHolder.childCount > 0)
@@ -52,9 +51,16 @@ public class WeaponDisplay : MonoBehaviour
             Destroy(_weaponHolder.GetChild(0).gameObject);
         }
 
-        if (weapon.WeaponModel != null)
+        if (weapon.Model != null)
         {
-            Instantiate(weapon.WeaponModel, _weaponHolder.position, _weaponHolder.rotation, _weaponHolder);
+            Instantiate(weapon.Model, _weaponHolder.position, _weaponHolder.rotation, _weaponHolder);
         }
+    }
+
+    public void ChangeInteractivity(bool isEnable)
+    {
+        _leftButton.enabled = isEnable;
+        _rightButton.enabled = isEnable;
+        _weaponPrice.gameObject.GetComponent<Button>().enabled = isEnable;
     }
 }

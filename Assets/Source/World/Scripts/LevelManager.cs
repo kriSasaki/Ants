@@ -9,21 +9,24 @@ public class LevelManager : MonoBehaviour
     public int CurrentLevel => _currentLevel;
 
     private SceneLoadHandler _sceneLoadHandler;
+    private RewardWindow _rewardWindow;
     private int _currentLevel = 0;
 
     private void Awake()
     {
+        _rewardWindow = GetComponentInChildren<RewardWindow>();
         _sceneLoadHandler = GetComponent<SceneLoadHandler>();
+        _rewardWindow.SetCurrentLevel(CurrentLevel);
     }
 
     private void OnEnable()
     {
-        _playerChecker.ConditionIsDone += LevelComplete;
+        _rewardWindow.OnButtonPressed += LevelComplete;
     }
 
     private void OnDisable()
     {
-        _playerChecker.ConditionIsDone -= LevelComplete;
+        _rewardWindow.OnButtonPressed -= LevelComplete;
     }
 
     public void SaveLevels(int currentLevel, int openedLevels)

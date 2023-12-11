@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347657573e6413848b7fa6576f4d18b3, type: 3}
   m_Name: Dagger
   m_EditorClassIdentifier: 
-  WeaponName: Dagger
-  Damage: 10
-  Price: 20
-  WeaponModel: {fileID: -927199367670048503, guid: 46bee165790d2c24f9abecc09e243920, type: 3}
-  IsBuyed: 0
-  WeaponRank: 0
+  _name: Dagger
+  _damage: 10
+  _price: 25
+  _model: {fileID: -927199367670048503, guid: 46bee165790d2c24f9abecc09e243920, type: 3}
+  _isBuyed: 0
+  _rank: 0

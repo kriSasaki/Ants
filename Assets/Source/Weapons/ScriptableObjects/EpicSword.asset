@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347657573e6413848b7fa6576f4d18b3, type: 3}
   m_Name: EpicSword
   m_EditorClassIdentifier: 
-  WeaponName: Epic sword
-  Damage: 60
-  Price: 130
-  WeaponModel: {fileID: -927199367670048503, guid: 90c25ff0db82bf64cbc6b8e405018824, type: 3}
-  IsBuyed: 0
-  IsEquiped: 0
-  WeaponRank: 5
+  _name: Epic sword
+  _damage: 60
+  _price: 150
+  _model: {fileID: -927199367670048503, guid: 90c25ff0db82bf64cbc6b8e405018824, type: 3}
+  _isBuyed: 0
+  _rank: 5

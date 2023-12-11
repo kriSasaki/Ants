@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347657573e6413848b7fa6576f4d18b3, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  WeaponName: Sword
-  Damage: 20
-  Price: 40
-  WeaponModel: {fileID: -927199367670048503, guid: dd0682cd55d7f8342b8026ebb1cfc4a5, type: 3}
-  IsBuyed: 0
-  WeaponRank: 1
+  _name: Sword
+  _damage: 20
+  _price: 40
+  _model: {fileID: -927199367670048503, guid: dd0682cd55d7f8342b8026ebb1cfc4a5, type: 3}
+  _isBuyed: 0
+  _rank: 1

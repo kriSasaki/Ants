@@ -1,5 +1,3 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterChanger : ScriptableObjectChanger
@@ -8,7 +6,6 @@ public class CharacterChanger : ScriptableObjectChanger
     [SerializeField] private Player _player;
     [SerializeField] private Wallet _wallet;
 
-    private InterfaceManager _interfaceManager;
     private Character _character;
 
     private void Awake()

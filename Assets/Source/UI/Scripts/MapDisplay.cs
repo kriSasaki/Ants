@@ -47,6 +47,11 @@ public class MapDisplay : MonoBehaviour
         _checkIcon.SetActive(_mapSelected);
     }
 
+    public void ChangeButtonInteractivity(bool isEnable)
+    {
+        _chooseButton.enabled = isEnable;
+    }
+
     public void ChooseMap()
     {
         _levelManager.LoadLevel(_selectedMap);

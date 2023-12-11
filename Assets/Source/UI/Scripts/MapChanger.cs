@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class MapChanger : MonoBehaviour
@@ -9,19 +7,30 @@ public class MapChanger : MonoBehaviour
     [SerializeField] private MapDisplay _mapDisplay;
     [SerializeField] private GameObject _mapContainer;
 
+    private List<MapDisplay> _showedMaps;
     private int _mapIndex;
 
     private void Start()
     {
-        foreach (var map in _maps)
+        _showedMaps = new List<MapDisplay>();
+
+        for (int mapIndex = 0; mapIndex < _maps.Count; mapIndex++)
         {
-            AddItem(map);
+            AddItem(_maps[mapIndex], mapIndex);        
         }
     }
 
-    private void AddItem(Map map)
+    public void ChangeButtonsInteractivity(bool isEnable)
     {
-        var view = Instantiate(_mapDisplay, _mapContainer.transform);
-        view.DisplayMap(map);
+        foreach (var map in _showedMaps)
+        {
+            map.ChangeButtonInteractivity(isEnable);
+        }
+    }
+
+    private void AddItem(Map map, int mapIndex)
+    {
+        _showedMaps.Add(Instantiate(_mapDisplay, _mapContainer.transform));
+        _showedMaps[mapIndex].DisplayMap(map);
     }
 }

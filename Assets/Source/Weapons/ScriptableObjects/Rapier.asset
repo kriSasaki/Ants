@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347657573e6413848b7fa6576f4d18b3, type: 3}
   m_Name: Rapier
   m_EditorClassIdentifier: 
-  WeaponName: Rapier
-  Damage: 40
-  Price: 80
-  WeaponModel: {fileID: -927199367670048503, guid: c1ac58f958fd93b49a10161ce774a18e, type: 3}
-  IsBuyed: 0
-  IsEquiped: 0
-  WeaponRank: 3
+  _name: Rapier
+  _damage: 35
+  _price: 90
+  _model: {fileID: -927199367670048503, guid: c1ac58f958fd93b49a10161ce774a18e, type: 3}
+  _isBuyed: 0
+  _rank: 3
