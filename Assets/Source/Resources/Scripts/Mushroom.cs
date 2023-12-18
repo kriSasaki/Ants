@@ -1,7 +1,3 @@
-using DG.Tweening;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Mushroom : MonoBehaviour
@@ -13,8 +9,6 @@ public class Mushroom : MonoBehaviour
     [SerializeField] private float _shakeStrength;
     [SerializeField] private int _shakeVibration;
     [SerializeField] private float _shakeRandomness;
-
-    public static event Action<int> MushroomCollected;
 
     private SphereCollider _sphereCollider;
     private IDetectableObject _detectableObject;
@@ -51,9 +45,9 @@ public class Mushroom : MonoBehaviour
 
     private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
     {
-        if (source.TryGetComponent(out Player player))
+        if (source.TryGetComponent(out Inventory inventory))
         {
-            MushroomCollected?.Invoke(_amount);
+            inventory.ChangeMushroomsAmount(_amount);
             JumpIn(source.transform.position);
         }
     }

@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
 
     private SceneLoadHandler _sceneLoadHandler;
     private RewardWindow _rewardWindow;
-    private int _currentLevel = 0;
+    private int _currentLevel;
 
     private void Awake()
     {
@@ -21,12 +21,14 @@ public class LevelManager : MonoBehaviour
 
     private void OnEnable()
     {
-        _rewardWindow.OnButtonPressed += LevelComplete;
+        _rewardWindow.OnLevelComplete += LevelComplete;
+        _rewardWindow.OnButtonPressed += LoadNextLevel;
     }
 
     private void OnDisable()
     {
-        _rewardWindow.OnButtonPressed -= LevelComplete;
+        _rewardWindow.OnLevelComplete -= LevelComplete;
+        _rewardWindow.OnButtonPressed -= LoadNextLevel;
     }
 
     public void SaveLevels(int currentLevel, int openedLevels)
@@ -47,16 +49,22 @@ public class LevelManager : MonoBehaviour
             case 1:
                 Level1.Load(_sceneLoadHandler);
                 break;
+            case 2:
+                Level2.Load(_sceneLoadHandler);
+                break;
         }
     }
 
-    private void LevelComplete()
+    private void LevelComplete(bool isLost)
     {
-        if(OpenedLevels == _currentLevel)
+        if (!isLost && OpenedLevels == _currentLevel)
         {
             OpenedLevels++;
         }
+    }
 
+    private void LoadNextLevel()
+    {
         _currentLevel++;
         LoadLevel(_currentLevel);
     }

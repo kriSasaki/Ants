@@ -12,8 +12,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _health;
     [SerializeField] private Egg _egg;
     [SerializeField] private int _eggsAmount;
-    [SerializeField] private Leg _leg;
-    [SerializeField] private int _legsAmount;
 
     public Player Target => _target;
     public int Health => _health;
@@ -80,14 +78,6 @@ public class Enemy : MonoBehaviour
             for (int i = 1; i <= _eggsAmount; i++)
             {
                 _egg = Instantiate(_egg, transform.position, Quaternion.identity);
-            }
-        }
-
-        if (_legsAmount > _zero)
-        {
-            for (int i = 1; i <= _legsAmount; i++)
-            {
-                Instantiate(_leg, transform.position, Quaternion.identity);
             }
         }
     }

@@ -1,14 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Egg : Resource
 {
-    public static event Action<int> EggCollected;
-
-    protected override void NoticeResource()
+    protected override void NoticeResource(Inventory inventory, int amount)
     {
-        EggCollected?.Invoke(_amount);
+        inventory.ChangeEggsAmount(amount);
     }
 }

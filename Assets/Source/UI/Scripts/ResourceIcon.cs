@@ -6,9 +6,15 @@ using UnityEngine;
 public class ResourceIcon : MonoBehaviour
 {
     [SerializeField] private TMP_Text _text;
-     
+
+    protected PlayerChecker _playerChecker;
     protected float _neededAmount;
     private float _collectedAmount;
+
+    private void Awake()
+    {
+        _playerChecker = GetComponentInParent<PlayerChecker>();
+    }
 
     private void Start()
     {    
@@ -28,5 +34,6 @@ public class ResourceIcon : MonoBehaviour
     protected void ResearchRecources(int amount)
     {
         _collectedAmount = amount;
+        SetAmount();
     }
 }

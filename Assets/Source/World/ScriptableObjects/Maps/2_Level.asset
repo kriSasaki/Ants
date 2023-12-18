@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0698188b26c3044b8baf63dc263a3df, type: 3}
   m_Name: 2_Level
   m_EditorClassIdentifier: 
-  mapIndex: 2
-  mapName: "\u0425\u043E\u043B\u043C\u044B"
-  nameColor: {r: 0, g: 0.6887458, b: 0.8018868, a: 1}
-  mapImage: {fileID: 0}
-  sceneToLoad: {fileID: 0}
+  _mapIndex: 2
+  _mapName: "\u0425\u043E\u043B\u043C\u044B"
+  _nameColor: {r: 0, g: 0.41429782, b: 1, a: 0}
+  _mapImage: {fileID: 21300000, guid: e85c806eb123bda49966cd43eaffb7ee, type: 3}
+  _sceneToLoad: {fileID: 102900000, guid: 840e76db03e6ef844addc6b0d7e2c755, type: 3}

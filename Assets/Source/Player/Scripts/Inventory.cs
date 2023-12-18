@@ -1,53 +1,29 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
-    public static event Action<int> MushroomsAmountChanged;
-    public static event Action<int> EggsAmountChanged;
-    public static event Action<int> LegsAmountChanged;
+    public event Action<int> MushroomsAmountChanged;
+    public event Action<int> EggsAmountChanged;
 
-    private int _mushroomsCount;
-    private int _eggsCount;
-    private int _legsCount;
-
-    private void OnEnable()
-    {
-        Mushroom.MushroomCollected += ChangeMushroomsAmount;
-        Egg.EggCollected += ChangeEggsAmount;
-    }
-
-    private void OnDisable()
-    {
-        Mushroom.MushroomCollected -= ChangeMushroomsAmount;
-        Egg.EggCollected -= ChangeEggsAmount;
-    }
+    public int MushroomsCount {  get; private set; }
+    public int EggsCount { get; private set; }
 
     public void DeleteResources(int mushrooms, int eggs, int legs) 
     {
         ChangeMushroomsAmount(-mushrooms);
         ChangeEggsAmount(-eggs);
-        ChangeLegsAmount(-legs);
     }
 
-    private void ChangeMushroomsAmount(int amount)
+    public void ChangeMushroomsAmount(int amount)
     {
-        _mushroomsCount += amount;
-        MushroomsAmountChanged?.Invoke(_mushroomsCount);
+        MushroomsCount += amount;
+        MushroomsAmountChanged?.Invoke(MushroomsCount);
     }
 
-    private void ChangeEggsAmount(int amount)
+    public void ChangeEggsAmount(int amount)
     {
-        _eggsCount += amount;
-        EggsAmountChanged?.Invoke(_eggsCount);
-    }
-
-    private void ChangeLegsAmount(int amount)
-    {
-        _legsCount += amount;
-        LegsAmountChanged?.Invoke(_legsCount);
+        EggsCount += amount;
+        EggsAmountChanged?.Invoke(EggsCount);
     }
 }

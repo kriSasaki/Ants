@@ -5,6 +5,7 @@ public class ScriptableObjectChanger : MonoBehaviour
     [SerializeField] protected ScriptableObject[] _scriptableObjects;
 
     protected InterfaceManager _interfaceManager;
+    protected Player _player;
     protected int _currentIndex = 0;
 
     public virtual void ChangeScriptableObject(int change)

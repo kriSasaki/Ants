@@ -10,7 +10,7 @@ public class SDKInitializer : MonoBehaviour
 
     private IEnumerator Start()
     {
-#if UNITY_EDITOR
+#if UNITY_WEBGL || UNITY_EDITOR
         yield break;
 #endif
 

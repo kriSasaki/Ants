@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0698188b26c3044b8baf63dc263a3df, type: 3}
   m_Name: 0_Tutorial
   m_EditorClassIdentifier: 
-  mapIndex: 0
-  mapName: Tutorial
-  nameColor: {r: 1, g: 0.9875777, b: 0, a: 1}
-  mapImage: {fileID: 21300000, guid: 8980a2f1cfb7ef2409d0dbb7c2da8279, type: 3}
-  sceneToLoad: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
+  _mapIndex: 0
+  _mapName: Tutorial
+  _nameColor: {r: 0.9987322, g: 1, b: 0, a: 0}
+  _mapImage: {fileID: 21300000, guid: 8980a2f1cfb7ef2409d0dbb7c2da8279, type: 3}
+  _sceneToLoad: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}

@@ -3,13 +3,13 @@ using UnityEngine;
 public class CharacterChanger : ScriptableObjectChanger
 {
     [SerializeField] private CharacterDisplay _characterDisplay;
-    [SerializeField] private Player _player;
     [SerializeField] private Wallet _wallet;
 
     private Character _character;
 
     private void Awake()
     {
+        _player = GetComponentInParent<PlayerTransmitter>().Player;
         _interfaceManager = GetComponentInParent<InterfaceManager>();
         ChangeScriptableObject(0);
     }

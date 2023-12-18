@@ -86,7 +86,7 @@ public class InterfaceManager : MonoBehaviour
         ChangeVisibilityStatus(_restartButton, _enableScale, _buttonChangeDuration, true);
     }
 
-    private void ShowRewardWindow()
+    private void ShowRewardWindow(bool isLost)
     {
         ChangeVisibilityStatus(_rewardWindow.gameObject, _enableScale, _buttonChangeDuration, true);
         ChangeVisibilityStatus(_restartButton, _enableScale, _buttonChangeDuration, true);

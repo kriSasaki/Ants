@@ -6,13 +6,11 @@ public class EggResourceIcon : ResourceIcon
 {
     private void OnEnable()
     {
-        Inventory.EggsAmountChanged += ResearchRecources;
-        PlayerChecker.PlayerEnter += SetAmount;
+        _playerChecker.OnResearchEggsNeeded += ResearchRecources;
     }
 
     private void OnDisable()
     {
-        Inventory.EggsAmountChanged -= ResearchRecources;
-        PlayerChecker.PlayerEnter -= SetAmount;
+        _playerChecker.OnResearchEggsNeeded -= ResearchRecources;
     }
 }

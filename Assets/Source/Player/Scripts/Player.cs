@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     public bool HasWeapon => _weapon;
     public int Damage => _damage;
     public event Action<int, int> OnHealthChange;
+    public event Action OnPlayerEnable;
+    public event Action OnDeath;
 
     private Weapon _weapon;
     private PlayerAttackState _playerAttackState;
@@ -28,6 +30,7 @@ public class Player : MonoBehaviour
     {
         _detectableObject.OnGameObjectDetectEvent += OnGameObjectDetect;
         _detectableObject.OnGameObjectDetectionReleasedEvent += OnGameObjectDetectionReleased;
+        OnPlayerEnable?.Invoke();
     }
 
     private void OnDisable()
@@ -44,7 +47,7 @@ public class Player : MonoBehaviour
 
         if(_health <= _minHealth)
         {
-            //
+            OnDeath?.Invoke();
         }
     }
 
@@ -84,6 +87,8 @@ public class Player : MonoBehaviour
     public void SpawnWeapon()
     {
         Arm arm = GetComponentInChildren<Arm>();
+        Debug.Log(arm);
+        Debug.Log(_weapon);
         Instantiate(_weapon.Model, arm.gameObject.transform.position, arm.transform.rotation, arm.transform);
     }
 }

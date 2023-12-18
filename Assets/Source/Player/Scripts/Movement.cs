@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    [SerializeField] private Joystick _joystick;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _rotationSpeed;
 
@@ -22,17 +23,39 @@ public class Movement : MonoBehaviour
 
     private void OnEnable()
     {
-        _input.Enable();
+        if(Application.isMobilePlatform)
+        {
+            _joystick.gameObject.SetActive(true);
+        }
+        else
+        {
+            _input.Enable();
+        }
     }
 
     private void OnDisable()
     {
-        _input.Disable();
+        if (Application.isMobilePlatform)
+        {
+            _joystick.gameObject.SetActive(false);
+        }
+        else
+        {
+            _input.Disable();
+        }
     }
 
     private void Update()
     {
-        _moveDirection = _input.Player.Move.ReadValue<Vector2>();
+        if (Application.isMobilePlatform)
+        {
+            _moveDirection = _joystick.Direction;
+        }
+        else
+        {
+            _moveDirection = _input.Player.Move.ReadValue<Vector2>();
+        }
+
         _animationPlayer.SetSpeed(_moveDirection.magnitude);
 
         Move(_moveDirection);

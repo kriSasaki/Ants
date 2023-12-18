@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerChecker : MonoBehaviour
 {
-    public static event Action PlayerEnter;
+    public event Action<int> OnResearchMushroomNeeded;
+    public event Action<int> OnResearchEggsNeeded;
     public event Action ConditionIsDone;
 
     private ResourceChecker _resourceChecker;
@@ -31,9 +30,10 @@ public class PlayerChecker : MonoBehaviour
     {
         if (source.TryGetComponent(out Inventory inventory))
         {
-            PlayerEnter?.Invoke();
+            OnResearchMushroomNeeded?.Invoke(inventory.MushroomsCount);
+            OnResearchEggsNeeded?.Invoke(inventory.EggsCount);
 
-            if (_resourceChecker.MushroomCollected && _resourceChecker.EggsCollected && _resourceChecker.LegsCollected)
+            if (_resourceChecker.ResearchRecources(inventory.MushroomsCount, inventory.EggsCount))
             {
                 inventory.DeleteResources(_resourceChecker.Mushrooms, _resourceChecker.Eggs, _resourceChecker.Legs);
                 Destroy(gameObject);

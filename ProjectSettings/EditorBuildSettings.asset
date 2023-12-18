@@ -12,15 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Level1.unity
     guid: 5a992e07a0a873841a9a685b9ec533c0
   - enabled: 1
-    path: Assets/Plugins/CW/LeanLocalization/Examples/_07_Token__Formatted_Text_.unity
-    guid: b7b2b0bb3011dac4eb7b7b2defb7cce3
+    path: Assets/Scenes/Level2.unity
+    guid: 840e76db03e6ef844addc6b0d7e2c755
   - enabled: 1
-    path: Assets/Plugins/CW/LeanLocalization/Examples/_10_Organization.unity
-    guid: 7ad4cd5402d00804889efef8bd52f2a7
-  - enabled: 1
-    path: Assets/Plugins/TypedScenes/Samples/SampleScene.unity
-    guid: bea4ffac286db3e4e9b6f6e33d85eb89
-  - enabled: 1
-    path: Assets/Scenes/Sample_Scene.unity
-    guid: f717f15f191a08741986e6e8efa197ab
+    path: Assets/Scenes/InitialScene.unity
+    guid: 9218185b251c24240b4a5a640ccd6b7b
   m_configObjects: {}

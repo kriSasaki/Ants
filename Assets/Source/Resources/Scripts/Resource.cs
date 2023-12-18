@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Resource : MonoBehaviour
@@ -17,7 +15,7 @@ public abstract class Resource : MonoBehaviour
         _dropAnimation = GetComponent<DropAnimation>();
     }
 
-    protected abstract void NoticeResource();
+    protected abstract void NoticeResource(Inventory inventory, int amount);
 
     private void OnTriggerEnter(Collider other)
     {
@@ -31,8 +29,8 @@ public abstract class Resource : MonoBehaviour
 
     private void DropResource()
     {
-        NoticeResource();
         _pickUpAnimation.SetPosition3(_parent.Target.transform);
+        NoticeResource(_parent.Target.GetComponent<Inventory>(), _amount);
         _dropAnimation.enabled = true;
     }
 }

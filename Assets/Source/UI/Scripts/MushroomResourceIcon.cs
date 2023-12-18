@@ -6,13 +6,11 @@ public class MushroomResourceIcon : ResourceIcon
 {
     private void OnEnable()
     {
-        Inventory.MushroomsAmountChanged += ResearchRecources;
-        PlayerChecker.PlayerEnter += SetAmount;
+        _playerChecker.OnResearchMushroomNeeded += ResearchRecources;
     }
 
     private void OnDisable()
     {
-        Inventory.MushroomsAmountChanged -= ResearchRecources;
-        PlayerChecker.PlayerEnter -= SetAmount;
+        _playerChecker.OnResearchMushroomNeeded -= ResearchRecources;
     }
 }

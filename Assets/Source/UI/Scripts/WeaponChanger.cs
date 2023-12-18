@@ -3,7 +3,6 @@ using UnityEngine;
 public class WeaponChanger : ScriptableObjectChanger
 {
     [SerializeField] private WeaponDisplay _weaponDisplay;
-    [SerializeField] private Player _player;
     [SerializeField] private Wallet _wallet;
     
     public int CurrentWeapon { get; private set; }
@@ -12,18 +11,21 @@ public class WeaponChanger : ScriptableObjectChanger
 
     private void Awake()
     {
+        _player = GetComponentInParent<PlayerTransmitter>().Player;
         _interfaceManager = GetComponentInParent<InterfaceManager>();
         ChangeScriptableObject(0);
     }
 
     private void OnEnable()
     {
-        _interfaceManager.OnGameStarted += GiveWeapon;
+        _player.OnPlayerEnable += GiveWeapon;
+        //_interfaceManager.OnGameStarted += GiveWeapon;
     }
 
     private void OnDisable()
     {
-        _interfaceManager.OnGameStarted -= GiveWeapon;
+        _player.OnPlayerEnable -= GiveWeapon;
+        //_interfaceManager.OnGameStarted -= GiveWeapon;
     }
 
     public override void ChangeScriptableObject(int change)

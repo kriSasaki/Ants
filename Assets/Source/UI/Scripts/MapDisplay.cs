@@ -24,25 +24,25 @@ public class MapDisplay : MonoBehaviour
 
     public void DisplayMap(Map map)
     {
-        _mapName.text = map.mapName;
-        _mapName.color = map.nameColor;
-        _mapImage.sprite = map.mapImage;
+        _mapName.text = map.MapName;
+        _mapName.color = map.NameColor;
+        _mapImage.sprite = map.MapImage;
 
-        _mapUnlocked = _levelManager.OpenedLevels >= map.mapIndex;
+        _mapUnlocked = _levelManager.OpenedLevels >= map.MapIndex;
         _lockIcon.SetActive(!_mapUnlocked);
         _chooseButton.enabled = _mapUnlocked;
 
         if (_mapUnlocked)
         {
             _mapImage.color = Color.white;
-            _selectedMap = map.mapIndex;
+            _selectedMap = map.MapIndex;
         }
         else
         {
             _mapImage.color = Color.gray;
         }
 
-        _mapSelected = _levelManager.CurrentLevel == map.mapIndex;
+        _mapSelected = _levelManager.CurrentLevel == map.MapIndex;
         _chooseButton.enabled = !_mapSelected && _mapUnlocked;
         _checkIcon.SetActive(_mapSelected);
     }
