@@ -1,9 +1,7 @@
 using Agava.YandexGames;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LeaderBoardDisplay : MonoBehaviour
 {
@@ -12,22 +10,22 @@ public class LeaderBoardDisplay : MonoBehaviour
     [SerializeField] private TMP_Text[] _scoreList;
     [SerializeField] private string _leaderboardName = "LeaderBoard";
 
-    private int _playerScore = 69;
+    public bool IsAuthorized => PlayerAccount.IsAuthorized;
 
-    public void OpenVKLeaderboard()
-    {
-        Agava.VKGames.Leaderboard.ShowLeaderboard(_playerScore);
-    }
+    private int _playerScore = 69;
 
     public void OpenYandexLeaderboard()
     {
-        PlayerAccount.RequestPersonalProfileDataPermission();
-        if (!PlayerAccount.IsAuthorized)
-            PlayerAccount.Authorize();
+        if (PlayerAccount.IsAuthorized)
+            PlayerAccount.RequestPersonalProfileDataPermission();
+
+        if (PlayerAccount.IsAuthorized == false)
+        {
+            return;
+        }
 
         Leaderboard.GetEntries(_leaderboardName, (result) =>
         {
-
             int leadersNumber = result.entries.Length >= _leaderNames.Length ? _leaderNames.Length : result.entries.Length;
             for (int i = 0; i < leadersNumber; i++)
             {
@@ -48,6 +46,11 @@ public class LeaderBoardDisplay : MonoBehaviour
         {
             Leaderboard.GetPlayerEntry(_leaderboardName, OnSuccessCallback);
         }
+    }
+
+    public void Authorize()
+    {
+        PlayerAccount.Authorize();
     }
 
     private void OnSuccessCallback(LeaderboardEntryResponse result)

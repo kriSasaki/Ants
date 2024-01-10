@@ -3,29 +3,31 @@ using System.Collections;
 using Agava.YandexGames;
 using Agava.VKGames;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using IJunior.TypedScenes;
 
 public class SDKInitializer : MonoBehaviour
 {
+    private const string Tutorial = "Tutorial";
+
     public event Action Initialized;
 
     private IEnumerator Start()
     {
-#if UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
+        SceneManager.LoadScene("Tutorial");
         yield break;
 #endif
 
-#if YANDEX_GAMES
         yield return YandexGamesSdk.Initialize(OnYandexSDKInitialize);
-#endif
-
-#if VK_GAMES
-        yield return Agava.VKGames.VKGamesSdk.Initialize(OnVKSDKInitialize);
-#endif
+        YandexGamesSdk.GameReady();
     }
 
     private void OnYandexSDKInitialize()
     {
         Initialized?.Invoke();
+        Debug.Log("OnYandexSDKInitialize");
+        SceneManager.LoadScene("Tutorial");
     }
 
     private void OnVKSDKInitialize()

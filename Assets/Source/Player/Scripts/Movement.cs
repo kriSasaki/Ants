@@ -23,7 +23,7 @@ public class Movement : MonoBehaviour
 
     private void OnEnable()
     {
-        if(Application.isMobilePlatform)
+        if (Application.isMobilePlatform)
         {
             _joystick.gameObject.SetActive(true);
         }

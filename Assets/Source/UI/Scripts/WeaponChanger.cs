@@ -19,13 +19,11 @@ public class WeaponChanger : ScriptableObjectChanger
     private void OnEnable()
     {
         _player.OnPlayerEnable += GiveWeapon;
-        //_interfaceManager.OnGameStarted += GiveWeapon;
     }
 
     private void OnDisable()
     {
         _player.OnPlayerEnable -= GiveWeapon;
-        //_interfaceManager.OnGameStarted -= GiveWeapon;
     }
 
     public override void ChangeScriptableObject(int change)

@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class MenuDisplay : MonoBehaviour
 {
     [SerializeField] private LeaderBoardButton _leaderBoardButton;
-    [SerializeField] private InviteFriendsButton _inviteFriendsButton;
 
     private void Start()
     {
@@ -25,16 +24,11 @@ public class MenuDisplay : MonoBehaviour
         {
             _leaderBoardButton.gameObject.SetActive(true);
         }
-        _inviteFriendsButton.gameObject.SetActive(true);
 #endif
     }
 
     public void Hide()
     {
         _leaderBoardButton.gameObject.SetActive(false);
-
-#if VK_GAMES
-        _inviteFriendsButton.gameObject.SetActive(false);
-#endif
     }
 }

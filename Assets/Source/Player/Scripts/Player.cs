@@ -87,8 +87,6 @@ public class Player : MonoBehaviour
     public void SpawnWeapon()
     {
         Arm arm = GetComponentInChildren<Arm>();
-        Debug.Log(arm);
-        Debug.Log(_weapon);
         Instantiate(_weapon.Model, arm.gameObject.transform.position, arm.transform.rotation, arm.transform);
     }
 }

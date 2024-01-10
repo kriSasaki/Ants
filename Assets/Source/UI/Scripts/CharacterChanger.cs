@@ -5,6 +5,8 @@ public class CharacterChanger : ScriptableObjectChanger
     [SerializeField] private CharacterDisplay _characterDisplay;
     [SerializeField] private Wallet _wallet;
 
+    public int CurentCharacter { get; private set; }
+
     private Character _character;
 
     private void Awake()
@@ -27,6 +29,7 @@ public class CharacterChanger : ScriptableObjectChanger
     public override void ChangeScriptableObject(int change)
     {
         base.ChangeScriptableObject(change);
+        CurentCharacter = _currentIndex;
 
         if (_characterDisplay != null)
         {
@@ -48,7 +51,7 @@ public class CharacterChanger : ScriptableObjectChanger
 
     private void SpawnCharacter()
     {
-        _character = (Character)_scriptableObjects[_currentIndex];
+        _character = (Character)_scriptableObjects[CurentCharacter];
         Instantiate(_character.CharacterModel, _player.transform.position, _player.transform.rotation, _player.gameObject.transform);
         _player.GetHealth(_character.CharacterHealth);
         _player.gameObject.SetActive(true);

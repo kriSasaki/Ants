@@ -5,23 +5,12 @@ using Agava.YandexGames;
 
 public class Ad : MonoBehaviour
 {
-    [SerializeField] private SDKInitializer _sdkInitializer;
-
-    private bool _isInitialize = false;
-
     public event Action Rewarded;
     public event Action VideoOpened;
     public event Action VideoClosed;
 
-    private void OnEnable() => _sdkInitializer.Initialized += OnInitialized;
-
-    private void OnDisable() => _sdkInitializer.Initialized -= OnInitialized;
-
     public void InterestialAdShow()
     {
-        if (!_isInitialize)
-            return;
-
 #if YANDEX_GAMES
         InterstitialAd.Show();
 #endif
@@ -33,9 +22,6 @@ public class Ad : MonoBehaviour
 
     public void VideoAdShow()
     {
-        if (!_isInitialize)
-            return;
-
 #if UNITY_EDITOR
         OnRewardedCallback();
         OnVideoCloseCallback();
@@ -49,11 +35,6 @@ public class Ad : MonoBehaviour
 #if VK_GAMES
         Agava.VKGames.VideoAd.Show(OnRewardedCallback);
 #endif
-    }
-
-    private void OnInitialized()
-    {
-        _isInitialize = true;
     }
 
     private void OnVideoOpenCallback()

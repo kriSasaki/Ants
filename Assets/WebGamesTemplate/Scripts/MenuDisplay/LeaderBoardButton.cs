@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class LeaderBoardButton : MonoBehaviour
 {
+    [SerializeField] private GameObject _authorizationWindow;
+    [SerializeField] private Button _authorizeButton;
+    [SerializeField] private Button _cancelButton;
     [SerializeField] private Button _button;
     [SerializeField] private LeaderBoardDisplay _leaderBoardDisplay;
     [SerializeField] private Button _closeButton;
@@ -24,14 +27,6 @@ public class LeaderBoardButton : MonoBehaviour
         _closeButton.onClick.RemoveListener(OnCloseClock);
     }
 
-#if VK_GAMES
-    private void Awake()
-    {
-        if(!Application.isMobilePlatform)
-            gameObject.SetActive(false);
-    }
-#endif
-
     private void OnCloseClock()
     {
         Hide();
@@ -47,19 +42,29 @@ public class LeaderBoardButton : MonoBehaviour
 
     private void Show()
     {
-#if VK_GAMES
-        _leaderBoardDisplay.OpenVKLeaderboard();
-#endif
-
-#if YANDEX_GAMES
-        _leaderBoardDisplay.gameObject.SetActive(true);
-        _leaderBoardDisplay.SetLeaderboardScore();
-        _leaderBoardDisplay.OpenYandexLeaderboard();
-#endif
+        if (_leaderBoardDisplay.IsAuthorized == false)
+        {
+            _authorizationWindow.SetActive(true);
+            _authorizeButton.onClick.AddListener(_leaderBoardDisplay.Authorize);
+            _cancelButton.onClick.AddListener(CloseAuthorization);
+        }
+        else
+        {
+            _leaderBoardDisplay.gameObject.SetActive(true);
+            _leaderBoardDisplay.SetLeaderboardScore();
+            _leaderBoardDisplay.OpenYandexLeaderboard();
+        }
     }
 
     private void Hide()
     {
         _leaderBoardDisplay.gameObject.SetActive(false);
+    }
+
+    private void CloseAuthorization()
+    {
+        _authorizeButton.onClick.RemoveListener(_leaderBoardDisplay.Authorize);
+        _cancelButton.onClick.RemoveListener(CloseAuthorization);
+        _authorizationWindow.SetActive(false);
     }
 }

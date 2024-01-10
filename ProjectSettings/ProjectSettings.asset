@@ -717,7 +717,7 @@ PlayerSettings:
   webGLNameFilesAsHashes: 1
   webGLShowDiagnostics: 1
   webGLDataCaching: 0
-  webGLDebugSymbols: 0
+  webGLDebugSymbols: 1
   webGLEmscriptenArgs: 
   webGLModulesDirectory: 
   webGLTemplate: PROJECT:FullscreenWindow
