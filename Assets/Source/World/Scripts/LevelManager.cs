@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour
 
     public event Action<string, Action<int>> OnLoadDataNeeded;
     public event Action<string, int> OnSaveDataNeeded;
+    public event Action OnLevelLoaded;
     public int OpenedLevels { get; private set; }
     public int CurrentLevel => _currentLevel;
     private RewardWindow _rewardWindow;
@@ -37,6 +38,12 @@ public class LevelManager : MonoBehaviour
                 }
             });
         }
+    }
+
+    private void Start()
+    {
+        Debug.Log("OnLevelLoaded");
+        OnLevelLoaded?.Invoke();
     }
 
     private void OnEnable()

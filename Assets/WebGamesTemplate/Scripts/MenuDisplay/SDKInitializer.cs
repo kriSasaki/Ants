@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
 using Agava.YandexGames;
-using Agava.VKGames;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using IJunior.TypedScenes;
 
 public class SDKInitializer : MonoBehaviour
 {

@@ -8,15 +8,22 @@ public class MapChanger : MonoBehaviour
     [SerializeField] private GameObject _mapContainer;
 
     private List<MapDisplay> _showedMaps;
+    private LevelManager _levelManager;
 
-    private void Start()
+    private void Awake()
     {
-        _showedMaps = new List<MapDisplay>();
+        _levelManager = GetComponentInParent<LevelManager>();
+        Debug.Log("Awake");
+    }
 
-        for (int mapIndex = 0; mapIndex < _maps.Count; mapIndex++)
-        {
-            AddItem(_maps[mapIndex], mapIndex);        
-        }
+    private void OnEnable()
+    {
+        _levelManager.OnLevelLoaded += ShowMaps;
+    }
+
+    private void OnDisable()
+    {
+        _levelManager.OnLevelLoaded -= ShowMaps;
     }
 
     public void ChangeButtonsInteractivity(bool isEnable)
@@ -24,6 +31,17 @@ public class MapChanger : MonoBehaviour
         foreach (var map in _showedMaps)
         {
             map.ChangeButtonInteractivity(isEnable);
+        }
+    }
+
+    private void ShowMaps()
+    {
+        Debug.Log("ShowMaps");
+        _showedMaps = new List<MapDisplay>();
+
+        for (int mapIndex = 0; mapIndex < _maps.Count; mapIndex++)
+        {
+            AddItem(_maps[mapIndex], mapIndex);        
         }
     }
 
