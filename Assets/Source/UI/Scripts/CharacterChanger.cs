@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CharacterChanger : ScriptableObjectChanger
+public class CharacterChanger : ObjectChanger
 {
     [SerializeField] private CharacterDisplay _characterDisplay;
     [SerializeField] private Wallet _wallet;
@@ -11,6 +11,7 @@ public class CharacterChanger : ScriptableObjectChanger
 
     private void Awake()
     {
+        _storageService = new ObjectSaver();
         _player = GetComponentInParent<PlayerTransmitter>().Player;
         _interfaceManager = GetComponentInParent<InterfaceManager>();
         ChangeScriptableObject(0);

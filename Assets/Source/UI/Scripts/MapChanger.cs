@@ -8,7 +8,6 @@ public class MapChanger : MonoBehaviour
     [SerializeField] private GameObject _mapContainer;
 
     private List<MapDisplay> _showedMaps;
-    private int _mapIndex;
 
     private void Start()
     {

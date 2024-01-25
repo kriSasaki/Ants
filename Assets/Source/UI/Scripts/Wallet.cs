@@ -8,20 +8,32 @@ public class Wallet : MonoBehaviour
     public int GoldAmount => _goldAmount;
 
     private int _goldAmount;
+    private Ad _ad;
 
     private void Awake()
     {
+        _ad = GetComponentInParent<Ad>();
         _goldDisplay.text = _goldAmount.ToString();
     }
 
-    private void UpdateGold()
+    private void OnEnable()
     {
-        _goldDisplay.text = _goldAmount.ToString();
+        _ad.Rewarded += ChangeGoldAmount;
+    }
+
+    private void OnDisable()
+    {
+        _ad.Rewarded -= ChangeGoldAmount;
     }
 
     public void ChangeGoldAmount(int amount)
     {
         _goldAmount += amount;
         UpdateGold();
+    }
+
+    private void UpdateGold()
+    {
+        _goldDisplay.text = _goldAmount.ToString();
     }
 }

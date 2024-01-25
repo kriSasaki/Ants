@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public class ScriptableObjectChanger : MonoBehaviour
+public class ObjectChanger : MonoBehaviour
 {
     [SerializeField] protected ScriptableObject[] _scriptableObjects;
 
+    protected IStorageService _storageService;
     protected InterfaceManager _interfaceManager;
     protected Player _player;
     protected int _currentIndex = 0;
@@ -16,7 +17,7 @@ public class ScriptableObjectChanger : MonoBehaviour
         {
             _currentIndex = _scriptableObjects.Length - 1;
         }
-        else if(_currentIndex > _scriptableObjects.Length - 1)
+        else if (_currentIndex > _scriptableObjects.Length - 1)
         {
             _currentIndex = 0;
         }

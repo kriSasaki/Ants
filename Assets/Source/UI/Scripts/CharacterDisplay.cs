@@ -7,7 +7,6 @@ public class CharacterDisplay : MonoBehaviour
 {
     private const string Buyed = "Куплено";
 
-    [SerializeField] private TMP_Text _characterName;
     [SerializeField] private TMP_Text _characterHealth;
     [SerializeField] private TMP_Text _characterPrice;
     [SerializeField] private Transform _rankStars;
@@ -22,8 +21,7 @@ public class CharacterDisplay : MonoBehaviour
 
     public void DisplayCharacter(Character character)
     {
-        _characterName.text = character.CharacterName;
-        _characterHealth.text = "Бонус к здоровью: " + character.CharacterHealth.ToString();
+        _characterHealth.text = character.CharacterHealth.ToString();
 
         if(character.IsBuyed == false) 
         {

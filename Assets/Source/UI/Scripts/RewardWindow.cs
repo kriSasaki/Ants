@@ -19,6 +19,7 @@ public class RewardWindow : MonoBehaviour
     [SerializeField] private Image _labe;
 
     public event Action<bool> OnLevelComplete;
+    public event Action<int> Rewarded;
     public event Action OnButtonPressed;
 
     private Player _player;
@@ -74,6 +75,7 @@ public class RewardWindow : MonoBehaviour
 
     private void GiveReward(int reward)
     {
+        Rewarded?.Invoke(reward);
         _wallet.ChangeGoldAmount(reward);
         _earnedGold.text = GoldEarned + reward.ToString();
     }

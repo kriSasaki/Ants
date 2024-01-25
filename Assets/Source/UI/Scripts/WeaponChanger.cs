@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WeaponChanger : ScriptableObjectChanger
+public class WeaponChanger : ObjectChanger
 {
     [SerializeField] private WeaponDisplay _weaponDisplay;
     [SerializeField] private Wallet _wallet;
@@ -11,6 +11,7 @@ public class WeaponChanger : ScriptableObjectChanger
 
     private void Awake()
     {
+        _storageService = new ObjectSaver();
         _player = GetComponentInParent<PlayerTransmitter>().Player;
         _interfaceManager = GetComponentInParent<InterfaceManager>();
         ChangeScriptableObject(0);
@@ -35,6 +36,7 @@ public class WeaponChanger : ScriptableObjectChanger
         {
             _weaponDisplay.DisplayWeapon((Weapon)_scriptableObjects[_currentIndex]);
         }
+
     }
 
     public void BuyWeapon()

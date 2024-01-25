@@ -1,22 +1,42 @@
+using System;
 using UnityEngine;
-using IJunior.TypedScenes;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    private const string OpenedLevelsKey = "OpenedLevels";
+    private const string CurrentLevelKey = "CurrentLevel";
+    private readonly string[] _keys = { OpenedLevelsKey, CurrentLevelKey };
+
     [SerializeField] private PlayerChecker _playerChecker;
 
+    public event Action<string, Action<int>> OnLoadDataNeeded;
+    public event Action<string, int> OnSaveDataNeeded;
     public int OpenedLevels { get; private set; }
     public int CurrentLevel => _currentLevel;
-
-    private SceneLoadHandler _sceneLoadHandler;
     private RewardWindow _rewardWindow;
     private int _currentLevel;
 
     private void Awake()
     {
         _rewardWindow = GetComponentInChildren<RewardWindow>();
-        _sceneLoadHandler = GetComponent<SceneLoadHandler>();
         _rewardWindow.SetCurrentLevel(CurrentLevel);
+
+        foreach (var key in _keys)
+        {
+            OnLoadDataNeeded?.Invoke(key, data =>
+            {
+                switch (key)
+                {
+                    case OpenedLevelsKey:
+                        OpenedLevels = data;
+                        break;
+                    case CurrentLevelKey:
+                        _currentLevel = data;
+                        break;
+                }
+            });
+        }
     }
 
     private void OnEnable()
@@ -31,7 +51,7 @@ public class LevelManager : MonoBehaviour
         _rewardWindow.OnButtonPressed -= LoadNextLevel;
     }
 
-    public void SaveLevels(int currentLevel, int openedLevels)
+    private void SaveLevels(int currentLevel, int openedLevels)
     {
         _currentLevel = currentLevel;
         OpenedLevels = openedLevels;
@@ -40,17 +60,18 @@ public class LevelManager : MonoBehaviour
     public void LoadLevel(int levelNumber)
     {
         _currentLevel = levelNumber;
+        OnSaveDataNeeded?.Invoke(CurrentLevelKey, _currentLevel);
 
-        switch(levelNumber)
+        switch (levelNumber)
         {
-            case 0:
-                Tutorial.Load(_sceneLoadHandler);
+            case (int)SceneName.Tutorial:
+                SceneManager.LoadScene(SceneName.Tutorial.ToString());
                 break;
-            case 1:
-                Level1.Load(_sceneLoadHandler);
+            case (int)SceneName.Level1:
+                SceneManager.LoadScene(SceneName.Level1.ToString());
                 break;
-            case 2:
-                Level2.Load(_sceneLoadHandler);
+            case (int)SceneName.Level2:
+                SceneManager.LoadScene(SceneName.Level2.ToString());
                 break;
         }
     }
@@ -60,12 +81,21 @@ public class LevelManager : MonoBehaviour
         if (!isLost && OpenedLevels == _currentLevel)
         {
             OpenedLevels++;
+            OnSaveDataNeeded?.Invoke(OpenedLevelsKey, OpenedLevels);
         }
     }
 
     private void LoadNextLevel()
     {
         _currentLevel++;
+        OnSaveDataNeeded?.Invoke(CurrentLevelKey, _currentLevel);
         LoadLevel(_currentLevel);
+    }
+
+    private enum SceneName
+    {
+        Tutorial,
+        Level1,
+        Level2
     }
 }

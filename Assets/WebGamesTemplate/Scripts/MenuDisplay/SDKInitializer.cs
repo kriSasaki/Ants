@@ -8,14 +8,13 @@ using IJunior.TypedScenes;
 
 public class SDKInitializer : MonoBehaviour
 {
+    private const string CurrentLevel = "CurrentLevel";
     private const string Tutorial = "Tutorial";
-
-    public event Action Initialized;
 
     private IEnumerator Start()
     {
 #if !UNITY_WEBGL || UNITY_EDITOR
-        SceneManager.LoadScene("Tutorial");
+        OnYandexSDKInitialize();
         yield break;
 #endif
 
@@ -25,13 +24,13 @@ public class SDKInitializer : MonoBehaviour
 
     private void OnYandexSDKInitialize()
     {
-        Initialized?.Invoke();
-        Debug.Log("OnYandexSDKInitialize");
-        SceneManager.LoadScene("Tutorial");
-    }
-
-    private void OnVKSDKInitialize()
-    {
-        Initialized?.Invoke();
+        if (PlayerPrefs.HasKey(CurrentLevel))
+        {
+            SceneManager.LoadScene(PlayerPrefs.GetInt(CurrentLevel));
+        }
+        else
+        {
+            SceneManager.LoadScene(Tutorial);
+        }
     }
 }

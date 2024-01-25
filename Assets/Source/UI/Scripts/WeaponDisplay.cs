@@ -7,7 +7,6 @@ public class WeaponDisplay : MonoBehaviour
 {
     private const string Buyed = "Куплено";
 
-    [SerializeField] private TMP_Text _weaponName;
     [SerializeField] private TMP_Text _weaponDamage;
     [SerializeField] private TMP_Text _weaponPrice;
     [SerializeField] private Transform _rankStars;
@@ -21,8 +20,7 @@ public class WeaponDisplay : MonoBehaviour
 
     public void DisplayWeapon(Weapon weapon)
     {
-        _weaponName.text = weapon.Name;
-        _weaponDamage.text = "Урон: " + weapon.Damage.ToString();
+        _weaponDamage.text = weapon.Damage.ToString();
 
         if (weapon.IsBuyed == false)
         {

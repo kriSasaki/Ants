@@ -1,25 +1,52 @@
-using IJunior.TypedScenes;
+using System;
 using UnityEngine;
 
-public class SceneLoadHandler : MonoBehaviour, ISceneLoadHandler<SceneLoadHandler>
+public class SceneLoadHandler : MonoBehaviour
 {
     [SerializeField] private WeaponChanger _weaponChanger;
     [SerializeField] private CharacterChanger _characterChanger;
-    [SerializeField] private Wallet _wallet;
     [SerializeField] private LevelManager _levelManager;
+    [SerializeField] private Wallet _wallet;
+    [SerializeField] private LeaderBoardDisplay _leaderBoardDisplay;
 
-    private int _goldAmount => _wallet.GoldAmount;
-    private int _currentLevel => _levelManager.CurrentLevel;
-    private int _openedLevels => _levelManager.OpenedLevels;
-    private int _currentWeapon => _weaponChanger.CurrentWeapon;
-    private int _currentCharacter => _characterChanger.CurentCharacter;
+    private IStorageService _storageService;
+    private int _data;
 
-    public void OnSceneLoaded(SceneLoadHandler argument)
+    private void Awake()
     {
-        Debug.Log("OnSceneLoaded");
-        _wallet.ChangeGoldAmount(argument._goldAmount);
-        _levelManager.SaveLevels(argument._currentLevel, argument._openedLevels);
-        _weaponChanger.ChangeScriptableObject(argument._currentWeapon);
-        _characterChanger.ChangeScriptableObject(argument._currentCharacter);
+        _storageService = new ObjectSaver();
+    }
+
+    private void OnEnable()
+    {
+        _levelManager.OnLoadDataNeeded += Load;
+        _levelManager.OnSaveDataNeeded += Save;
+    }
+
+    private void OnDisable()
+    {
+        _levelManager.OnLoadDataNeeded -= Load;
+        _levelManager.OnSaveDataNeeded -= Save;
+
+    }
+
+    public void DeleteAll()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
+    private void Load(string key, Action<int> callback)
+    {
+        _storageService.Load(key, data =>
+        {
+            _data = data;
+        });
+
+        callback?.Invoke(_data);
+    }
+
+    private void Save(string key, int data)
+    {
+        _storageService.Save(key, data);
     }
 }

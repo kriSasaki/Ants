@@ -1,10 +1,12 @@
 using Agava.YandexGames;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LeaderBoardDisplay : MonoBehaviour
 {
+    private const string Anonymous = "Anonymous";
+
+    [SerializeField] private RewardWindow _rewardWindow;
     [SerializeField] private TMP_Text[] _ranks;
     [SerializeField] private TMP_Text[] _leaderNames;
     [SerializeField] private TMP_Text[] _scoreList;
@@ -12,7 +14,17 @@ public class LeaderBoardDisplay : MonoBehaviour
 
     public bool IsAuthorized => PlayerAccount.IsAuthorized;
 
-    private int _playerScore = 69;
+    public int PlayerScore { get; private set; }
+
+    private void OnEnable()
+    {
+        _rewardWindow.Rewarded += SetScore;
+    }
+
+    private void OnDisable()
+    {
+        _rewardWindow.Rewarded -= SetScore;
+    }
 
     public void OpenYandexLeaderboard()
     {
@@ -30,8 +42,11 @@ public class LeaderBoardDisplay : MonoBehaviour
             for (int i = 0; i < leadersNumber; i++)
             {
                 string name = result.entries[i].player.publicName;
+
                 if (string.IsNullOrEmpty(name))
-                    name = "Anonimus";
+                {
+                    name = Anonymous;
+                }
 
                 _leaderNames[i].text = name;
                 _scoreList[i].text = result.entries[i].formattedScore;
@@ -53,11 +68,16 @@ public class LeaderBoardDisplay : MonoBehaviour
         PlayerAccount.Authorize();
     }
 
+    public void SetScore(int score)
+    {
+        PlayerScore = score;
+    }
+
     private void OnSuccessCallback(LeaderboardEntryResponse result)
     {
-        if (result==null || _playerScore > result.score)
+        if (result==null || PlayerScore > result.score)
         {
-            Leaderboard.SetScore(_leaderboardName, _playerScore);
+            Leaderboard.SetScore(_leaderboardName, PlayerScore);
         }      
     }
 }
