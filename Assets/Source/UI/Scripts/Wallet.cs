@@ -1,19 +1,33 @@
+using System;
 using TMPro;
 using UnityEngine;
 
 public class Wallet : MonoBehaviour
 {
+    private const string GoldAmountKey = "GoldAmount";
+
     [SerializeField] private TMP_Text _goldDisplay;
 
+    public event Action<string, Action<int>> OnLoadDataNeeded;
+    public event Action<string, int> OnSaveDataNeeded;
     public int GoldAmount => _goldAmount;
 
-    private int _goldAmount =100;
+    private int _goldAmount;
     private Ad _ad;
 
     private void Awake()
     {
         _ad = GetComponentInParent<Ad>();
         _goldDisplay.text = _goldAmount.ToString();
+    }
+
+    private void Start()
+    {
+        OnLoadDataNeeded?.Invoke(GoldAmountKey, data =>
+        {
+            Debug.Log("_goldAmount" + _goldAmount + " data" + data);
+            ChangeGoldAmount(data);
+        });
     }
 
     private void OnEnable()
@@ -29,11 +43,14 @@ public class Wallet : MonoBehaviour
     public void ChangeGoldAmount(int amount)
     {
         _goldAmount += amount;
+        Debug.Log("ChangeGoldAmount" + amount);
         UpdateGold();
     }
 
     private void UpdateGold()
     {
+        OnSaveDataNeeded?.Invoke(GoldAmountKey, _goldAmount);
+        Debug.Log("UpdateGold" + _goldAmount);
         _goldDisplay.text = _goldAmount.ToString();
     }
 }

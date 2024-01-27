@@ -25,6 +25,8 @@ public class SceneLoadHandler : MonoBehaviour
         _weaponChanger.OnSaveDataNeeded += Save;
         _characterChanger.OnLoadDataNeeded += Load;
         _characterChanger.OnSaveDataNeeded += Save;
+        _wallet.OnLoadDataNeeded += Load;
+        _wallet.OnSaveDataNeeded += Save;
     }
 
     private void OnDisable()
@@ -35,6 +37,8 @@ public class SceneLoadHandler : MonoBehaviour
         _weaponChanger.OnSaveDataNeeded -= Save;
         _characterChanger.OnLoadDataNeeded -= Load;
         _characterChanger.OnSaveDataNeeded -= Save;
+        _wallet.OnLoadDataNeeded -= Load;
+        _wallet.OnSaveDataNeeded -= Save;
     }
 
     public void DeleteAll()

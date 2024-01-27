@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347657573e6413848b7fa6576f4d18b3, type: 3}
   m_Name: Katana
   m_EditorClassIdentifier: 
-  _name: Katana
   _damage: 45
   _price: 110
   _model: {fileID: -927199367670048503, guid: 43cf19174db63f549b650fd48a60e071, type: 3}

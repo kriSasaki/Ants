@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class WeaponChanger : ObjectChanger
 {
@@ -22,22 +23,31 @@ public class WeaponChanger : ObjectChanger
 
     private void Start()
     {
+        for (int i = 0; i < _scriptableObjects.Length; i++)
+        {
+            OnLoadDataNeeded?.Invoke(CurrentItemKey + i.ToString(), data =>
+            {
+                BuyWeapon(data);
+            });
+        }
+
         OnLoadDataNeeded?.Invoke(CurrentItemKey, data =>
         {
             CurrentWeapon = data;
         });
 
         ChangeScriptableObject(CurrentWeapon);
-        BuyWeapon();
     }
 
     private void OnEnable()
     {
+        _buyButton.onClick.AddListener(delegate { TryBuyWeapon(CurrentWeapon); });
         _player.OnPlayerEnable += GiveWeapon;
     }
 
     private void OnDisable()
     {
+        _buyButton.onClick.RemoveListener(delegate { TryBuyWeapon(CurrentWeapon);});
         _player.OnPlayerEnable -= GiveWeapon;
     }
 
@@ -51,19 +61,25 @@ public class WeaponChanger : ObjectChanger
         {
             _weaponDisplay.DisplayWeapon((Weapon)_scriptableObjects[_currentIndex]);
         }
-
     }
 
-    public void BuyWeapon()
+    private void TryBuyWeapon(int weaponIndex)
     {
-        _weapon = (Weapon)_scriptableObjects[CurrentWeapon];
+        _weapon = (Weapon)_scriptableObjects[weaponIndex];
 
         if (_wallet.GoldAmount >= _weapon.Price)
         {
-            _weapon.BuyItem();
-            _weaponDisplay.DisplayWeapon(_weapon);
+            BuyWeapon(weaponIndex);
             _wallet.ChangeGoldAmount(-_weapon.Price);
+            _weaponDisplay.DisplayWeapon(_weapon);
         }
+    }
+
+    private void BuyWeapon(int weaponIndex)
+    {
+        _weapon = (Weapon)_scriptableObjects[weaponIndex];
+        _weapon.BuyItem();
+        OnSaveDataNeeded?.Invoke(CurrentItemKey + weaponIndex.ToString(), weaponIndex);
     }
 
     private void GiveWeapon()
@@ -71,7 +87,7 @@ public class WeaponChanger : ObjectChanger
         _weapon = (Weapon)_scriptableObjects[CurrentWeapon];
         _player.GetWeapon(_weapon);
 
-        if(_weapon.Model != null)
+        if (_weapon.Model != null)
         {
             _player.SpawnWeapon();
         }

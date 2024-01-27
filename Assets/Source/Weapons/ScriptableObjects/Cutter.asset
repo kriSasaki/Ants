@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347657573e6413848b7fa6576f4d18b3, type: 3}
   m_Name: Cutter
   m_EditorClassIdentifier: 
-  _name: Cutter
   _damage: 30
   _price: 75
   _model: {fileID: -927199367670048503, guid: 5b6a76c08928d1940a2a12754f822d48, type: 3}

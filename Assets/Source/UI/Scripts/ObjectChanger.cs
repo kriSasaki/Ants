@@ -1,10 +1,10 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectChanger : MonoBehaviour
 {
     [SerializeField] protected ScriptableObject[] _scriptableObjects;
+    [SerializeField] protected Button _buyButton;
 
     protected InterfaceManager _interfaceManager;
     protected Player _player;

@@ -3166,10 +3166,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3699269381565686500, guid: 59304d195565c65448a4589a9ce86263, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4804871411324343056, guid: 59304d195565c65448a4589a9ce86263, type: 3}
       propertyPath: _cameraFollower
       value: 
@@ -3180,7 +3176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4972005571076441917, guid: 59304d195565c65448a4589a9ce86263, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00020115639
+      value: -0.3700656
       objectReference: {fileID: 0}
     - target: {fileID: 5102361261357497947, guid: 59304d195565c65448a4589a9ce86263, type: 3}
       propertyPath: _playerChecker
@@ -3389,6 +3385,10 @@ PrefabInstance:
     - target: {fileID: 6011725738830768215, guid: 59304d195565c65448a4589a9ce86263, type: 3}
       propertyPath: m_Name
       value: InterfaceCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7216773508868359217, guid: 59304d195565c65448a4589a9ce86263, type: 3}
+      propertyPath: m_Value
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7465955279682628627, guid: 59304d195565c65448a4589a9ce86263, type: 3}
       propertyPath: _leanLocalization

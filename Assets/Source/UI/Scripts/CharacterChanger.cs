@@ -22,6 +22,14 @@ public class CharacterChanger : ObjectChanger
 
     private void Start()
     {
+        for (int i = 0; i < _scriptableObjects.Length; i++)
+        {
+            OnLoadDataNeeded?.Invoke(CurrentItemKey + i.ToString(), data =>
+            {
+                BuyCharacter(data);
+            });
+        }
+
         OnLoadDataNeeded?.Invoke(CurrentItemKey, data =>
         {
             CurrentCharacter = data;
@@ -32,11 +40,13 @@ public class CharacterChanger : ObjectChanger
 
     private void OnEnable()
     {
+        _buyButton.onClick.AddListener(delegate { TryBuyCharacter(CurrentCharacter); });
         _interfaceManager.OnGameStarted += SpawnCharacter;
     }
 
     private void OnDisable()
     {
+        _buyButton.onClick.AddListener(delegate { TryBuyCharacter(CurrentCharacter); });
         _interfaceManager.OnGameStarted -= SpawnCharacter;
     }
 
@@ -52,16 +62,23 @@ public class CharacterChanger : ObjectChanger
         }
     }
 
-    public void BuyCharacter()
+    public void TryBuyCharacter(int characterIndex)
     {
-        _character = (Character)_scriptableObjects[_currentIndex];
+        _character = (Character)_scriptableObjects[characterIndex];
 
         if (_wallet.GoldAmount >= _character.CharacterPrice)
         {
-            _character.IsBuyed = true;
-            _characterDisplay.DisplayCharacter((Character)_scriptableObjects[_currentIndex]);
+            BuyCharacter(characterIndex);
             _wallet.ChangeGoldAmount(-_character.CharacterPrice);
+            _characterDisplay.DisplayCharacter((Character)_scriptableObjects[_currentIndex]);
         }
+    }
+
+    private void BuyCharacter(int characterIndex)
+    {
+        _character = (Character)_scriptableObjects[characterIndex];
+        _character.IsBuyed = true;
+        OnSaveDataNeeded?.Invoke(CurrentItemKey + characterIndex.ToString(), characterIndex);
     }
 
     private void SpawnCharacter()

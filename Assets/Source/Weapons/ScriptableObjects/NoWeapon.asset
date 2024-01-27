@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347657573e6413848b7fa6576f4d18b3, type: 3}
   m_Name: NoWeapon
   m_EditorClassIdentifier: 
-  _name: No weapon
   _damage: 5
   _price: 0
   _model: {fileID: 0}
