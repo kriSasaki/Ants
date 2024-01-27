@@ -22,7 +22,10 @@ public class LevelManager : MonoBehaviour
     {
         _rewardWindow = GetComponentInChildren<RewardWindow>();
         _rewardWindow.SetCurrentLevel(CurrentLevel);
+    }
 
+    private void Start()
+    {
         foreach (var key in _keys)
         {
             OnLoadDataNeeded?.Invoke(key, data =>
@@ -38,11 +41,7 @@ public class LevelManager : MonoBehaviour
                 }
             });
         }
-    }
 
-    private void Start()
-    {
-        Debug.Log("OnLevelLoaded");
         OnLevelLoaded?.Invoke();
     }
 

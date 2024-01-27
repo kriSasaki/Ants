@@ -1,10 +1,11 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ObjectChanger : MonoBehaviour
 {
     [SerializeField] protected ScriptableObject[] _scriptableObjects;
 
-    protected IStorageService _storageService;
     protected InterfaceManager _interfaceManager;
     protected Player _player;
     protected int _currentIndex = 0;
@@ -21,11 +22,5 @@ public class ObjectChanger : MonoBehaviour
         {
             _currentIndex = 0;
         }
-    }
-
-    public void SetIndex(int index)
-    {
-        Debug.Log(index);
-        _currentIndex = index;
     }
 }

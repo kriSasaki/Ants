@@ -7,7 +7,7 @@ public class Wallet : MonoBehaviour
 
     public int GoldAmount => _goldAmount;
 
-    private int _goldAmount;
+    private int _goldAmount =100;
     private Ad _ad;
 
     private void Awake()

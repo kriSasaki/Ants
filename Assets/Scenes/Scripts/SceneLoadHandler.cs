@@ -21,13 +21,20 @@ public class SceneLoadHandler : MonoBehaviour
     {
         _levelManager.OnLoadDataNeeded += Load;
         _levelManager.OnSaveDataNeeded += Save;
+        _weaponChanger.OnLoadDataNeeded += Load;
+        _weaponChanger.OnSaveDataNeeded += Save;
+        _characterChanger.OnLoadDataNeeded += Load;
+        _characterChanger.OnSaveDataNeeded += Save;
     }
 
     private void OnDisable()
     {
         _levelManager.OnLoadDataNeeded -= Load;
         _levelManager.OnSaveDataNeeded -= Save;
-
+        _weaponChanger.OnLoadDataNeeded -= Load;
+        _weaponChanger.OnSaveDataNeeded -= Save;
+        _characterChanger.OnLoadDataNeeded -= Load;
+        _characterChanger.OnSaveDataNeeded -= Save;
     }
 
     public void DeleteAll()

@@ -7,13 +7,12 @@ public class MapChanger : MonoBehaviour
     [SerializeField] private MapDisplay _mapDisplay;
     [SerializeField] private GameObject _mapContainer;
 
-    private List<MapDisplay> _showedMaps;
     private LevelManager _levelManager;
+    private List<MapDisplay> _showedMaps;
 
     private void Awake()
     {
         _levelManager = GetComponentInParent<LevelManager>();
-        Debug.Log("Awake");
     }
 
     private void OnEnable()
@@ -36,12 +35,11 @@ public class MapChanger : MonoBehaviour
 
     private void ShowMaps()
     {
-        Debug.Log("ShowMaps");
         _showedMaps = new List<MapDisplay>();
 
         for (int mapIndex = 0; mapIndex < _maps.Count; mapIndex++)
         {
-            AddItem(_maps[mapIndex], mapIndex);        
+            AddItem(_maps[mapIndex], mapIndex);
         }
     }
 

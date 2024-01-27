@@ -1,20 +1,33 @@
+using System;
 using UnityEngine;
 
 public class CharacterChanger : ObjectChanger
 {
+    private const string CurrentItemKey = "CharacterKey";
+
     [SerializeField] private CharacterDisplay _characterDisplay;
     [SerializeField] private Wallet _wallet;
 
-    public int CurentCharacter { get; private set; }
+    public event Action<string, Action<int>> OnLoadDataNeeded;
+    public event Action<string, int> OnSaveDataNeeded;
+    public int CurrentCharacter { get; private set; }
 
     private Character _character;
 
     private void Awake()
     {
-        _storageService = new ObjectSaver();
         _player = GetComponentInParent<PlayerTransmitter>().Player;
         _interfaceManager = GetComponentInParent<InterfaceManager>();
-        ChangeScriptableObject(0);
+    }
+
+    private void Start()
+    {
+        OnLoadDataNeeded?.Invoke(CurrentItemKey, data =>
+        {
+            CurrentCharacter = data;
+        });
+
+        ChangeScriptableObject(CurrentCharacter);
     }
 
     private void OnEnable()
@@ -30,7 +43,8 @@ public class CharacterChanger : ObjectChanger
     public override void ChangeScriptableObject(int change)
     {
         base.ChangeScriptableObject(change);
-        CurentCharacter = _currentIndex;
+        CurrentCharacter = _currentIndex;
+        OnSaveDataNeeded?.Invoke(CurrentItemKey, CurrentCharacter);
 
         if (_characterDisplay != null)
         {
@@ -52,7 +66,7 @@ public class CharacterChanger : ObjectChanger
 
     private void SpawnCharacter()
     {
-        _character = (Character)_scriptableObjects[CurentCharacter];
+        _character = (Character)_scriptableObjects[CurrentCharacter];
         Instantiate(_character.CharacterModel, _player.transform.position, _player.transform.rotation, _player.gameObject.transform);
         _player.GetHealth(_character.CharacterHealth);
         _player.gameObject.SetActive(true);

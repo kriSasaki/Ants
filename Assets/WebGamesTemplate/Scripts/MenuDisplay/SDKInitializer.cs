@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SDKInitializer : MonoBehaviour
 {
-    private const string CurrentLevel = "CurrentLevel";
+    private const string CurrentLevelKey = "CurrentLevel";
     private const string Tutorial = "Tutorial";
 
     private IEnumerator Start()
@@ -21,13 +21,20 @@ public class SDKInitializer : MonoBehaviour
 
     private void OnYandexSDKInitialize()
     {
-        if (PlayerPrefs.HasKey(CurrentLevel))
+        if (PlayerPrefs.HasKey(CurrentLevelKey))
         {
-            SceneManager.LoadScene(PlayerPrefs.GetInt(CurrentLevel));
+            SceneManager.LoadScene(PlayerPrefs.GetInt(CurrentLevelKey)+1);
         }
         else
         {
             SceneManager.LoadScene(Tutorial);
         }
+    }
+
+    private enum SceneName
+    {
+        Tutorial,
+        Level1,
+        Level2
     }
 }
