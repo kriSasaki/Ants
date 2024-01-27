@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a6dc4d53420e54d85c09d29f7a00ce, type: 3}
   m_Name: Boxer
   m_EditorClassIdentifier: 
-  CharacterName: Boxer
   CharacterHealth: 20
   CharacterPrice: 30
   CharacterModel: {fileID: 2716358026623089633, guid: 4232da7776360b2439b2a75f42b24a47, type: 3}
