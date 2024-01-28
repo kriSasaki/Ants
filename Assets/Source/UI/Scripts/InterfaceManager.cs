@@ -10,6 +10,7 @@ public class InterfaceManager : MonoBehaviour
     [SerializeField] private GameObject _restartButton;
     [SerializeField] private GameObject _collectableDisplay;
     [SerializeField] private GameObject _goldDisplay;
+    [SerializeField] private GameObject _buttons;
     [SerializeField] private CameraFollower _cameraFollower;
     [SerializeField] private float _enableScale = 1;
     [SerializeField] private float _disableScale = 0;
@@ -71,6 +72,7 @@ public class InterfaceManager : MonoBehaviour
             _weaponDisplay.ChangeInteractivity(false);
             ChangeVisibilityStatus(_collectableDisplay, _enableScale, _buttonChangeDuration, true);
             ChangeVisibilityStatus(_goldDisplay, _disableScale, _buttonChangeDuration, false);
+            ChangeVisibilityStatus(_buttons, _disableScale, _buttonChangeDuration, false);
         }
         else
         {
@@ -86,15 +88,15 @@ public class InterfaceManager : MonoBehaviour
         ChangeVisibilityStatus(_restartButton, _enableScale, _buttonChangeDuration, true);
     }
 
+    public void RestartGame()
+    {
+        _levelManager.LoadLevel(_levelManager.CurrentLevel);
+    }
+
     private void ShowRewardWindow(bool isLost)
     {
         ChangeVisibilityStatus(_rewardWindow.gameObject, _enableScale, _buttonChangeDuration, true);
         ChangeVisibilityStatus(_restartButton, _enableScale, _buttonChangeDuration, true);
-    }
-
-    public void RestartGame()
-    {
-        _levelManager.LoadLevel(_levelManager.CurrentLevel);
     }
 
     private void ChangeVisibilityStatus(GameObject gameObject, float scale, float duration, bool isEnable)

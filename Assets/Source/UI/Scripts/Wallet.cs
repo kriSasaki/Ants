@@ -25,7 +25,6 @@ public class Wallet : MonoBehaviour
     {
         OnLoadDataNeeded?.Invoke(GoldAmountKey, data =>
         {
-            Debug.Log("_goldAmount" + _goldAmount + " data" + data);
             ChangeGoldAmount(data);
         });
     }
@@ -43,14 +42,12 @@ public class Wallet : MonoBehaviour
     public void ChangeGoldAmount(int amount)
     {
         _goldAmount += amount;
-        Debug.Log("ChangeGoldAmount" + amount);
         UpdateGold();
     }
 
     private void UpdateGold()
     {
         OnSaveDataNeeded?.Invoke(GoldAmountKey, _goldAmount);
-        Debug.Log("UpdateGold" + _goldAmount);
         _goldDisplay.text = _goldAmount.ToString();
     }
 }

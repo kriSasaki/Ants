@@ -27,6 +27,8 @@ public class SceneLoadHandler : MonoBehaviour
         _characterChanger.OnSaveDataNeeded += Save;
         _wallet.OnLoadDataNeeded += Load;
         _wallet.OnSaveDataNeeded += Save;
+        _leaderBoardDisplay.OnLoadDataNeeded += Load;
+        _leaderBoardDisplay.OnSaveDataNeeded += Save;
     }
 
     private void OnDisable()
@@ -39,6 +41,8 @@ public class SceneLoadHandler : MonoBehaviour
         _characterChanger.OnSaveDataNeeded -= Save;
         _wallet.OnLoadDataNeeded -= Load;
         _wallet.OnSaveDataNeeded -= Save;
+        _leaderBoardDisplay.OnLoadDataNeeded -= Load;
+        _leaderBoardDisplay.OnSaveDataNeeded -= Save;
     }
 
     public void DeleteAll()

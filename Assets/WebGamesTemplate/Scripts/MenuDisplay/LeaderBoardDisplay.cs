@@ -1,10 +1,12 @@
 using Agava.YandexGames;
+using System;
 using TMPro;
 using UnityEngine;
 
 public class LeaderBoardDisplay : MonoBehaviour
 {
     private const string Anonymous = "Anonymous";
+    private const string PlayerScoreKey = "PlayerScore";
 
     [SerializeField] private RewardWindow _rewardWindow;
     [SerializeField] private TMP_Text[] _ranks;
@@ -13,8 +15,18 @@ public class LeaderBoardDisplay : MonoBehaviour
     [SerializeField] private string _leaderboardName = "LeaderBoard";
 
     public bool IsAuthorized => PlayerAccount.IsAuthorized;
+    public event Action<string, Action<int>> OnLoadDataNeeded;
+    public event Action<string, int> OnSaveDataNeeded;
 
     public int PlayerScore { get; private set; }
+
+    private void Start()
+    {
+        OnLoadDataNeeded?.Invoke(PlayerScoreKey, data =>
+        {
+            PlayerScore = data;
+        });
+    }
 
     private void OnEnable()
     {
@@ -70,7 +82,8 @@ public class LeaderBoardDisplay : MonoBehaviour
 
     public void SetScore(int score)
     {
-        PlayerScore = score;
+        PlayerScore += score;
+        OnSaveDataNeeded?.Invoke(PlayerScoreKey, PlayerScore);
     }
 
     private void OnSuccessCallback(LeaderboardEntryResponse result)

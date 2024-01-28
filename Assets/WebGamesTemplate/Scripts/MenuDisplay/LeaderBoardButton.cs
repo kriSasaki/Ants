@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,23 +31,28 @@ public class LeaderBoardButton : MonoBehaviour
 
     private void OnClick()
     {
-        if (_leaderBoardDisplay.gameObject.activeSelf)
+        if (_leaderBoardDisplay.transform.localScale == new Vector3(1.0f, 1.0f, 1.0f))
+        {
             Hide();
-        else
+        }
+        else 
+        {
             Show();
+        }
     }
 
     private void Show()
     {
         if (_leaderBoardDisplay.IsAuthorized == false)
         {
-            _authorizationWindow.SetActive(true);
+            //_authorizationWindow.SetActive(true);
             _authorizeButton.onClick.AddListener(_leaderBoardDisplay.Authorize);
             _cancelButton.onClick.AddListener(CloseAuthorization);
         }
         else
         {
-            _leaderBoardDisplay.gameObject.SetActive(true);
+            _leaderBoardDisplay.transform.localScale += new Vector3(1.0f, 1.0f, 1.0f);
+            //_leaderBoardDisplay.gameObject.SetActive(true);
             _leaderBoardDisplay.SetLeaderboardScore();
             _leaderBoardDisplay.OpenYandexLeaderboard();
         }
@@ -54,7 +60,8 @@ public class LeaderBoardButton : MonoBehaviour
 
     private void Hide()
     {
-        _leaderBoardDisplay.gameObject.SetActive(false);
+        //_leaderBoardDisplay.gameObject.SetActive(false);
+        _leaderBoardDisplay.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
     }
 
     private void CloseAuthorization()
