@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 using UnityEngine.AI;
 
 public class ChaseState : State
@@ -10,19 +7,17 @@ public class ChaseState : State
 
     private NavMeshAgent _agent;
 
-    private void Start()
-    {
-        _agent = GetComponent<NavMeshAgent>();
-    }
-
     private void OnEnable()
     {
+        _agent = GetComponent<NavMeshAgent>();
         Animator.SetBool(Walking, true);
+        _agent.enabled = true;
     }
 
     private void OnDisable()
     {
         Animator.SetBool(Walking, false);
+        _agent.enabled = false;
     }
 
     private void Update()

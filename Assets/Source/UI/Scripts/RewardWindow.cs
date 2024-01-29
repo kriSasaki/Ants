@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class RewardWindow : MonoBehaviour
 {
-    private const string GoldEarned = "Gold earned: ";
     private const string Defeat = "Defeat";
 
     [SerializeField] private PlayerChecker _playerChecker;
@@ -77,7 +76,7 @@ public class RewardWindow : MonoBehaviour
     {
         Rewarded?.Invoke(reward);
         _wallet.ChangeGoldAmount(reward);
-        _earnedGold.text = GoldEarned + reward.ToString();
+        _earnedGold.text = reward.ToString();
     }
 
     private void SetRedColors()

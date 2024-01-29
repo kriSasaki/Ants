@@ -45,14 +45,12 @@ public class LeaderBoardButton : MonoBehaviour
     {
         if (_leaderBoardDisplay.IsAuthorized == false)
         {
-            //_authorizationWindow.SetActive(true);
             _authorizeButton.onClick.AddListener(_leaderBoardDisplay.Authorize);
             _cancelButton.onClick.AddListener(CloseAuthorization);
         }
         else
         {
             _leaderBoardDisplay.transform.localScale += new Vector3(1.0f, 1.0f, 1.0f);
-            //_leaderBoardDisplay.gameObject.SetActive(true);
             _leaderBoardDisplay.SetLeaderboardScore();
             _leaderBoardDisplay.OpenYandexLeaderboard();
         }
@@ -60,7 +58,6 @@ public class LeaderBoardButton : MonoBehaviour
 
     private void Hide()
     {
-        //_leaderBoardDisplay.gameObject.SetActive(false);
         _leaderBoardDisplay.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
     }
 

@@ -24,6 +24,7 @@ public class MapDisplay : MonoBehaviour
     public void DisplayMap(Map map)
     {
         _mapName.text = map.MapName;
+        Debug.Log(_mapName.text);
         _mapName.color = map.NameColor;
         _mapImage.sprite = map.MapImage;
 

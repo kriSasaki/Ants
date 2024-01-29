@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5560732405544888995}
   - component: {fileID: -7796271377158862969}
   - component: {fileID: -4321851445068447450}
-  - component: {fileID: 5740736214082479450}
   - component: {fileID: 1912775409}
   - component: {fileID: 1912775414}
   - component: {fileID: 1912775411}
@@ -41,7 +40,7 @@ Transform:
   m_Children:
   - {fileID: 1410604499}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &5560732405544888995
 Animator:
@@ -114,29 +113,6 @@ CapsuleCollider:
   m_Height: 2.3
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!136 &5740736214082479450
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5560732405537495307}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.14
-  m_Height: 1.3
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1912775409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63045ddcbec60134b9d463501ecb2741, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _joystick: {fileID: 0}
   _moveSpeed: 4
   _rotationSpeed: 10
 --- !u!114 &7943270005820078927

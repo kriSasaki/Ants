@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Animator))]
@@ -19,14 +18,19 @@ public class Enemy : MonoBehaviour
     public static event Action Dying;
     public event Action<int, int> OnHealthChange;
 
+    //private PlayerChecker _playerChecker;
     private AudioSource _audio;
     private Animator _animator;
+    private Vector3 _position;
     private int _maxHealth;
-    private int _zero=0;
+    private int _zero = 0;
     private bool IsDetected = false;
 
     private void Start()
     {
+        //_playerChecker = GetComponentInParent<PlayerCheckerTransmitter>().PlayerChecker;
+        //_position = transform.position;
+        //transform.position = new Vector3(transform.position.x, -15, transform.position.z);
         _maxHealth = _health;
         _audio = GetComponent<AudioSource>();
         _animator = GetComponent<Animator>();
@@ -35,11 +39,23 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         PlayerAttackState.Attacked += TakeDamage;
+        //_playerChecker.ConditionIsDone += Show;
     }
 
     private void OnDisable()
     {
         PlayerAttackState.Attacked -= TakeDamage;
+        //_playerChecker.ConditionIsDone -= Show;
+    }
+
+    public void Detect()
+    {
+        IsDetected = true;
+    }
+
+    public void Ignore()
+    {
+        IsDetected = false;
     }
 
     private void TakeDamage(int damage)
@@ -61,16 +77,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void Detect()
-    {
-        IsDetected = true;
-    }
-
-    public void Ignore()
-    {
-        IsDetected = false;
-    }
-
     private void DropResources()
     {
         if (_eggsAmount > _zero)
@@ -81,4 +87,9 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
+    //private void Show()
+    //{
+    //    transform.position = _position;
+    //}
 }

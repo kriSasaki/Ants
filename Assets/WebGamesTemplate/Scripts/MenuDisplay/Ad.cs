@@ -10,8 +10,24 @@ public class Ad : MonoBehaviour
     public event Action VideoClosed;
 
     private int _videoReward = 10;
+    private RewardWindow _rewardWindow;
 
-    public void InterestialAdShow()
+    private void Awake()
+    {
+        _rewardWindow = GetComponentInChildren<RewardWindow>();
+    }
+
+    private void OnEnable()
+    {
+        _rewardWindow.OnLevelComplete += InterestialAdShow;
+    }
+
+    private void OnDisable()
+    {
+        _rewardWindow.OnLevelComplete -= InterestialAdShow; 
+    }
+
+    public void InterestialAdShow(bool isLost)
     {
         InterstitialAd.Show();
     }
@@ -24,18 +40,15 @@ public class Ad : MonoBehaviour
     private void OnVideoOpenCallback()
     {
         VideoOpened?.Invoke();
-        Debug.Log("OnVideoOpenCallback");
     }
 
     private void OnRewardedCallback()
     {
         Rewarded?.Invoke(_videoReward);
-        Debug.Log("OnRewardedCallback");
     }
 
     private void OnVideoCloseCallback()
     {
-        Debug.Log("OnVideoCloseCallback");
         VideoClosed?.Invoke();
     }
 
