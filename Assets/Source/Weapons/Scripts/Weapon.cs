@@ -10,12 +10,14 @@ public class Weapon : ScriptableObject
     [SerializeField] private GameObject _model;
     [SerializeField] private bool _isBuyed = false;
     [SerializeField] private int _rank;
+    [SerializeField] private Color _color;
 
     public int Damage => _damage;
     public int Price => _price;
     public GameObject Model => _model;
     public bool IsBuyed => _isBuyed;
     public int Rank => _rank;
+    public Color Color => _color;
 
     public void BuyItem()
     {

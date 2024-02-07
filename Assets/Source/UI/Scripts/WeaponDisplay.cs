@@ -12,6 +12,8 @@ public class WeaponDisplay : MonoBehaviour
     [SerializeField] private Transform _rankStars;
     [SerializeField] private GameObject _coin;
     [SerializeField] private Transform _weaponHolder;
+    [SerializeField] private ParticleSystem _particleSystem;
+    [SerializeField] protected GameObject _alert;
     [SerializeField] private Button _leftButton;
     [SerializeField] private Button _rightButton;
 
@@ -21,6 +23,10 @@ public class WeaponDisplay : MonoBehaviour
     public void DisplayWeapon(Weapon weapon)
     {
         _weaponDamage.text = weapon.Damage.ToString();
+        _particleSystem.Stop();
+        var main = _particleSystem.main;
+        main.startColor = weapon.Color;
+        _particleSystem.Play();
 
         if (weapon.IsBuyed == false)
         {
@@ -52,6 +58,20 @@ public class WeaponDisplay : MonoBehaviour
         if (weapon.Model != null)
         {
             Instantiate(weapon.Model, _weaponHolder.position, _weaponHolder.rotation, _weaponHolder);
+        }
+    }
+
+    public void SetAlertStatus(bool isNewItemAvailable)
+    {
+        if (isNewItemAvailable)
+        {
+            _rightButton.GetComponent<ScaleChanger>().StartTween();
+            _alert.SetActive(true);
+        }
+        else
+        {
+            _rightButton.GetComponent<ScaleChanger>().StopTween();
+            _alert.SetActive(false);
         }
     }
 

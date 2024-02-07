@@ -21,6 +21,7 @@ public class RewardWindow : MonoBehaviour
     public event Action<int> Rewarded;
     public event Action OnButtonPressed;
 
+    private LevelService _levelService;
     private Player _player;
     private bool IsLost;
     private int _currentLevel;
@@ -28,6 +29,7 @@ public class RewardWindow : MonoBehaviour
 
     private void Awake()
     {
+        _levelService = GetComponentInParent<LevelService>();
         _player = GetComponentInParent<PlayerTransmitter>().Player;
     }
 
@@ -57,7 +59,7 @@ public class RewardWindow : MonoBehaviour
     {
         Time.timeScale = 0;
         IsLost = false;
-        GiveReward(_rewards[_currentLevel]);
+        GiveReward(_rewards[_levelService.CurrentLevel]);
         OnLevelComplete?.Invoke(IsLost);
     }
 
@@ -65,7 +67,7 @@ public class RewardWindow : MonoBehaviour
     {
         Time.timeScale = 0;
         IsLost = true;
-        GiveReward(_rewards[_currentLevel] / _defeatDivider);
+        GiveReward(_rewards[_levelService.CurrentLevel] / _defeatDivider);
         SetRedColors();
         _results.text = Defeat;
         _button.SetActive(!IsLost);

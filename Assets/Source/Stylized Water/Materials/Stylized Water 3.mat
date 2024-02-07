@@ -68,9 +68,9 @@ Material:
     - _WaveNormalScale: 25
     - _WaveNormalSpeed: 0.05
     m_Colors:
-    - _DeepColor: {r: 0.20392156, g: 1, b: 0.41706988, a: 1}
+    - _DeepColor: {r: 0.20392156, g: 1, b: 0.49081054, a: 1}
     - _EdgeFoamColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FarColor: {r: 0.08343716, g: 0.29864755, b: 0.7075472, a: 1}
+    - _FarColor: {r: 0.08235295, g: 0.44642046, b: 0.7058824, a: 1}
     - _SSSColor: {r: 0, g: 0, b: 0, a: 1}
     - _ShadowColor: {r: 0.298578, g: 0.1448469, b: 0.990566, a: 1}
     - _ShallowColor: {r: 1.1505303, g: 1.299991, b: 0.8891448, a: 1}

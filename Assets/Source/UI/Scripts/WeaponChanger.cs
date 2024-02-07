@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-public class WeaponChanger : ObjectChanger
+public class WeaponChanger : ObjectChanger, ISaveLoadItem
 {
     private const string CurrentItemKey = "WeaponKey";
 
@@ -18,7 +18,7 @@ public class WeaponChanger : ObjectChanger
     private void Awake()
     {
         _player = GetComponentInParent<PlayerTransmitter>().Player;
-        _interfaceManager = GetComponentInParent<InterfaceManager>();
+        InterfaceAnimator = GetComponentInParent<InterfaceAnimator>();
     }
 
     private void Start()
@@ -47,7 +47,7 @@ public class WeaponChanger : ObjectChanger
 
     private void OnDisable()
     {
-        _buyButton.onClick.RemoveListener(delegate { TryBuyWeapon(CurrentWeapon);});
+        _buyButton.onClick.RemoveListener(delegate { TryBuyWeapon(CurrentWeapon); });
         _player.OnPlayerEnable -= GiveWeapon;
     }
 
@@ -56,6 +56,7 @@ public class WeaponChanger : ObjectChanger
         base.ChangeScriptableObject(change);
         CurrentWeapon = _currentIndex;
         OnSaveDataNeeded?.Invoke(CurrentItemKey, CurrentWeapon);
+        CheckOpportunityToBuy(CurrentWeapon);
 
         if (_weaponDisplay != null)
         {
@@ -87,9 +88,32 @@ public class WeaponChanger : ObjectChanger
         _weapon = (Weapon)_scriptableObjects[CurrentWeapon];
         _player.GetWeapon(_weapon);
 
-        if (_weapon.Model != null)
+        if (_weapon.Model != null || _weapon.Price != 0)
         {
             _player.SpawnWeapon();
+        }
+    }
+
+    private void CheckOpportunityToBuy(int index)
+    {
+        for (int i = index + 1; i < _scriptableObjects.Length; i++)
+        {
+            _weapon = (Weapon)_scriptableObjects[i];
+
+            if (_weapon.IsBuyed == true)
+            {
+                return;
+            }
+            else if (_weapon.Price <= _wallet.GoldAmount  && _weapon.IsBuyed == false)
+            {
+                _weaponDisplay.SetAlertStatus(true);
+                break;
+            }
+            else
+            {
+                _weaponDisplay.SetAlertStatus(false);
+                break;
+            }
         }
     }
 }

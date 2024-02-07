@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Mushroom : MonoBehaviour
 {
@@ -36,9 +37,10 @@ public class Mushroom : MonoBehaviour
         _detectableObject.OnGameObjectDetectEvent -= OnGameObjectDetect;
     }
 
-    public void JumpIn(Vector3 playerPosition)
+    public void JumpIn(Transform playerPosition)
     {
         _sphereCollider.enabled = false;
+        _pickUpAnimation.SetPosition3(playerPosition);
         _pickUpAnimation.enabled = true;
         Destroy(gameObject, _jumpDuration);
     }
@@ -48,7 +50,7 @@ public class Mushroom : MonoBehaviour
         if (source.TryGetComponent(out Inventory inventory))
         {
             inventory.ChangeMushroomsAmount(_amount);
-            JumpIn(source.transform.position);
+            JumpIn(inventory.transform);
         }
     }
 }

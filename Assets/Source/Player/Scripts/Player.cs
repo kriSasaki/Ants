@@ -70,8 +70,7 @@ public class Player : MonoBehaviour
     {
         if (source.TryGetComponent(out Enemy enemy))
         {
-            enemy.Detect();
-            _playerAttackState.AddEnemy(enemy.transform);
+            _playerAttackState.AddEnemy(enemy);
         }
     }
 
@@ -79,8 +78,7 @@ public class Player : MonoBehaviour
     {
         if (source.TryGetComponent(out Enemy enemy))
         {
-            enemy.Ignore();
-            _playerAttackState.RemoveEnemy();
+            _playerAttackState.RemoveEnemy(enemy);
         }
     }
 

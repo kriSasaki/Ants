@@ -17,7 +17,7 @@ public class CharacterChanger : ObjectChanger
     private void Awake()
     {
         _player = GetComponentInParent<PlayerTransmitter>().Player;
-        _interfaceManager = GetComponentInParent<InterfaceManager>();
+        InterfaceAnimator = GetComponentInParent<InterfaceAnimator>();
     }
 
     private void Start()
@@ -41,13 +41,13 @@ public class CharacterChanger : ObjectChanger
     private void OnEnable()
     {
         _buyButton.onClick.AddListener(delegate { TryBuyCharacter(CurrentCharacter); });
-        _interfaceManager.OnGameStarted += SpawnCharacter;
+        InterfaceAnimator.OnGameStarted += SpawnCharacter;
     }
 
     private void OnDisable()
     {
         _buyButton.onClick.AddListener(delegate { TryBuyCharacter(CurrentCharacter); });
-        _interfaceManager.OnGameStarted -= SpawnCharacter;
+        InterfaceAnimator.OnGameStarted -= SpawnCharacter;
     }
 
     public override void ChangeScriptableObject(int change)

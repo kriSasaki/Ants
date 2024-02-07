@@ -17,3 +17,4 @@ MonoBehaviour:
   CharacterModel: {fileID: 2716358026623089633, guid: 4232da7776360b2439b2a75f42b24a47, type: 3}
   IsBuyed: 0
   CharacterRank: 1
+  Color: {r: 1, g: 1, b: 1, a: 0.28235295}

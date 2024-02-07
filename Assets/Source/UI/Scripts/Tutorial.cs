@@ -2,19 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Tutorial : MonoBehaviour
 {
-    [SerializeField] private InterfaceManager _interfaceManager;
+    [SerializeField] private InterfaceAnimator interfaceAnimator;
 
     private void OnEnable()
     {
-        _interfaceManager.OnGameStarted += ShowTutorial;
+        interfaceAnimator.OnGameStarted += ShowTutorial;
     }
 
     private void OnDisable()
     {
-        _interfaceManager.OnGameStarted -= ShowTutorial;
+        interfaceAnimator.OnGameStarted -= ShowTutorial;
     }
 
     private void ShowTutorial()

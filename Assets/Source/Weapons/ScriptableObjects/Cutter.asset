@@ -17,3 +17,4 @@ MonoBehaviour:
   _model: {fileID: -927199367670048503, guid: 5b6a76c08928d1940a2a12754f822d48, type: 3}
   _isBuyed: 0
   _rank: 2
+  _color: {r: 0, g: 0.12941177, b: 0.83137256, a: 0.54901963}

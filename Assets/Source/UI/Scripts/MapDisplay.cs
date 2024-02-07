@@ -10,7 +10,7 @@ public class MapDisplay : MonoBehaviour
     [SerializeField] private GameObject _checkIcon;
 
     private Button _chooseButton;
-    private LevelManager _levelManager;
+    private LevelService _levelService;
     private bool _mapUnlocked;
     private bool _mapSelected;
     private int _selectedMap;
@@ -18,17 +18,16 @@ public class MapDisplay : MonoBehaviour
     private void Awake()
     {
         _chooseButton = GetComponent<Button>();
-        _levelManager = GetComponentInParent<LevelManager>();
+        _levelService = GetComponentInParent<LevelService>();
     }
 
     public void DisplayMap(Map map)
     {
         _mapName.text = map.MapName;
-        Debug.Log(_mapName.text);
         _mapName.color = map.NameColor;
         _mapImage.sprite = map.MapImage;
 
-        _mapUnlocked = _levelManager.OpenedLevels >= map.MapIndex;
+        _mapUnlocked = _levelService.OpenedLevels >= map.MapIndex;
         _lockIcon.SetActive(!_mapUnlocked);
         _chooseButton.enabled = _mapUnlocked;
 
@@ -42,7 +41,7 @@ public class MapDisplay : MonoBehaviour
             _mapImage.color = Color.gray;
         }
 
-        _mapSelected = _levelManager.CurrentLevel == map.MapIndex;
+        _mapSelected = _levelService.CurrentLevel == map.MapIndex;
         _chooseButton.enabled = !_mapSelected && _mapUnlocked;
         _checkIcon.SetActive(_mapSelected);
     }
@@ -54,6 +53,6 @@ public class MapDisplay : MonoBehaviour
 
     public void ChooseMap()
     {
-        _levelManager.LoadLevel(_selectedMap);
+        _levelService.LoadLevel(_selectedMap);
     }
 }

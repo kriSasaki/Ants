@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a6dc4d53420e54d85c09d29f7a00ce, type: 3}
   m_Name: Policeman
   m_EditorClassIdentifier: 
-  CharacterName: Policeman
   CharacterHealth: 50
   CharacterPrice: 60
   CharacterModel: {fileID: 4184180527108879941, guid: 503ae6a6822c06a4a978b15d99cd69dd, type: 3}
   IsBuyed: 0
   CharacterRank: 4
+  Color: {r: 0.58431375, g: 0, b: 0.7529412, a: 0.54901963}

@@ -7,22 +7,22 @@ public class MapChanger : MonoBehaviour
     [SerializeField] private MapDisplay _mapDisplay;
     [SerializeField] private GameObject _mapContainer;
 
-    private LevelManager _levelManager;
+    private LevelService _levelService;
     private List<MapDisplay> _showedMaps;
 
     private void Awake()
     {
-        _levelManager = GetComponentInParent<LevelManager>();
+        _levelService = GetComponentInParent<LevelService>();
     }
 
     private void OnEnable()
     {
-        _levelManager.OnLevelLoaded += ShowMaps;
+        _levelService.OnLevelLoaded += ShowMaps;
     }
 
     private void OnDisable()
     {
-        _levelManager.OnLevelLoaded -= ShowMaps;
+        _levelService.OnLevelLoaded -= ShowMaps;
     }
 
     public void ChangeButtonsInteractivity(bool isEnable)

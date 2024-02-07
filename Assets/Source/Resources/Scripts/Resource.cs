@@ -4,7 +4,7 @@ public abstract class Resource : MonoBehaviour
 {
     private bool ResourceCollected = false;
 
-    protected Enemy _parent;
+    protected Player _target;
     protected int _amount = 1;
     protected DropAnimation _dropAnimation;
     protected PickUpAnimation _pickUpAnimation;
@@ -19,18 +19,18 @@ public abstract class Resource : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Enemy enemy) && ResourceCollected == false)
+        if (other.TryGetComponent(out Player target) && ResourceCollected == false)
         {
             ResourceCollected = true;
-            _parent = enemy.GetComponent<Enemy>();
+            _target = target;
             DropResource();
         }
     }
 
     private void DropResource()
     {
-        _pickUpAnimation.SetPosition3(_parent.Target.transform);
-        NoticeResource(_parent.Target.GetComponent<Inventory>(), _amount);
+        _pickUpAnimation.SetPosition3(_target.transform);
+        NoticeResource(_target.GetComponent<Inventory>(), _amount);
         _dropAnimation.enabled = true;
     }
 }

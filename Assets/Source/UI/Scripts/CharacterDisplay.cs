@@ -12,6 +12,7 @@ public class CharacterDisplay : MonoBehaviour
     [SerializeField] private Transform _rankStars;
     [SerializeField] private GameObject _coin;
     [SerializeField] private Transform _characterHolder;
+    [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] private Button _leftButton;
     [SerializeField] private Button _rightButton;
 
@@ -22,8 +23,12 @@ public class CharacterDisplay : MonoBehaviour
     public void DisplayCharacter(Character character)
     {
         _characterHealth.text = character.CharacterHealth.ToString();
+        _particleSystem.Stop();
+        var main = _particleSystem.main;
+        main.startColor = character.Color;
+        _particleSystem.Play();
 
-        if(character.IsBuyed == false) 
+        if (character.IsBuyed == false) 
         {
             _characterPrice.GetComponent<Button>().enabled = true;
             _coin.gameObject.SetActive(true);

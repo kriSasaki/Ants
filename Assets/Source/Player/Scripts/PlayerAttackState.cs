@@ -1,6 +1,5 @@
 using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,19 +8,27 @@ public class PlayerAttackState : MonoBehaviour
     [SerializeField] private float _delay;
     [SerializeField] private float _rotationDuration = 0.2f;
 
-    public bool IsStateActive => _enemies > _noTargets;
-    public static event Action<int> Attacked;
+    public bool IsStateActive => _enemies.Count > _noTargets;
+    public event Action<int> Attacked;
 
+    private List<Enemy> _enemies;
+    private Movement _movement;
     private Player _player;
     private AnimationPlayer _animationPlayer;
     private Tween _tween;
     private int _damage => _player.Damage;
-    private int _enemies = 0;
-    private int _noTargets = 0;
+    private readonly int _noTargets = 0;
+    private int _enemyIndex;
     private float _lastAttackTime;
+
+    private void Awake()
+    {
+        _enemies = new List<Enemy>();
+    }
 
     private void Start()
     {
+        _movement = GetComponent<Movement>();
         _player = GetComponent<Player>();
         _animationPlayer = GetComponent<AnimationPlayer>();
     }
@@ -29,18 +36,13 @@ public class PlayerAttackState : MonoBehaviour
     private void OnEnable()
     {
         _lastAttackTime = _delay;
-        Enemy.Dying += RemoveEnemy;
-    }
-
-    private void OnDisable()
-    {
-        Enemy.Dying -= RemoveEnemy;
     }
 
     private void Update()
     {
-        if (_lastAttackTime <= 0)
+        if (_lastAttackTime <= 0 && _movement.IsMoving == false)
         {
+            LookAtEnemy(_enemies[^1].transform);
             Attacked?.Invoke(_damage);
 
             if (_player.HasWeapon)
@@ -58,27 +60,24 @@ public class PlayerAttackState : MonoBehaviour
         _lastAttackTime -= Time.deltaTime;
     }
 
-    public void AddEnemy(Transform enemy)
+    public void AddEnemy(Enemy enemy)
     {
-        _enemies++;
+        _enemies.Add(enemy);
+        _enemies[^1].Detect(this);
+        _enemies[^1].Dying += RemoveEnemy;
 
         if (IsStateActive)
         {
             enabled = true;
         }
-
-
-        LookAtEnemy(enemy);
     }
 
-    public void RemoveEnemy()
+    public void RemoveEnemy(Enemy enemy)
     {
-        _enemies--;
-
-        if (_enemies < _noTargets)
-        {
-            _enemies = _noTargets;
-        }
+        _enemyIndex = _enemies.IndexOf(enemy);
+        _enemies[_enemyIndex].Ignore(this);
+        _enemies[_enemyIndex].Dying -= RemoveEnemy;
+        _enemies.RemoveAt(_enemyIndex);
 
         if (IsStateActive == false)
         {

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0698188b26c3044b8baf63dc263a3df, type: 3}
+  m_Name: 3_Level
+  m_EditorClassIdentifier: 
+  _mapIndex: 3
+  _mapName: 4
+  _nameColor: {r: 0.4720636, g: 0, b: 0.6792453, a: 1}
+  _mapImage: {fileID: 21300000, guid: f75acf05c86e19144bdf9796d41edff5, type: 3}
+  _sceneToLoad: {fileID: 102900000, guid: 68b4d15d65f61d54d92c31dd903bdcb0, type: 3}

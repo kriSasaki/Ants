@@ -15,10 +15,9 @@ public class Enemy : MonoBehaviour
     public Player Target => _target;
     public int Health => _health;
     public int Zero => _zero;
-    public static event Action Dying;
+    public event Action<Enemy> Dying;
     public event Action<int, int> OnHealthChange;
 
-    //private PlayerChecker _playerChecker;
     private AudioSource _audio;
     private Animator _animator;
     private Vector3 _position;
@@ -28,33 +27,20 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        //_playerChecker = GetComponentInParent<PlayerCheckerTransmitter>().PlayerChecker;
-        //_position = transform.position;
-        //transform.position = new Vector3(transform.position.x, -15, transform.position.z);
         _maxHealth = _health;
         _audio = GetComponent<AudioSource>();
         _animator = GetComponent<Animator>();
     }
 
-    private void OnEnable()
+    public void Detect(PlayerAttackState playerAttackState)
     {
-        PlayerAttackState.Attacked += TakeDamage;
-        //_playerChecker.ConditionIsDone += Show;
-    }
-
-    private void OnDisable()
-    {
-        PlayerAttackState.Attacked -= TakeDamage;
-        //_playerChecker.ConditionIsDone -= Show;
-    }
-
-    public void Detect()
-    {
+        playerAttackState.Attacked += TakeDamage;
         IsDetected = true;
     }
 
-    public void Ignore()
+    public void Ignore(PlayerAttackState playerAttackState)
     {
+        playerAttackState.Attacked -= TakeDamage;
         IsDetected = false;
     }
 
@@ -70,7 +56,7 @@ public class Enemy : MonoBehaviour
             if (_health <= 0)
             {
                 IsDetected = false;
-                Dying?.Invoke();
+                Dying?.Invoke(this);
                 DropResources();
                 Destroy(gameObject, 2);
             }
@@ -87,9 +73,4 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-
-    //private void Show()
-    //{
-    //    transform.position = _position;
-    //}
 }

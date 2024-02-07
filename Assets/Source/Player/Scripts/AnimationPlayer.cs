@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimationPlayer : MonoBehaviour
@@ -11,10 +9,6 @@ public class AnimationPlayer : MonoBehaviour
 
     private Animator _animator;
 
-    private float _speed;
-    private bool _isRunning;
-    private bool _isAttacking;
-
     private void Start()
     {
         _animator = GetComponent<Animator>();
@@ -22,7 +16,6 @@ public class AnimationPlayer : MonoBehaviour
 
     public void SetSpeed(float speed)
     {
-        _speed = speed;
         _animator.SetFloat(Speed, speed);
     }
 
@@ -38,6 +31,9 @@ public class AnimationPlayer : MonoBehaviour
 
     public void PlayGetHit()
     {
-        _animator.SetTrigger(GetHit);
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName(GetHit) == false)
+        {
+            _animator.SetTrigger(GetHit);
+        }
     }
 }

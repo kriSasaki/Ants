@@ -8,4 +8,5 @@ public class Character : ScriptableObject
     public GameObject CharacterModel;
     public bool IsBuyed = false;
     public int CharacterRank;
+    public Color Color;
 }

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a6dc4d53420e54d85c09d29f7a00ce, type: 3}
   m_Name: Worker
   m_EditorClassIdentifier: 
-  CharacterName: Worker
   CharacterHealth: 0
   CharacterPrice: 0
   CharacterModel: {fileID: 7656121703203527297, guid: 21d1521007dcc7947a80d10e3773a58b, type: 3}
   IsBuyed: 1
   CharacterRank: 0
+  Color: {r: 1, g: 1, b: 1, a: 0.28235295}
