@@ -5,18 +5,18 @@ using UnityEngine.Serialization;
 
 public class MovementTutorial : MonoBehaviour
 {
-    [SerializeField] private InterfaceAnimator _interfaceAnimator;
+    [FormerlySerializedAs("_interfaceAnimator")] [SerializeField] private InterfaceVisualizer interfaceVisualizer;
     [SerializeField] private GameObject _computerTutorial;
     [SerializeField] private GameObject _mobileTutorial;
 
     private void OnEnable()
     {
-        _interfaceAnimator.OnGameStarted += ShowTutorial;
+        interfaceVisualizer.OnGameStarted += ShowTutorial;
     }
 
     private void OnDisable()
     {
-        _interfaceAnimator.OnGameStarted -= ShowTutorial;
+        interfaceVisualizer.OnGameStarted -= ShowTutorial;
     }
 
     private void ShowTutorial()

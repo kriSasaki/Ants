@@ -6,16 +6,16 @@ using UnityEngine.Serialization;
 
 public class Tutorial : MonoBehaviour
 {
-    [SerializeField] private InterfaceAnimator interfaceAnimator;
+    [FormerlySerializedAs("interfaceAnimator")] [SerializeField] private InterfaceVisualizer interfaceVisualizer;
 
     private void OnEnable()
     {
-        interfaceAnimator.OnGameStarted += ShowTutorial;
+        interfaceVisualizer.OnGameStarted += ShowTutorial;
     }
 
     private void OnDisable()
     {
-        interfaceAnimator.OnGameStarted -= ShowTutorial;
+        interfaceVisualizer.OnGameStarted -= ShowTutorial;
     }
 
     private void ShowTutorial()

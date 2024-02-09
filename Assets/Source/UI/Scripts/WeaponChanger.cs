@@ -5,6 +5,7 @@ using UnityEngine.TextCore.Text;
 public class WeaponChanger : ObjectChanger, ISaveLoadItem
 {
     private const string CurrentItemKey = "WeaponKey";
+    private const int NoModelItemIndex = 0;
 
     [SerializeField] private WeaponDisplay _weaponDisplay;
     [SerializeField] private Wallet _wallet;
@@ -18,23 +19,17 @@ public class WeaponChanger : ObjectChanger, ISaveLoadItem
     private void Awake()
     {
         _player = GetComponentInParent<PlayerTransmitter>().Player;
-        InterfaceAnimator = GetComponentInParent<InterfaceAnimator>();
+        _interfaceVisualizer = GetComponentInParent<InterfaceVisualizer>();
     }
 
     private void Start()
     {
         for (int i = 0; i < _scriptableObjects.Length; i++)
         {
-            OnLoadDataNeeded?.Invoke(CurrentItemKey + i.ToString(), data =>
-            {
-                BuyWeapon(data);
-            });
+            OnLoadDataNeeded?.Invoke(CurrentItemKey + i.ToString(), BuyWeapon);
         }
 
-        OnLoadDataNeeded?.Invoke(CurrentItemKey, data =>
-        {
-            CurrentWeapon = data;
-        });
+        OnLoadDataNeeded?.Invoke(CurrentItemKey, data => { CurrentWeapon = data; });
 
         ChangeScriptableObject(CurrentWeapon);
     }
@@ -79,6 +74,7 @@ public class WeaponChanger : ObjectChanger, ISaveLoadItem
     private void BuyWeapon(int weaponIndex)
     {
         _weapon = (Weapon)_scriptableObjects[weaponIndex];
+        _weaponDisplay.ChangePriceAlertStatus(false);
         _weapon.BuyItem();
         OnSaveDataNeeded?.Invoke(CurrentItemKey + weaponIndex.ToString(), weaponIndex);
     }
@@ -88,7 +84,7 @@ public class WeaponChanger : ObjectChanger, ISaveLoadItem
         _weapon = (Weapon)_scriptableObjects[CurrentWeapon];
         _player.GetWeapon(_weapon);
 
-        if (_weapon.Model != null || _weapon.Price != 0)
+        if (_weapon.Model != null && CurrentWeapon != NoModelItemIndex)
         {
             _player.SpawnWeapon();
         }
@@ -96,23 +92,21 @@ public class WeaponChanger : ObjectChanger, ISaveLoadItem
 
     private void CheckOpportunityToBuy(int index)
     {
+        _weapon = (Weapon)_scriptableObjects[index];
+        _weaponDisplay.ChangePriceAlertStatus(_weapon.Price <= _wallet.GoldAmount && _weapon.IsBuyed == false);
+
         for (int i = index + 1; i < _scriptableObjects.Length; i++)
         {
             _weapon = (Weapon)_scriptableObjects[i];
 
-            if (_weapon.IsBuyed == true)
+            if (_weapon.Price <= _wallet.GoldAmount && _weapon.IsBuyed == false)
             {
-                return;
-            }
-            else if (_weapon.Price <= _wallet.GoldAmount  && _weapon.IsBuyed == false)
-            {
-                _weaponDisplay.SetAlertStatus(true);
+                _weaponDisplay.ChangeButtonAlertStatus(true);
                 break;
             }
             else
             {
-                _weaponDisplay.SetAlertStatus(false);
-                break;
+                _weaponDisplay.ChangeButtonAlertStatus(false);
             }
         }
     }

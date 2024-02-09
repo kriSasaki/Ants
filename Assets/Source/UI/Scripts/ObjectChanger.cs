@@ -8,7 +8,7 @@ public class ObjectChanger : MonoBehaviour
     [SerializeField] protected GameObject _leftButton;
     [SerializeField] protected GameObject _rightButton;
 
-    protected InterfaceAnimator InterfaceAnimator;
+    protected InterfaceVisualizer _interfaceVisualizer;
     protected Player _player;
     protected int _currentIndex = 0;
 

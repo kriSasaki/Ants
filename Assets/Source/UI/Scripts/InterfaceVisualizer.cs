@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InterfaceAnimator : MonoBehaviour
+public class InterfaceVisualizer : MonoBehaviour
 {
     [SerializeField] private GameObject _startButton;
     [SerializeField] private Image _focus;
@@ -21,7 +21,6 @@ public class InterfaceAnimator : MonoBehaviour
     public event Action OnGameStarted;
 
     private bool _isPlaying = false;
-    private LevelService _levelService;
     private WeaponDisplay _weaponDisplay;
     private MapChanger _mapDisplay;
     private CharacterDisplay _characterDisplay;
@@ -37,7 +36,6 @@ public class InterfaceAnimator : MonoBehaviour
 
     private void Start()
     {
-        _levelService = GetComponent<LevelService>();
         Time.timeScale = 0;
     }
 
@@ -57,7 +55,7 @@ public class InterfaceAnimator : MonoBehaviour
 
     public void StartGame()
     {
-        ChangeVisibilityStatus(_startButton, _disableScale, _buttonChangeDuration, false);
+        ChangeVisibilityStatus(_startButton.gameObject, _disableScale, _buttonChangeDuration, false);
         ChangeVisibilityStatus(_pauseButton, _enableScale, _buttonChangeDuration, true);
         _cameraFollower.enabled = true;
         Time.timeScale = 1;
@@ -86,14 +84,9 @@ public class InterfaceAnimator : MonoBehaviour
     public void PauseGame()
     {
         Time.timeScale = 0;
-        ChangeVisibilityStatus(_startButton, _enableScale, _buttonChangeDuration, true);
+        ChangeVisibilityStatus(_startButton.gameObject, _enableScale, _buttonChangeDuration, true);
         ChangeVisibilityStatus(_pauseButton, _disableScale, _buttonChangeDuration, false);
         ChangeVisibilityStatus(_restartButton, _enableScale, _buttonChangeDuration, true);
-    }
-
-    public void RestartGame()
-    {
-        _levelService.LoadLevel(_levelService.CurrentLevel);
     }
 
     private void ShowRewardWindow(bool isLost)
@@ -120,7 +113,7 @@ public class InterfaceAnimator : MonoBehaviour
 
     private void CheckPossibilityToPlay()
     {
-        ChangeActivityStatus(_startButton, _weaponDisplay.ItemIsBuyed && _characterDisplay.ItemIsBuyed);
+        ChangeActivityStatus(_startButton.gameObject, _weaponDisplay.ItemIsBuyed && _characterDisplay.ItemIsBuyed);
 
         if (_weaponDisplay.ItemIsBuyed && _characterDisplay.ItemIsBuyed) 
         {

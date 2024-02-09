@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _joystick: {fileID: 0}
-  _moveSpeed: 200
+  _moveSpeed: 175
   _rotationSpeed: 10
   _collisionCheckDistance: 0.9
 --- !u!114 &7943270005820078927

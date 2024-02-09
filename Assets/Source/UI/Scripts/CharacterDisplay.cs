@@ -3,22 +3,18 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterDisplay : MonoBehaviour
+public class CharacterDisplay : ItemDisplay
 {
     private const string Buyed = "Куплено";
 
     [SerializeField] private TMP_Text _characterHealth;
-    [SerializeField] private TMP_Text _characterPrice;
     [SerializeField] private Transform _rankStars;
     [SerializeField] private GameObject _coin;
     [SerializeField] private Transform _characterHolder;
     [SerializeField] private ParticleSystem _particleSystem;
-    [SerializeField] private Button _leftButton;
-    [SerializeField] private Button _rightButton;
 
     public bool ItemIsBuyed { get; private set; }
     public event Action ItemChanged;
-
 
     public void DisplayCharacter(Character character)
     {
@@ -30,17 +26,17 @@ public class CharacterDisplay : MonoBehaviour
 
         if (character.IsBuyed == false) 
         {
-            _characterPrice.GetComponent<Button>().enabled = true;
+            _price.GetComponent<Button>().enabled = true;
             _coin.gameObject.SetActive(true);
-            _characterPrice.text = character.CharacterPrice.ToString();
+            _price.text = character.CharacterPrice.ToString();
             ItemIsBuyed = false;
             ItemChanged?.Invoke();
         }
         else
         {
-            _characterPrice.GetComponent<Button>().enabled = false;
+            _price.GetComponent<Button>().enabled = false;
             _coin.gameObject.SetActive(false);
-            _characterPrice.text = Buyed;
+            _price.text = Buyed;
             ItemIsBuyed = true;
             ItemChanged?.Invoke();
         }
@@ -58,10 +54,9 @@ public class CharacterDisplay : MonoBehaviour
         Instantiate(character.CharacterModel, _characterHolder.position, _characterHolder.rotation, _characterHolder);
     }
 
-    public void ChangeInteractivity(bool isEnable)
+    public override void ChangeInteractivity(bool isEnable)
     {
-        _leftButton.enabled = isEnable;
-        _rightButton.enabled = isEnable;
-        _characterPrice.gameObject.GetComponent<Button>().enabled = isEnable;
+        base.ChangeInteractivity(isEnable);
+        _price.gameObject.GetComponent<Button>().enabled = isEnable;
     }
 }

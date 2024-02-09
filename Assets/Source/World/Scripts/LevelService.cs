@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelService : MonoBehaviour
 {
@@ -9,14 +10,14 @@ public class LevelService : MonoBehaviour
     private readonly string[] _keys = { OpenedLevelsKey, CurrentLevelKey };
 
     [SerializeField] private PlayerChecker _playerChecker;
+    [SerializeField] private Button _restartButton;
 
     public event Action<string, Action<int>> OnLoadDataNeeded;
     public event Action<string, int> OnSaveDataNeeded;
     public event Action OnLevelLoaded;
     public int OpenedLevels { get; private set; }
-    public int CurrentLevel => _currentLevel;
+    public int CurrentLevel { get; private set; }
     private RewardWindow _rewardWindow;
-    private int _currentLevel;
 
     private void Awake()
     {
@@ -36,7 +37,7 @@ public class LevelService : MonoBehaviour
                         OpenedLevels = data;
                         break;
                     case CurrentLevelKey:
-                        _currentLevel = data;
+                        CurrentLevel = data;
                         break;
                 }
             });
@@ -47,26 +48,22 @@ public class LevelService : MonoBehaviour
 
     private void OnEnable()
     {
+        _restartButton.onClick.AddListener(RestartGame);
         _rewardWindow.OnLevelComplete += LevelComplete;
         _rewardWindow.OnButtonPressed += LoadNextLevel;
     }
 
     private void OnDisable()
     {
+        _restartButton.onClick.RemoveListener(RestartGame);
         _rewardWindow.OnLevelComplete -= LevelComplete;
         _rewardWindow.OnButtonPressed -= LoadNextLevel;
     }
 
-    private void SaveLevels(int currentLevel, int openedLevels)
-    {
-        _currentLevel = currentLevel;
-        OpenedLevels = openedLevels;
-    }
-
     public void LoadLevel(int levelNumber)
     {
-        _currentLevel = levelNumber;
-        OnSaveDataNeeded?.Invoke(CurrentLevelKey, _currentLevel);
+        CurrentLevel = levelNumber;
+        OnSaveDataNeeded?.Invoke(CurrentLevelKey, CurrentLevel);
 
         switch (levelNumber)
         {
@@ -90,10 +87,15 @@ public class LevelService : MonoBehaviour
                 break;
         }
     }
+    
+    private void RestartGame()
+    {
+        LoadLevel(CurrentLevel);
+    }
 
     private void LevelComplete(bool isLost)
     {
-        if (!isLost && OpenedLevels == _currentLevel)
+        if (!isLost && OpenedLevels == CurrentLevel)
         {
             OpenedLevels++;
             OnSaveDataNeeded?.Invoke(OpenedLevelsKey, OpenedLevels);
@@ -102,9 +104,9 @@ public class LevelService : MonoBehaviour
 
     private void LoadNextLevel()
     {
-        _currentLevel++;
-        OnSaveDataNeeded?.Invoke(CurrentLevelKey, _currentLevel);
-        LoadLevel(_currentLevel);
+        CurrentLevel++;
+        OnSaveDataNeeded?.Invoke(CurrentLevelKey, CurrentLevel);
+        LoadLevel(CurrentLevel);
     }
 
     private enum SceneName

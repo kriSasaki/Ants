@@ -12,7 +12,7 @@ public class Wallet : MonoBehaviour
     public event Action<string, int> OnSaveDataNeeded;
     public int GoldAmount => _goldAmount;
 
-    private int _goldAmount;
+    private int _goldAmount = 150;
     private Ad _ad;
 
     private void Awake()
@@ -23,10 +23,7 @@ public class Wallet : MonoBehaviour
 
     private void Start()
     {
-        OnLoadDataNeeded?.Invoke(GoldAmountKey, data =>
-        {
-            ChangeGoldAmount(data);
-        });
+        OnLoadDataNeeded?.Invoke(GoldAmountKey, ChangeGoldAmount);
     }
 
     private void OnEnable()
