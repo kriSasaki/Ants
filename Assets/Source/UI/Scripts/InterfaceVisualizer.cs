@@ -13,7 +13,6 @@ public class InterfaceVisualizer : MonoBehaviour
     [SerializeField] private GameObject _collectableDisplay;
     [SerializeField] private GameObject _goldDisplay;
     [SerializeField] private GameObject _buttons;
-    [SerializeField] private CameraFollower _cameraFollower;
     [SerializeField] private float _enableScale = 1;
     [SerializeField] private float _disableScale = 0;
     [SerializeField] private float _buttonChangeDuration = 0.4f;
@@ -57,7 +56,6 @@ public class InterfaceVisualizer : MonoBehaviour
     {
         ChangeVisibilityStatus(_startButton.gameObject, _disableScale, _buttonChangeDuration, false);
         ChangeVisibilityStatus(_pauseButton, _enableScale, _buttonChangeDuration, true);
-        _cameraFollower.enabled = true;
         Time.timeScale = 1;
 
         if (_isPlaying == false)

@@ -58,6 +58,7 @@ public class LeaderBoardDisplay : MonoBehaviour
                 if (string.IsNullOrEmpty(name))
                 {
                     name = Anonymous;
+                    name = Lean.Localization.LeanLocalization.GetTranslationText(name);
                 }
 
                 _leaderNames[i].text = name;

@@ -5,19 +5,21 @@ using UnityEngine;
 
 public class PlayerAttackState : MonoBehaviour
 {
+    private const int _noTargets = 0;
+    
     [SerializeField] private float _delay;
     [SerializeField] private float _rotationDuration = 0.2f;
 
-    public bool IsStateActive => _enemies.Count > _noTargets;
     public event Action<int> Attacked;
 
+    private bool _isStateActive => _enemies.Count > _noTargets;
     private List<Enemy> _enemies;
     private Movement _movement;
     private Player _player;
     private AnimationPlayer _animationPlayer;
     private Tween _tween;
+    private Vector3 _enemyPosition;
     private int _damage => _player.Damage;
-    private readonly int _noTargets = 0;
     private int _enemyIndex;
     private float _lastAttackTime;
 
@@ -66,7 +68,7 @@ public class PlayerAttackState : MonoBehaviour
         _enemies[^1].Detect(this);
         _enemies[^1].Dying += RemoveEnemy;
 
-        if (IsStateActive)
+        if (_isStateActive)
         {
             enabled = true;
         }
@@ -79,16 +81,15 @@ public class PlayerAttackState : MonoBehaviour
         _enemies[_enemyIndex].Dying -= RemoveEnemy;
         _enemies.RemoveAt(_enemyIndex);
 
-        if (IsStateActive == false)
+        if (_isStateActive == false)
         {
             enabled = false;
         }
-
-        _tween.Kill();
     }
 
     private void LookAtEnemy(Transform enemy)
     {
-        _tween = transform.DODynamicLookAt(enemy.position, _rotationDuration, AxisConstraint.None, Vector3.up);
+        _enemyPosition = enemy.position;
+        _tween = transform.DODynamicLookAt(_enemyPosition, _rotationDuration, AxisConstraint.None, Vector3.up);
     }
 }

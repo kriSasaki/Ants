@@ -6,7 +6,6 @@ public class ItemDisplay : MonoBehaviour
 {
     [SerializeField] protected TMP_Text _price;
     [SerializeField] protected ScaleChanger _scaleChanger;
-    [SerializeField] protected GameObject _priceAlert;
     [SerializeField] protected GameObject _buttonAlert;
     [SerializeField] protected Button _leftButton;
     [SerializeField] protected Button _rightButton;
@@ -30,12 +29,10 @@ public class ItemDisplay : MonoBehaviour
         if (isNewItemAvailable)
         {
             _scaleChanger.StartTween();
-            _priceAlert.SetActive(true);
         }
         else
         {
             _scaleChanger.StopTween();
-            _priceAlert.SetActive(false);
         }
     }
 

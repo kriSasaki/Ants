@@ -9,7 +9,6 @@ public class LevelService : MonoBehaviour
     private const string CurrentLevelKey = "CurrentLevel";
     private readonly string[] _keys = { OpenedLevelsKey, CurrentLevelKey };
 
-    [SerializeField] private PlayerChecker _playerChecker;
     [SerializeField] private Button _restartButton;
 
     public event Action<string, Action<int>> OnLoadDataNeeded;
@@ -85,6 +84,12 @@ public class LevelService : MonoBehaviour
             case (int)SceneName.Level5:
                 SceneManager.LoadScene(SceneName.Level5.ToString());
                 break;
+            case (int)SceneName.Level6:
+                SceneManager.LoadScene(SceneName.Level6.ToString());
+                break;
+            case (int)SceneName.Level7:
+                SceneManager.LoadScene(SceneName.Level7.ToString());
+                break;
         }
     }
     
@@ -95,7 +100,7 @@ public class LevelService : MonoBehaviour
 
     private void LevelComplete(bool isLost)
     {
-        if (!isLost && OpenedLevels == CurrentLevel)
+        if (!isLost && OpenedLevels == CurrentLevel && OpenedLevels != (int)SceneName. Level7)
         {
             OpenedLevels++;
             OnSaveDataNeeded?.Invoke(OpenedLevelsKey, OpenedLevels);
@@ -104,8 +109,12 @@ public class LevelService : MonoBehaviour
 
     private void LoadNextLevel()
     {
-        CurrentLevel++;
-        OnSaveDataNeeded?.Invoke(CurrentLevelKey, CurrentLevel);
+        if (CurrentLevel != (int)SceneName.Level7)
+        {
+            CurrentLevel++;
+            OnSaveDataNeeded?.Invoke(CurrentLevelKey, CurrentLevel);
+        }
+
         LoadLevel(CurrentLevel);
     }
 

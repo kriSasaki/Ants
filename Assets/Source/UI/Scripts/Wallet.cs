@@ -6,19 +6,16 @@ public class Wallet : MonoBehaviour
 {
     private const string GoldAmountKey = "GoldAmount";
 
-    [SerializeField] private TMP_Text _goldDisplay;
-
+    public event Action GoldAmountChanged;
     public event Action<string, Action<int>> OnLoadDataNeeded;
     public event Action<string, int> OnSaveDataNeeded;
-    public int GoldAmount => _goldAmount;
+    public int GoldAmount { get; private set; } = 150;
 
-    private int _goldAmount = 150;
     private Ad _ad;
 
     private void Awake()
     {
         _ad = GetComponentInParent<Ad>();
-        _goldDisplay.text = _goldAmount.ToString();
     }
 
     private void Start()
@@ -38,13 +35,8 @@ public class Wallet : MonoBehaviour
 
     public void ChangeGoldAmount(int amount)
     {
-        _goldAmount += amount;
-        UpdateGold();
-    }
-
-    private void UpdateGold()
-    {
-        OnSaveDataNeeded?.Invoke(GoldAmountKey, _goldAmount);
-        _goldDisplay.text = _goldAmount.ToString();
+        GoldAmount += amount;
+        GoldAmountChanged?.Invoke();
+        OnSaveDataNeeded?.Invoke(GoldAmountKey, GoldAmount);
     }
 }
