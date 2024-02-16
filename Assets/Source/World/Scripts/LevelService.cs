@@ -9,6 +9,7 @@ public class LevelService : MonoBehaviour
     private const string CurrentLevelKey = "CurrentLevel";
     private readonly string[] _keys = { OpenedLevelsKey, CurrentLevelKey };
 
+    [SerializeField] private Ad _ad;
     [SerializeField] private Button _restartButton;
 
     public event Action<string, Action<int>> OnLoadDataNeeded;
@@ -16,12 +17,12 @@ public class LevelService : MonoBehaviour
     public event Action OnLevelLoaded;
     public int OpenedLevels { get; private set; }
     public int CurrentLevel { get; private set; }
+    
     private RewardWindow _rewardWindow;
 
     private void Awake()
     {
         _rewardWindow = GetComponentInChildren<RewardWindow>();
-        _rewardWindow.SetCurrentLevel(CurrentLevel);
     }
 
     private void Start()
@@ -49,14 +50,14 @@ public class LevelService : MonoBehaviour
     {
         _restartButton.onClick.AddListener(RestartGame);
         _rewardWindow.OnLevelComplete += LevelComplete;
-        _rewardWindow.OnButtonPressed += LoadNextLevel;
+        _ad.AdClosed += LoadNextLevel;
     }
 
     private void OnDisable()
     {
         _restartButton.onClick.RemoveListener(RestartGame);
         _rewardWindow.OnLevelComplete -= LevelComplete;
-        _rewardWindow.OnButtonPressed -= LoadNextLevel;
+        _ad.AdClosed -= LoadNextLevel;
     }
 
     public void LoadLevel(int levelNumber)

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Policeman
   m_EditorClassIdentifier: 
   CharacterHealth: 50
-  CharacterPrice: 60
+  CharacterPrice: 75
   CharacterModel: {fileID: 4184180527108879941, guid: 503ae6a6822c06a4a978b15d99cd69dd, type: 3}
   IsBuyed: 0
   CharacterRank: 4

@@ -1,19 +1,18 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(DetectableObject))]
 public class DetectableObjectReactionColor : MonoBehaviour
 {
-    [SerializeField] private Color _colorReaction = Color.white;
-    [SerializeField] private Image _image;
+    [SerializeField] private ParticleSystem _idleParticle;
+    [SerializeField] private ParticleSystem _verifyingParticle;
 
     private IDetectableObject _detectableObject;
-    private Color _defaultColor;
 
     private void Awake()
     {
-        _detectableObject= GetComponent<IDetectableObject>();
-        _defaultColor = _image.color;
+        _detectableObject = GetComponent<IDetectableObject>();
+        _idleParticle.gameObject.SetActive(true);
+        _verifyingParticle.gameObject.SetActive(false);
     }
 
     private void OnEnable()
@@ -30,16 +29,17 @@ public class DetectableObjectReactionColor : MonoBehaviour
 
     private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
     {
-        SetColor(_colorReaction);
+        ChangeParticle();
     }
 
     private void OnGameObjectDetectionReleased(GameObject source, GameObject detectedObject)
     {
-        SetColor(_defaultColor);
+        ChangeParticle();
     }
 
-    private void SetColor(Color color)
+    private void ChangeParticle()
     {
-        _image.color = color;
+        _idleParticle.gameObject.SetActive(!_idleParticle.gameObject.activeSelf);
+        _verifyingParticle.gameObject.SetActive(!_verifyingParticle.gameObject.activeSelf);
     }
 }

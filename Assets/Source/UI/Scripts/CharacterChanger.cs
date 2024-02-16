@@ -5,12 +5,14 @@ public class CharacterChanger : ObjectChanger
 {
     private const string CurrentItemKey = "CharacterKey";
 
+    [SerializeField] private WeaponChanger _weaponChanger;
     [SerializeField] private CharacterDisplay _characterDisplay;
     [SerializeField] private Wallet _wallet;
 
     public event Action<string, Action<int>> OnLoadDataNeeded;
     public event Action<string, int> OnSaveDataNeeded;
-    public int CurrentCharacter { get; private set; }
+    public event Action ItemBuyed;
+    private int CurrentCharacter;
 
     private Character _character;
 
@@ -37,13 +39,17 @@ public class CharacterChanger : ObjectChanger
 
     private void OnEnable()
     {
+        _weaponChanger.ItemBuyed += UpdateDisplay;
+        _wallet.GoldAmountChanged += UpdateDisplay;
         _buyButton.onClick.AddListener(delegate { TryBuyCharacter(CurrentCharacter); });
         _interfaceVisualizer.OnGameStarted += SpawnCharacter;
     }
 
     private void OnDisable()
     {
-        _buyButton.onClick.AddListener(delegate { TryBuyCharacter(CurrentCharacter); });
+        _weaponChanger.ItemBuyed -= UpdateDisplay;
+        _wallet.GoldAmountChanged -= UpdateDisplay;
+        _buyButton.onClick.RemoveListener(delegate { TryBuyCharacter(CurrentCharacter); });
         _interfaceVisualizer.OnGameStarted -= SpawnCharacter;
     }
 
@@ -77,6 +83,7 @@ public class CharacterChanger : ObjectChanger
         _character = (Character)_scriptableObjects[characterIndex];
         _characterDisplay.ChangePriceAlertStatus(false);
         _character.IsBuyed = true;
+        ItemBuyed?.Invoke();
         OnSaveDataNeeded?.Invoke(CurrentItemKey + characterIndex.ToString(), characterIndex);
     }
 
@@ -107,5 +114,10 @@ public class CharacterChanger : ObjectChanger
                 _characterDisplay.ChangeButtonAlertStatus(false);
             }
         }
+    }
+
+    private void UpdateDisplay()
+    {
+        CheckOpportunityToBuy(CurrentCharacter);
     }
 }

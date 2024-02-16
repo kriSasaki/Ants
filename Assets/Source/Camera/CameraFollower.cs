@@ -10,7 +10,7 @@ public class CameraFollower : MonoBehaviour
     private Vector3 _desiredPosition;
     private Vector3 _smoothedPosition;
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         Follow();
     }

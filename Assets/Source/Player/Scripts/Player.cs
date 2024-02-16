@@ -6,18 +6,19 @@ public class Player : MonoBehaviour
     [SerializeField] private int _health;
     [SerializeField] private int _damage;
 
+    public int MaxHealth { get; private set; }
+    public int CurrentHealth => _health;
     public bool HasWeapon => _weapon;
     public int Damage => _damage;
     public event Action<int, int> OnHealthChange;
     public event Action OnPlayerEnable;
     public event Action OnDeath;
 
+    private readonly int _minHealth = 0;
     private Weapon _weapon;
     private PlayerAttackState _playerAttackState;
     private AnimationPlayer _animationPlayer;
     private IDetectableObject _detectableObject;
-    private int _maxHealth;
-    private int _minHealth=0;
 
     private void Awake()
     {
@@ -43,7 +44,7 @@ public class Player : MonoBehaviour
     {
         _health-=damage;
         _animationPlayer.PlayGetHit();
-        OnHealthChange?.Invoke(_health, _maxHealth);
+        OnHealthChange?.Invoke(_health, MaxHealth);
 
         if(_health <= _minHealth)
         {
@@ -63,7 +64,7 @@ public class Player : MonoBehaviour
     public void GetHealth(int health)
     {
         _health = _health + health;
-        _maxHealth = _health;
+        MaxHealth = _health;
     }
 
     private void OnGameObjectDetect(GameObject source, GameObject detectedObject)

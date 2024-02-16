@@ -23,6 +23,8 @@ public class CharacterDisplay : ItemDisplay
         var main = _particleSystem.main;
         main.startColor = character.Color;
         _particleSystem.Play();
+        _buyed.enabled = character.IsBuyed;
+        _price.enabled = !character.IsBuyed;
 
         if (character.IsBuyed == false) 
         {
@@ -36,7 +38,7 @@ public class CharacterDisplay : ItemDisplay
         {
             _price.GetComponent<Button>().enabled = false;
             _coin.gameObject.SetActive(false);
-            _price.text = Buyed;
+            _price.text = Lean.Localization.LeanLocalization.GetTranslationText(Buyed);
             ItemIsBuyed = true;
             ItemChanged?.Invoke();
         }

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class ItemDisplay : MonoBehaviour
 {
     [SerializeField] protected TMP_Text _price;
+    [SerializeField] protected TMP_Text _buyed;
     [SerializeField] protected ScaleChanger _scaleChanger;
     [SerializeField] protected GameObject _buttonAlert;
     [SerializeField] protected Button _leftButton;

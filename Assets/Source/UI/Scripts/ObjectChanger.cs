@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,7 @@ public class ObjectChanger : MonoBehaviour
     [SerializeField] protected Button _buyButton;
     [SerializeField] protected GameObject _leftButton;
     [SerializeField] protected GameObject _rightButton;
-
+    
     protected InterfaceVisualizer _interfaceVisualizer;
     protected Player _player;
     protected int _currentIndex = 0;

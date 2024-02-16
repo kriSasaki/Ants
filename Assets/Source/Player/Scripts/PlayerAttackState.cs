@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class PlayerAttackState : MonoBehaviour
 {
     private const int _noTargets = 0;
@@ -19,12 +20,14 @@ public class PlayerAttackState : MonoBehaviour
     private AnimationPlayer _animationPlayer;
     private Tween _tween;
     private Vector3 _enemyPosition;
+    private AudioSource _audioSource;
     private int _damage => _player.Damage;
     private int _enemyIndex;
     private float _lastAttackTime;
 
     private void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
         _enemies = new List<Enemy>();
     }
 
@@ -46,6 +49,7 @@ public class PlayerAttackState : MonoBehaviour
         {
             LookAtEnemy(_enemies[^1].transform);
             Attacked?.Invoke(_damage);
+            _audioSource.Play();
 
             if (_player.HasWeapon)
             {
@@ -91,5 +95,9 @@ public class PlayerAttackState : MonoBehaviour
     {
         _enemyPosition = enemy.position;
         _tween = transform.DODynamicLookAt(_enemyPosition, _rotationDuration, AxisConstraint.None, Vector3.up);
+        // Vector3 direction = _enemyPosition - transform.position;
+        // direction.y = 0;
+        // transform.rotation.SetLookRotation(direction.normalized);
+        // transform.LookAt(_enemyPosition);
     }
 }

@@ -1,18 +1,19 @@
 using System;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class WeaponChanger : ObjectChanger, ISaveLoadItem
 {
     private const string CurrentItemKey = "WeaponKey";
     private const int NoModelItemIndex = 0;
 
+    [SerializeField] private CharacterChanger _characterChanger;
     [SerializeField] private WeaponDisplay _weaponDisplay;
     [SerializeField] private Wallet _wallet;
 
     public event Action<string, Action<int>> OnLoadDataNeeded;
     public event Action<string, int> OnSaveDataNeeded;
-    public int CurrentWeapon { get; private set; }
+    public event Action ItemBuyed;
+    private int CurrentWeapon;
 
     private Weapon _weapon;
 
@@ -36,12 +37,16 @@ public class WeaponChanger : ObjectChanger, ISaveLoadItem
 
     private void OnEnable()
     {
+        _characterChanger.ItemBuyed += UpdateDisplay;
+        _wallet.GoldAmountChanged += UpdateDisplay;
         _buyButton.onClick.AddListener(delegate { TryBuyWeapon(CurrentWeapon); });
         _player.OnPlayerEnable += GiveWeapon;
     }
 
     private void OnDisable()
     {
+        _characterChanger.ItemBuyed -= UpdateDisplay;
+        _wallet.GoldAmountChanged -= UpdateDisplay;
         _buyButton.onClick.RemoveListener(delegate { TryBuyWeapon(CurrentWeapon); });
         _player.OnPlayerEnable -= GiveWeapon;
     }
@@ -67,7 +72,7 @@ public class WeaponChanger : ObjectChanger, ISaveLoadItem
         {
             BuyWeapon(weaponIndex);
             _wallet.ChangeGoldAmount(-_weapon.Price);
-            _weaponDisplay.DisplayWeapon(_weapon);
+            _weaponDisplay.DisplayWeapon((Weapon)_scriptableObjects[_currentIndex]);
         }
     }
 
@@ -76,6 +81,7 @@ public class WeaponChanger : ObjectChanger, ISaveLoadItem
         _weapon = (Weapon)_scriptableObjects[weaponIndex];
         _weaponDisplay.ChangePriceAlertStatus(false);
         _weapon.BuyItem();
+        ItemBuyed?.Invoke();
         OnSaveDataNeeded?.Invoke(CurrentItemKey + weaponIndex.ToString(), weaponIndex);
     }
 
@@ -109,5 +115,10 @@ public class WeaponChanger : ObjectChanger, ISaveLoadItem
                 _weaponDisplay.ChangeButtonAlertStatus(false);
             }
         }
+    }
+    
+    private void UpdateDisplay()
+    {
+        CheckOpportunityToBuy(CurrentWeapon);
     }
 }

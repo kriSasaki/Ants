@@ -5,14 +5,16 @@ using UnityEngine.UI;
 
 public class SoundMuteHandler : MonoBehaviour
 {
+    private const string IsSoundOn = "isSoundOn";
+    
     [SerializeField] private Sprite _mute;
     [SerializeField] private Sprite _unmute;
     [SerializeField] private Image _image;
     [SerializeField] private Button _button;
     [SerializeField] private Ad _ad;
 
-    private string _isSoundOn = "isSoundOn";
     private bool _isSoundMute;
+    private bool _isAdActive;
 
     private void OnEnable()
     {
@@ -20,6 +22,8 @@ public class SoundMuteHandler : MonoBehaviour
         WebApplication.InBackgroundChangeEvent += OnInBackgroundChange;
         _ad.VideoOpened += OnVideoOpened;
         _ad.VideoClosed += OnVideoClosed;
+        _ad.AdOpened += OnVideoOpened;
+        _ad.AdClosed += OnVideoClosed;
     }
 
 
@@ -27,8 +31,10 @@ public class SoundMuteHandler : MonoBehaviour
     {
         _button.onClick.RemoveListener(SoundMuteButtonOn);
         WebApplication.InBackgroundChangeEvent -= OnInBackgroundChange;
-        _ad.VideoOpened += OnVideoOpened;
-        _ad.VideoClosed += OnVideoClosed;
+        _ad.VideoOpened -= OnVideoOpened;
+        _ad.VideoClosed -= OnVideoClosed;
+        _ad.AdOpened -= OnVideoOpened;
+        _ad.AdClosed -= OnVideoClosed;
     }
 
     private void OnInBackgroundChange(bool inBackground)
@@ -36,19 +42,20 @@ public class SoundMuteHandler : MonoBehaviour
         if (!_isSoundMute)
         {
             AudioListener.pause = inBackground;
+            AudioListener.pause = _isAdActive;
             AudioListener.volume = inBackground ? 0 : 1; 
         }
     }
 
     private void Start()
     {
-        if (PlayerPrefs.HasKey(_isSoundOn))
+        if (PlayerPrefs.HasKey(IsSoundOn))
         {
-            _isSoundMute = !Convert.ToBoolean(PlayerPrefs.GetInt(_isSoundOn));
+            _isSoundMute = !Convert.ToBoolean(PlayerPrefs.GetInt(IsSoundOn));
         }
         else
         {
-            PlayerPrefs.SetInt(_isSoundOn, Convert.ToInt32(true));
+            PlayerPrefs.SetInt(IsSoundOn, Convert.ToInt32(true));
             _isSoundMute = false;
         }
 
@@ -69,7 +76,7 @@ public class SoundMuteHandler : MonoBehaviour
         if (_isSoundMute == false)
         {
             _isSoundMute = true;
-            PlayerPrefs.SetInt(_isSoundOn, Convert.ToInt32(!_isSoundMute));
+            PlayerPrefs.SetInt(IsSoundOn, Convert.ToInt32(!_isSoundMute));
             _image.sprite = _mute;
             DisableSound();
         }
@@ -77,13 +84,16 @@ public class SoundMuteHandler : MonoBehaviour
         {
             _isSoundMute = false;
             _image.sprite = _unmute;
-            PlayerPrefs.SetInt(_isSoundOn, Convert.ToInt32(!_isSoundMute));
+            PlayerPrefs.SetInt(IsSoundOn, Convert.ToInt32(!_isSoundMute));
             EnableSound();
         }
     }
 
     private void OnVideoClosed()
     {
+        _isAdActive = false;
+        OnInBackgroundChange(_isAdActive);
+        
         if (!_isSoundMute)
         {
             EnableSound();
@@ -93,6 +103,7 @@ public class SoundMuteHandler : MonoBehaviour
     private void OnVideoOpened()
     {
         DisableSound();
+        _isAdActive = true;
     }
 
     private void EnableSound()
