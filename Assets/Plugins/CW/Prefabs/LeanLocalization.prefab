@@ -108,13 +108,13 @@ MonoBehaviour:
   data: 0
   entries:
   - Language: Russian
-    Text: "\u0411\u043E\u043D\u0443\u0441 \u043A \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u044E: "
+    Text: "\u0417\u0434\u043E\u0440\u043E\u0432\u044C\u044F: "
     Object: {fileID: 0}
   - Language: English
-    Text: 'Health Bonus: '
+    Text: 'Health:  '
     Object: {fileID: 0}
   - Language: Turkish
-    Text: "Sa\u011Fl\u0131k Bonusu: "
+    Text: "Sa\u011Fl\u0131klar: "
     Object: {fileID: 0}
 --- !u!1 &1626078135024182074
 GameObject:

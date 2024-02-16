@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a6dc4d53420e54d85c09d29f7a00ce, type: 3}
   m_Name: Businessman
   m_EditorClassIdentifier: 
-  CharacterHealth: 100
+  CharacterHealth: 200
   CharacterPrice: 105
   CharacterModel: {fileID: 6431620280551177578, guid: 49d69c180d06fdc4b8ce861f6b647f06, type: 3}
   IsBuyed: 0

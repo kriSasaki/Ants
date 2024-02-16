@@ -1,5 +1,4 @@
 using System;
-using TMPro;
 using UnityEngine;
 
 public class Wallet : MonoBehaviour
@@ -9,7 +8,7 @@ public class Wallet : MonoBehaviour
     public event Action GoldAmountChanged;
     public event Action<string, Action<int>> OnLoadDataNeeded;
     public event Action<string, int> OnSaveDataNeeded;
-    public int GoldAmount { get; private set; }
+    public int GoldAmount { get; private set; } = 500;
 
     private Ad _ad;
 

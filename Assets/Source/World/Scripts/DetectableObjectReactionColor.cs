@@ -29,12 +29,18 @@ public class DetectableObjectReactionColor : MonoBehaviour
 
     private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
     {
-        ChangeParticle();
+        if (source.TryGetComponent(out Inventory inventory))
+        {
+            ChangeParticle();
+        }
     }
 
     private void OnGameObjectDetectionReleased(GameObject source, GameObject detectedObject)
     {
-        ChangeParticle();
+        if (source.TryGetComponent(out Inventory inventory))
+        {
+            ChangeParticle();
+        }
     }
 
     private void ChangeParticle()

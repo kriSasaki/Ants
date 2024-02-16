@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a6dc4d53420e54d85c09d29f7a00ce, type: 3}
   m_Name: Bandit
   m_EditorClassIdentifier: 
-  CharacterHealth: 40
+  CharacterHealth: 140
   CharacterPrice: 60
   CharacterModel: {fileID: 2846510150889455649, guid: 681cdb8b3e0bf2d45b7f84a14d98e001, type: 3}
   IsBuyed: 0

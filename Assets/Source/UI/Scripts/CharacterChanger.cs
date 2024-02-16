@@ -41,7 +41,7 @@ public class CharacterChanger : ObjectChanger
     {
         _weaponChanger.ItemBuyed += UpdateDisplay;
         _wallet.GoldAmountChanged += UpdateDisplay;
-        _buyButton.onClick.AddListener(delegate { TryBuyCharacter(CurrentCharacter); });
+        _buyButton.onClick.AddListener(TryBuyCharacter);
         _interfaceVisualizer.OnGameStarted += SpawnCharacter;
     }
 
@@ -49,7 +49,7 @@ public class CharacterChanger : ObjectChanger
     {
         _weaponChanger.ItemBuyed -= UpdateDisplay;
         _wallet.GoldAmountChanged -= UpdateDisplay;
-        _buyButton.onClick.RemoveListener(delegate { TryBuyCharacter(CurrentCharacter); });
+        _buyButton.onClick.RemoveListener(TryBuyCharacter);
         _interfaceVisualizer.OnGameStarted -= SpawnCharacter;
     }
 
@@ -66,15 +66,15 @@ public class CharacterChanger : ObjectChanger
         }
     }
 
-    private void TryBuyCharacter(int characterIndex)
+    private void TryBuyCharacter()
     {
-        _character = (Character)_scriptableObjects[characterIndex];
+        _character = (Character)_scriptableObjects[CurrentCharacter];
 
         if (_wallet.GoldAmount >= _character.CharacterPrice)
         {
-            BuyCharacter(characterIndex);
+            BuyCharacter(CurrentCharacter);
             _wallet.ChangeGoldAmount(-_character.CharacterPrice);
-            _characterDisplay.DisplayCharacter((Character)_scriptableObjects[_currentIndex]);
+            _characterDisplay.DisplayCharacter((Character)_scriptableObjects[CurrentCharacter]);
         }
     }
 

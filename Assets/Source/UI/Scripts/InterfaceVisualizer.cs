@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class InterfaceVisualizer : MonoBehaviour
 {
-    [SerializeField] private GameObject _startButton;
+    [SerializeField] private Button _startButton;
     [SerializeField] private Image _focus;
     [SerializeField] private ScaleChanger _stageActive;
     [SerializeField] private GameObject _pauseButton;
@@ -40,6 +40,7 @@ public class InterfaceVisualizer : MonoBehaviour
 
     private void OnEnable()
     {
+        _startButton.onClick.AddListener(StartGame);
         _weaponDisplay.ItemChanged += CheckPossibilityToPlay;
         _characterDisplay.ItemChanged += CheckPossibilityToPlay;
         _rewardWindow.OnLevelComplete += ShowRewardWindow;
@@ -47,6 +48,7 @@ public class InterfaceVisualizer : MonoBehaviour
 
     private void OnDisable()
     {
+        _startButton.onClick.RemoveListener(StartGame);
         _weaponDisplay.ItemChanged -= CheckPossibilityToPlay;
         _characterDisplay.ItemChanged -= CheckPossibilityToPlay;
         _rewardWindow.OnLevelComplete -= ShowRewardWindow;

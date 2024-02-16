@@ -28,7 +28,7 @@ public class CharacterDisplay : ItemDisplay
 
         if (character.IsBuyed == false) 
         {
-            _price.GetComponent<Button>().enabled = true;
+            _buyButton.enabled = true;
             _coin.gameObject.SetActive(true);
             _price.text = character.CharacterPrice.ToString();
             ItemIsBuyed = false;
@@ -36,7 +36,7 @@ public class CharacterDisplay : ItemDisplay
         }
         else
         {
-            _price.GetComponent<Button>().enabled = false;
+            _buyButton.enabled = false;
             _coin.gameObject.SetActive(false);
             _price.text = Lean.Localization.LeanLocalization.GetTranslationText(Buyed);
             ItemIsBuyed = true;
@@ -54,11 +54,5 @@ public class CharacterDisplay : ItemDisplay
         }
 
         Instantiate(character.CharacterModel, _characterHolder.position, _characterHolder.rotation, _characterHolder);
-    }
-
-    public override void ChangeInteractivity(bool isEnable)
-    {
-        base.ChangeInteractivity(isEnable);
-        _price.gameObject.GetComponent<Button>().enabled = isEnable;
     }
 }

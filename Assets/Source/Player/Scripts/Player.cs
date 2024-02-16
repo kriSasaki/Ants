@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
 
     public void GetHealth(int health)
     {
-        _health = _health + health;
+        _health = health;
         MaxHealth = _health;
     }
 

@@ -39,16 +39,16 @@ public class WeaponChanger : ObjectChanger, ISaveLoadItem
     {
         _characterChanger.ItemBuyed += UpdateDisplay;
         _wallet.GoldAmountChanged += UpdateDisplay;
-        _buyButton.onClick.AddListener(delegate { TryBuyWeapon(CurrentWeapon); });
         _player.OnPlayerEnable += GiveWeapon;
+        _buyButton.onClick.AddListener(TryBuyWeapon);
     }
 
     private void OnDisable()
     {
         _characterChanger.ItemBuyed -= UpdateDisplay;
         _wallet.GoldAmountChanged -= UpdateDisplay;
-        _buyButton.onClick.RemoveListener(delegate { TryBuyWeapon(CurrentWeapon); });
         _player.OnPlayerEnable -= GiveWeapon;
+        _buyButton.onClick.RemoveListener(TryBuyWeapon);
     }
 
     public override void ChangeScriptableObject(int change)
@@ -64,15 +64,15 @@ public class WeaponChanger : ObjectChanger, ISaveLoadItem
         }
     }
 
-    private void TryBuyWeapon(int weaponIndex)
+    private void TryBuyWeapon()
     {
-        _weapon = (Weapon)_scriptableObjects[weaponIndex];
+        _weapon = (Weapon)_scriptableObjects[CurrentWeapon];
 
         if (_wallet.GoldAmount >= _weapon.Price)
         {
-            BuyWeapon(weaponIndex);
+            BuyWeapon(CurrentWeapon);
             _wallet.ChangeGoldAmount(-_weapon.Price);
-            _weaponDisplay.DisplayWeapon((Weapon)_scriptableObjects[_currentIndex]);
+            _weaponDisplay.DisplayWeapon((Weapon)_scriptableObjects[CurrentWeapon]);
         }
     }
 

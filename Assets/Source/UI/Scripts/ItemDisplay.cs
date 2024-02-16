@@ -8,6 +8,7 @@ public class ItemDisplay : MonoBehaviour
     [SerializeField] protected TMP_Text _buyed;
     [SerializeField] protected ScaleChanger _scaleChanger;
     [SerializeField] protected GameObject _buttonAlert;
+    [SerializeField] protected Button _buyButton;
     [SerializeField] protected Button _leftButton;
     [SerializeField] protected Button _rightButton;
 
@@ -37,8 +38,9 @@ public class ItemDisplay : MonoBehaviour
         }
     }
 
-    public virtual void ChangeInteractivity(bool isEnable)
+    public void ChangeInteractivity(bool isEnable)
     {
+        _buyButton.enabled = isEnable;
         _leftButton.enabled = isEnable;
         _rightButton.enabled = isEnable;
     }
