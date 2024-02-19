@@ -36,7 +36,7 @@ public class WeaponDisplay : ItemDisplay
         }
         else
         {
-             _buyButton.enabled = true;
+             _buyButton.enabled = false;
             _coin.SetActive(false);
             _price.text = Lean.Localization.LeanLocalization.GetTranslationText(Buyed);
             ItemIsBuyed = true;

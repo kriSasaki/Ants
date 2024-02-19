@@ -8,7 +8,7 @@ public class Wallet : MonoBehaviour
     public event Action GoldAmountChanged;
     public event Action<string, Action<int>> OnLoadDataNeeded;
     public event Action<string, int> OnSaveDataNeeded;
-    public int GoldAmount { get; private set; } = 500;
+    public int GoldAmount { get; private set; }
 
     private Ad _ad;
 
