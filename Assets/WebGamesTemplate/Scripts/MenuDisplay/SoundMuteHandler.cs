@@ -17,39 +17,6 @@ public class SoundMuteHandler : MonoBehaviour
     private bool _isAdActive;
     private bool _isPause;
 
-    private void OnEnable()
-    {
-        _button.onClick.AddListener(SoundMuteButtonOn);
-        Application.focusChanged += OnInBackgroundChange;
-        WebApplication.InBackgroundChangeEvent += OnInBackgroundChange;
-        _ad.VideoOpened += OnVideoOpened;
-        _ad.VideoClosed += OnVideoClosed;
-        _ad.AdOpened += OnVideoOpened;
-        _ad.AdClosed += OnVideoClosed;
-    }
-
-
-    private void OnDisable()
-    {
-        _button.onClick.RemoveListener(SoundMuteButtonOn);
-        WebApplication.InBackgroundChangeEvent -= OnInBackgroundChange;
-        Application.focusChanged -= OnInBackgroundChange;
-        _ad.VideoOpened -= OnVideoOpened;
-        _ad.VideoClosed -= OnVideoClosed;
-        _ad.AdOpened -= OnVideoOpened;
-        _ad.AdClosed -= OnVideoClosed;
-    }
-
-    private void OnInBackgroundChange(bool inBackground)
-    {
-        if (!_isSoundMute)
-        {
-            _isPause = inBackground || _isAdActive;
-            AudioListener.pause = _isPause;
-            AudioListener.volume = _isPause ? 0 : 1; 
-        }
-    }
-
     private void Start()
     {
         if (PlayerPrefs.HasKey(IsSoundOn))
@@ -64,16 +31,58 @@ public class SoundMuteHandler : MonoBehaviour
 
         if (_isSoundMute == true)
         {
-            DisableSound();
+            ChangeAudio(_isSoundMute);
             _image.sprite = _mute;
         }
         else
         {
-            EnableSound();
+            ChangeAudio(_isSoundMute);
             _image.sprite = _unmute;
         }
     }
 
+    private void OnEnable()
+    {
+        _button.onClick.AddListener(SoundMuteButtonOn);
+        Application.focusChanged += OnInBackgroundChangeApp;
+        WebApplication.InBackgroundChangeEvent += OnInBackgroundChangeWeb;
+        _ad.VideoOpened += OnVideoOpened;
+        _ad.VideoClosed += OnVideoClosed;
+        _ad.AdOpened += OnVideoOpened;
+        _ad.AdClosed += OnVideoClosed;
+    }
+    
+    private void OnDisable()
+    {
+        _button.onClick.RemoveListener(SoundMuteButtonOn);
+        Application.focusChanged -= OnInBackgroundChangeApp;
+        WebApplication.InBackgroundChangeEvent -= OnInBackgroundChangeWeb;
+        _ad.VideoOpened -= OnVideoOpened;
+        _ad.VideoClosed -= OnVideoClosed;
+        _ad.AdOpened -= OnVideoOpened;
+        _ad.AdClosed -= OnVideoClosed;
+    }
+    
+    private void OnInBackgroundChangeApp(bool inBackground)
+    {
+        OnInBackgroundChange(!inBackground);
+    }
+
+    private void OnInBackgroundChangeWeb(bool inBackground)
+    {
+        OnInBackgroundChange(inBackground);
+    }
+    
+    private void OnInBackgroundChange(bool inBackground)
+    {
+        if (!_isSoundMute)
+        {
+            _isPause = inBackground || _isAdActive;
+            ChangeAudio(_isPause);
+            Time.timeScale = _isPause ? 0 : 1;
+        }
+    }
+    
     private void SoundMuteButtonOn()
     {
         if (_isSoundMute == false)
@@ -81,44 +90,35 @@ public class SoundMuteHandler : MonoBehaviour
             _isSoundMute = true;
             PlayerPrefs.SetInt(IsSoundOn, Convert.ToInt32(!_isSoundMute));
             _image.sprite = _mute;
-            DisableSound();
+            ChangeAudio(_isSoundMute);
         }
         else
         {
             _isSoundMute = false;
             _image.sprite = _unmute;
             PlayerPrefs.SetInt(IsSoundOn, Convert.ToInt32(!_isSoundMute));
-            EnableSound();
+            ChangeAudio(_isSoundMute);
         }
     }
 
     private void OnVideoClosed()
     {
         _isAdActive = false;
+
         OnInBackgroundChange(_isAdActive);
-        
-        if (!_isSoundMute)
-        {
-            EnableSound();
-        }
     }
 
     private void OnVideoOpened()
     {
-        DisableSound();
         _isAdActive = true;
+        
+        OnInBackgroundChange(_isAdActive);
     }
 
-    private void EnableSound()
+    private void ChangeAudio(bool value)
     {
-        AudioListener.pause = false;
-        AudioListener.volume = 1;
-    }
-
-    private void DisableSound()
-    {
-        AudioListener.pause = true;
-        AudioListener.volume = 0;
+        AudioListener.pause = value;
+        AudioListener.volume = value ? 0 : 1; 
     }
 }
 
