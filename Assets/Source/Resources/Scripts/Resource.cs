@@ -1,14 +1,19 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class Resource : MonoBehaviour
 {
+    [SerializeReference] protected float _pickUpDuration;
+    
     private bool ResourceCollected = false;
 
     protected Player _target;
     protected int _amount = 1;
     protected DropAnimation _dropAnimation;
     protected PickUpAnimation _pickUpAnimation;
-
+    protected Coroutine _coroutine;
+    protected float _time;
+    
     void Start()
     {
         _pickUpAnimation = GetComponent<PickUpAnimation>();

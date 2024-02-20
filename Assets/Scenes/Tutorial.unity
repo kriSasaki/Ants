@@ -3674,10 +3674,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1410604501, guid: a7a1b8156ac4d734189510481a1f4e8b, type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1410604502, guid: a7a1b8156ac4d734189510481a1f4e8b, type: 3}
       propertyPath: m_Camera
       value: 
@@ -3689,10 +3685,6 @@ PrefabInstance:
     - target: {fileID: 5560732405537495307, guid: a7a1b8156ac4d734189510481a1f4e8b, type: 3}
       propertyPath: m_Name
       value: Stickman_sphere_ working
-      objectReference: {fileID: 0}
-    - target: {fileID: 5560732405537916267, guid: a7a1b8156ac4d734189510481a1f4e8b, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5560732405537916267, guid: a7a1b8156ac4d734189510481a1f4e8b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4099,7 +4091,7 @@ PrefabInstance:
     - target: {fileID: 530279689939814849, guid: 6a1cd3ec54edd6a40ac3c4da9f4f54fd, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: bd059ba0f3e16824eb94aba96383acfd, type: 3}
+      objectReference: {fileID: 8300000, guid: b551884fad4e36d46a21d5c0c9e98b6c, type: 3}
     - target: {fileID: 530279689939814849, guid: 6a1cd3ec54edd6a40ac3c4da9f4f54fd, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
@@ -6042,12 +6034,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4972005571076441917, guid: 59304d195565c65448a4589a9ce86263, type: 3}
-      propertyPath: m_SizeDelta.y
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4972005571076441917, guid: 59304d195565c65448a4589a9ce86263, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0020948937
+      value: -0.0027641645
       objectReference: {fileID: 0}
     - target: {fileID: 5102361261357497947, guid: 59304d195565c65448a4589a9ce86263, type: 3}
       propertyPath: _playerChecker
@@ -6245,34 +6237,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InterfaceCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 7324379949271669335, guid: 59304d195565c65448a4589a9ce86263, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7324379949271669335, guid: 59304d195565c65448a4589a9ce86263, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7324379949271669335, guid: 59304d195565c65448a4589a9ce86263, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7465955279682628627, guid: 59304d195565c65448a4589a9ce86263, type: 3}
       propertyPath: _leanLocalization
       value: 
       objectReference: {fileID: 231759630}
-    - target: {fileID: 8172700657204232457, guid: 59304d195565c65448a4589a9ce86263, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8172700657204232457, guid: 59304d195565c65448a4589a9ce86263, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8172700657204232457, guid: 59304d195565c65448a4589a9ce86263, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8358292346977039670, guid: 59304d195565c65448a4589a9ce86263, type: 3}
       propertyPath: _player
       value: 

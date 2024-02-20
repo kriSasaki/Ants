@@ -1,24 +1,21 @@
+using System.Collections;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Mushroom : MonoBehaviour
 {
-    [SerializeField] private float _jumpPower;
-    [SerializeField] private int _jumpCount;
+    private const int Amount = 1;
+
     [SerializeField] private float _jumpDuration;
-    [SerializeField] private float _shakeDuration;
-    [SerializeField] private float _shakeStrength;
-    [SerializeField] private int _shakeVibration;
-    [SerializeField] private float _shakeRandomness;
 
     private SphereCollider _sphereCollider;
     private IDetectableObject _detectableObject;
     private PickUpAnimation _pickUpAnimation;
-    private int _amount = 1;
+    private Coroutine _coroutine;
+    private float _time;
 
     private void Awake()
     {
-        _pickUpAnimation= GetComponent<PickUpAnimation>();
+        _pickUpAnimation = GetComponent<PickUpAnimation>();
         _detectableObject = GetComponent<IDetectableObject>();
     }
 
@@ -37,7 +34,7 @@ public class Mushroom : MonoBehaviour
         _detectableObject.OnGameObjectDetectEvent -= OnGameObjectDetect;
     }
 
-    public void JumpIn(Transform playerPosition)
+    private void JumpIn(Transform playerPosition)
     {
         _sphereCollider.enabled = false;
         _pickUpAnimation.SetPosition3(playerPosition);
@@ -49,8 +46,21 @@ public class Mushroom : MonoBehaviour
     {
         if (source.TryGetComponent(out Inventory inventory))
         {
-            inventory.ChangeMushroomsAmount(_amount);
             JumpIn(inventory.transform);
+            _coroutine = StartCoroutine(GiveResource(inventory));
         }
+    }
+
+    private IEnumerator GiveResource(Inventory inventory)
+    {
+        _time = 0.5f;
+        
+        while (_time < _jumpDuration)
+        {
+            _time += Time.deltaTime;
+            yield return null;
+        }
+
+        inventory.ChangeMushroomsAmount(Amount);
     }
 }

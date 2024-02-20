@@ -15,10 +15,12 @@ public class SoundMuteHandler : MonoBehaviour
 
     private bool _isSoundMute;
     private bool _isAdActive;
+    private bool _isPause;
 
     private void OnEnable()
     {
         _button.onClick.AddListener(SoundMuteButtonOn);
+        Application.focusChanged += OnInBackgroundChange;
         WebApplication.InBackgroundChangeEvent += OnInBackgroundChange;
         _ad.VideoOpened += OnVideoOpened;
         _ad.VideoClosed += OnVideoClosed;
@@ -31,6 +33,7 @@ public class SoundMuteHandler : MonoBehaviour
     {
         _button.onClick.RemoveListener(SoundMuteButtonOn);
         WebApplication.InBackgroundChangeEvent -= OnInBackgroundChange;
+        Application.focusChanged -= OnInBackgroundChange;
         _ad.VideoOpened -= OnVideoOpened;
         _ad.VideoClosed -= OnVideoClosed;
         _ad.AdOpened -= OnVideoOpened;
@@ -41,9 +44,9 @@ public class SoundMuteHandler : MonoBehaviour
     {
         if (!_isSoundMute)
         {
-            AudioListener.pause = inBackground;
-            AudioListener.pause = _isAdActive;
-            AudioListener.volume = inBackground ? 0 : 1; 
+            _isPause = inBackground || _isAdActive;
+            AudioListener.pause = _isPause;
+            AudioListener.volume = _isPause ? 0 : 1; 
         }
     }
 

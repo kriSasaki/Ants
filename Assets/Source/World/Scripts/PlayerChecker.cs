@@ -35,7 +35,7 @@ public class PlayerChecker : MonoBehaviour
 
             if (_resourceChecker.ResearchRecources(inventory.MushroomsCount, inventory.EggsCount))
             {
-                inventory.DeleteResources(_resourceChecker.Mushrooms, _resourceChecker.Eggs, _resourceChecker.Legs);
+                inventory.DeleteResources(_resourceChecker.Mushrooms, _resourceChecker.Eggs);
                 Destroy(gameObject);
 
                 ConditionIsDone?.Invoke();

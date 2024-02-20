@@ -10,6 +10,7 @@ public class PlayerAttackState : MonoBehaviour
     
     [SerializeField] private float _delay;
     [SerializeField] private float _rotationDuration = 0.2f;
+    [SerializeField] private AudioSource _audioSource;
 
     public event Action<int> Attacked;
 
@@ -20,14 +21,12 @@ public class PlayerAttackState : MonoBehaviour
     private AnimationPlayer _animationPlayer;
     private Tween _tween;
     private Vector3 _enemyPosition;
-    private AudioSource _audioSource;
     private int _damage => _player.Damage;
     private int _enemyIndex;
     private float _lastAttackTime;
 
     private void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
         _enemies = new List<Enemy>();
     }
 
