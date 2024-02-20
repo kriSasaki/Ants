@@ -108,7 +108,7 @@ MonoBehaviour:
   data: 0
   entries:
   - Language: Russian
-    Text: "\u0417\u0434\u043E\u0440\u043E\u0432\u044C\u044F: "
+    Text: "\u0417\u0434\u043E\u0440\u043E\u0432\u044C\u0435: "
     Object: {fileID: 0}
   - Language: English
     Text: 'Health:  '
