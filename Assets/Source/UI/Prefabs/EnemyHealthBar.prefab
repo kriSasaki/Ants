@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2731537903498758096}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
@@ -109,7 +108,6 @@ RectTransform:
   - {fileID: 2731537903215516097}
   - {fileID: 2731537903957009838}
   m_Father: {fileID: 2731537904202298464}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -180,6 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Slider: {fileID: 2731537903498758102}
+  _position: {fileID: 0}
   _enemy: {fileID: 0}
 --- !u!1 &2731537903788132438
 GameObject:
@@ -212,7 +211,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2731537903957009838}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -287,7 +285,6 @@ RectTransform:
   m_Children:
   - {fileID: 2731537903788132437}
   m_Father: {fileID: 2731537903498758096}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
@@ -306,7 +303,6 @@ GameObject:
   - component: {fileID: 2731537904202298469}
   - component: {fileID: 2731537904202298470}
   - component: {fileID: 2731537904202298471}
-  - component: {fileID: 2731537904202298468}
   m_Layer: 0
   m_Name: EnemyHealthBar
   m_TagString: Untagged
@@ -328,7 +324,6 @@ RectTransform:
   m_Children:
   - {fileID: 2731537903498758096}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -380,7 +375,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &2731537904202298471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,15 +393,3 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &2731537904202298468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2731537904202298465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd294d4db9d73d24d84ed0e6fc28b2d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

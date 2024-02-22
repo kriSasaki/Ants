@@ -40,9 +40,6 @@ public class LeaderBoardDisplay : MonoBehaviour
 
     public void OpenYandexLeaderboard()
     {
-        if (PlayerAccount.IsAuthorized)
-            PlayerAccount.RequestPersonalProfileDataPermission();
-
         if (PlayerAccount.IsAuthorized == false)
         {
             return;
@@ -78,7 +75,17 @@ public class LeaderBoardDisplay : MonoBehaviour
 
     public void Authorize()
     {
-        PlayerAccount.Authorize();
+        PlayerAccount.Authorize(OnSuccessCallback, OnErrorCallback);
+    }
+
+    private void OnErrorCallback(string obj)
+    {
+        Time.timeScale = 1;
+    }
+
+    private void OnSuccessCallback()
+    {
+        Time.timeScale = 1;
     }
 
     public void SetScore(int score)

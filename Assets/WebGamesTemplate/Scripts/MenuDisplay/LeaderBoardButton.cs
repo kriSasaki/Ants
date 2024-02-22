@@ -45,8 +45,11 @@ public class LeaderBoardButton : MonoBehaviour
     {
         if (_leaderBoardDisplay.IsAuthorized == false)
         {
-            _authorizeButton.onClick.AddListener(_leaderBoardDisplay.Authorize);
+            Time.timeScale = 0;
+            _authorizationWindow.SetActive(true);
             _cancelButton.onClick.AddListener(CloseAuthorization);
+            _authorizeButton.onClick.AddListener(_leaderBoardDisplay.Authorize);
+            _authorizeButton.onClick.AddListener(CloseAuthorization);
         }
         else
         {
@@ -56,14 +59,12 @@ public class LeaderBoardButton : MonoBehaviour
         }
     }
 
-    private void Hide()
-    {
-        _leaderBoardDisplay.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
-    }
+    private void Hide() => _leaderBoardDisplay.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
 
     private void CloseAuthorization()
     {
         _authorizeButton.onClick.RemoveListener(_leaderBoardDisplay.Authorize);
+        _authorizeButton.onClick.RemoveListener(CloseAuthorization);
         _cancelButton.onClick.RemoveListener(CloseAuthorization);
         _authorizationWindow.SetActive(false);
     }
