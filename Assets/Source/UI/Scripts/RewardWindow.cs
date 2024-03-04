@@ -12,7 +12,8 @@ public class RewardWindow : MonoBehaviour
     [SerializeField] private PlayerChecker _playerChecker;
     [SerializeField] private Wallet _wallet;
     [SerializeField] private TMP_Text _earnedGold;
-    [SerializeField] private TMP_Text _results;
+    [SerializeField] private TMP_Text _resultsWin;
+    [SerializeField] private TMP_Text _resultsLose;
     [SerializeField] private List<int> _rewards;
     [SerializeField] private Image _ribbon;
     [SerializeField] private Button _nextButton;
@@ -22,6 +23,7 @@ public class RewardWindow : MonoBehaviour
     [SerializeField] private AudioSource _victorySound;
     [SerializeField] private AudioSource _looseSound;
 
+    public bool IsWindowActice { get; private set; } = false;
     public event Action<bool> OnLevelComplete;
     public event Action<int> Rewarded;
     public event Action OnNextButtonPressed;
@@ -60,31 +62,35 @@ public class RewardWindow : MonoBehaviour
 
     private void CompleteLevel()
     {
+        IsWindowActice = true;
         _victorySound.Play();
         Time.timeScale = 0;
         IsLost = false;
         GiveReward(_rewards[_levelService.CurrentLevel]);
         OnLevelComplete?.Invoke(IsLost);
+        _resultsWin.enabled = true;
     }
 
     private void LoseLevel()
     {
         if (IsLost == false)
         {
+            IsWindowActice = true;
             Time.timeScale = 0;
             IsLost = true;
             _rebornButton.gameObject.SetActive(IsLost);
         }
         else
         {
+            IsWindowActice = true;
             _looseSound.Play();
             _rebornButton.gameObject.SetActive(false);
             Time.timeScale = 0;
             GiveReward(_rewards[_levelService.CurrentLevel] / _defeatDivider);
             SetRedColors();
-            _results.text = Lean.Localization.LeanLocalization.GetTranslationText(Defeat);
             _nextButton.gameObject.SetActive(!IsLost);
             OnLevelComplete?.Invoke(IsLost);
+            _resultsLose.enabled = true;
         }
     }
 
@@ -104,6 +110,7 @@ public class RewardWindow : MonoBehaviour
 
     private void CloseRebornButton()
     {
+        IsWindowActice = false;
         _rebornButton.gameObject.SetActive(false);
         Time.timeScale = 1;
     }

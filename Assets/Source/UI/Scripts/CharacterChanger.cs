@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class CharacterChanger : ObjectChanger
@@ -42,7 +43,7 @@ public class CharacterChanger : ObjectChanger
         _weaponChanger.ItemBuyed += UpdateDisplay;
         _wallet.GoldAmountChanged += UpdateDisplay;
         _buyButton.onClick.AddListener(TryBuyCharacter);
-        _interfaceVisualizer.OnGameStarted += SpawnCharacter;
+        _interfaceVisualizer.OnGameStarted += ChooseCharacter;
     }
 
     private void OnDisable()
@@ -50,7 +51,7 @@ public class CharacterChanger : ObjectChanger
         _weaponChanger.ItemBuyed -= UpdateDisplay;
         _wallet.GoldAmountChanged -= UpdateDisplay;
         _buyButton.onClick.RemoveListener(TryBuyCharacter);
-        _interfaceVisualizer.OnGameStarted -= SpawnCharacter;
+        _interfaceVisualizer.OnGameStarted -= ChooseCharacter;
     }
 
     public override void ChangeScriptableObject(int change)
@@ -87,9 +88,23 @@ public class CharacterChanger : ObjectChanger
         OnSaveDataNeeded?.Invoke(CurrentItemKey + characterIndex.ToString(), characterIndex);
     }
 
-    private void SpawnCharacter()
+    private void ChooseCharacter()
     {
         _character = (Character)_scriptableObjects[CurrentCharacter];
+
+        if (_character.IsBuyed)
+        {
+            SpawnCharacter();
+        }
+        else
+        {
+            _character = _scriptableObjects.OfType<Character>().LastOrDefault(character => character.IsBuyed);
+            SpawnCharacter();
+        }
+    }
+
+    private void SpawnCharacter()
+    {
         Instantiate(_character.CharacterModel, _player.transform.position, _player.transform.rotation, _player.gameObject.transform);
         _player.GetHealth(_character.CharacterHealth);
         _player.gameObject.SetActive(true);

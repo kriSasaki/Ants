@@ -115,7 +115,8 @@ public class LevelService : MonoBehaviour
             CurrentLevel++;
             OnSaveDataNeeded?.Invoke(CurrentLevelKey, CurrentLevel);
         }
-
+        
+        Debug.Log("LoadNextLevel");
         LoadLevel(CurrentLevel);
     }
 

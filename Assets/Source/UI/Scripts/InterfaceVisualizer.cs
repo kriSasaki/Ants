@@ -1,24 +1,29 @@
 using DG.Tweening;
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class InterfaceVisualizer : MonoBehaviour
 {
     [SerializeField] private Button _startButton;
+    [SerializeField] private Button _pauseButton;
+    [SerializeField] private Button _restartButton;
+    [SerializeField] private Button _continueButton;
+    [SerializeField] private Button _cancelButton;
     [SerializeField] private Image _focus;
     [SerializeField] private ScaleChanger _stageActive;
-    [SerializeField] private GameObject _pauseButton;
-    [SerializeField] private GameObject _restartButton;
     [SerializeField] private GameObject _collectableDisplay;
     [SerializeField] private GameObject _goldDisplay;
     [SerializeField] private GameObject _buttons;
+    [SerializeField] private GameObject _warningWindow;
     [SerializeField] private float _enableScale = 1;
     [SerializeField] private float _disableScale = 0;
-    [SerializeField] private float _buttonChangeDuration = 0.4f;
+    [SerializeField] private float _changeDuration = 0.4f;
 
     public event Action OnGameStarted;
 
+    private bool _isPlayable = false;
     private bool _isPlaying = false;
     private WeaponDisplay _weaponDisplay;
     private MapChanger _mapDisplay;
@@ -36,11 +41,15 @@ public class InterfaceVisualizer : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 0;
+        _stageActive.StartTween();
     }
 
     private void OnEnable()
     {
         _startButton.onClick.AddListener(StartGame);
+        _continueButton.onClick.AddListener(AcceptWarning);
+        _cancelButton.onClick.AddListener(delegate { ChangeVisibilityStatus(new[] { _warningWindow }); });
+        _pauseButton.onClick.AddListener(PauseGame);
         _weaponDisplay.ItemChanged += CheckPossibilityToPlay;
         _characterDisplay.ItemChanged += CheckPossibilityToPlay;
         _rewardWindow.OnLevelComplete += ShowRewardWindow;
@@ -49,95 +58,111 @@ public class InterfaceVisualizer : MonoBehaviour
     private void OnDisable()
     {
         _startButton.onClick.RemoveListener(StartGame);
+        _continueButton.onClick.RemoveListener(AcceptWarning);
+        _cancelButton.onClick.RemoveListener(delegate { ChangeVisibilityStatus(new[] { _warningWindow }); });
+        _pauseButton.onClick.RemoveListener(PauseGame);
         _weaponDisplay.ItemChanged -= CheckPossibilityToPlay;
         _characterDisplay.ItemChanged -= CheckPossibilityToPlay;
         _rewardWindow.OnLevelComplete -= ShowRewardWindow;
     }
 
-    public void StartGame()
+    private void StartGame()
     {
-        ChangeVisibilityStatus(_startButton.gameObject, _disableScale, _buttonChangeDuration, false);
-        ChangeVisibilityStatus(_pauseButton, _enableScale, _buttonChangeDuration, true);
-        Time.timeScale = 1;
-
-        if (_isPlaying == false)
+        if (_isPlayable)
         {
-            _isPlaying = true;
-            OnGameStarted?.Invoke();
-            ChangeVisibilityStatus(_mapDisplay.gameObject, _disableScale, _buttonChangeDuration, false);
-            _mapDisplay.ChangeButtonsInteractivity(false);
-            ChangeVisibilityStatus(_characterDisplay.gameObject, _disableScale, _buttonChangeDuration, false);
-            _characterDisplay.ChangeInteractivity(false);
-            ChangeVisibilityStatus(_weaponDisplay.gameObject, _disableScale, _buttonChangeDuration, false);
-            _weaponDisplay.ChangeInteractivity(false);
-            ChangeVisibilityStatus(_collectableDisplay, _enableScale, _buttonChangeDuration, true);
-            ChangeVisibilityStatus(_focus.gameObject, _disableScale, _buttonChangeDuration, false);
-            ChangeVisibilityStatus(_goldDisplay, _disableScale, _buttonChangeDuration, false);
-            ChangeVisibilityStatus(_buttons, _disableScale, _buttonChangeDuration, false);
+            ChangeVisibilityStatus(new[] { _startButton.gameObject, _pauseButton.gameObject });
+            _startButton.enabled = false;
+            _pauseButton.enabled = true;
+            _stageActive.StopTween();
+            Time.timeScale = 1;
+
+            if (_isPlaying == false)
+            {
+                _isPlaying = true;
+                OnGameStarted?.Invoke();
+                ChangeVisibilityStatus(new[]
+                {
+                    _mapDisplay.gameObject, _characterDisplay.gameObject, _weaponDisplay.gameObject,
+                    _collectableDisplay, _focus.gameObject, _goldDisplay, _buttons
+                });
+
+                _mapDisplay.ChangeButtonsInteractivity(false);
+                _characterDisplay.ChangeInteractivity(false);
+                _weaponDisplay.ChangeInteractivity(false);
+                _stageActive.StopTween();
+            }
+            else
+            {
+                ChangeVisibilityStatus(new[] { _restartButton.gameObject });
+            }
         }
         else
         {
-            ChangeVisibilityStatus(_restartButton, _disableScale, _buttonChangeDuration, false);
+            ChangeVisibilityStatus(new[] { _warningWindow });
         }
     }
 
-    public void PauseGame()
+    private void PauseGame()
     {
         Time.timeScale = 0;
-        ChangeVisibilityStatus(_startButton.gameObject, _enableScale, _buttonChangeDuration, true);
-        ChangeVisibilityStatus(_pauseButton, _disableScale, _buttonChangeDuration, false);
-        ChangeVisibilityStatus(_restartButton, _enableScale, _buttonChangeDuration, true);
+        _pauseButton.enabled = false;
+        _startButton.enabled = true;
+        _restartButton.enabled = true;
+        ChangeVisibilityStatus(new[] { _startButton.gameObject, _pauseButton.gameObject, _restartButton.gameObject });
     }
 
     private void ShowRewardWindow(bool isLost)
     {
-        ChangeVisibilityStatus(_rewardWindow.gameObject, _enableScale, _buttonChangeDuration, true);
-        ChangeVisibilityStatus(_restartButton, _enableScale, _buttonChangeDuration, true);
+        _rewardWindow.gameObject.SetActive(false);
+        ChangeVisibilityStatus(new[] { _rewardWindow.gameObject });
+
+        if (isLost)
+        {
+            ChangeVisibilityStatus(new[] { _restartButton.gameObject });
+        }
     }
 
-    private void ChangeVisibilityStatus(GameObject gameObject, float scale, float duration, bool isEnable)
+    private void ChangeVisibilityStatus(GameObject[] gameObjects)
     {
-        if (isEnable)
+        foreach (var gameObject in gameObjects)
         {
-            gameObject.SetActive(isEnable);
-            gameObject.transform.DOScale(scale, duration).SetEase(Ease.InBack).SetUpdate(true);
-        }
-        else
-        {
-            gameObject.transform.DOScale(scale, duration).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() =>
+            if (gameObject.activeSelf)
             {
-                gameObject.SetActive(isEnable);
-            });
+                gameObject.transform.DOScale(_disableScale, _changeDuration).SetEase(Ease.InBack).SetUpdate(true)
+                    .OnComplete(() => { gameObject.SetActive(false); });
+            }
+            else
+            {
+                gameObject.SetActive(true);
+                gameObject.transform.DOScale(_enableScale, _changeDuration).SetEase(Ease.InBack).SetUpdate(true);
+            }
         }
     }
 
     private void CheckPossibilityToPlay()
     {
-        ChangeActivityStatus(_startButton.gameObject, _weaponDisplay.ItemIsBuyed && _characterDisplay.ItemIsBuyed);
+        _isPlayable = _weaponDisplay.ItemIsBuyed && _characterDisplay.ItemIsBuyed;
 
-        if (_weaponDisplay.ItemIsBuyed && _characterDisplay.ItemIsBuyed) 
+        if (_isPlayable)
         {
+            _startButton.GetComponent<Image>().color = Color.white;
             _focus.color = Color.white;
             _stageActive.StartTween();
         }
         else
         {
+            _startButton.GetComponent<Image>().color = Color.gray;
             _focus.color = Color.gray;
             _stageActive.StopTween();
         }
     }
 
-    private void ChangeActivityStatus(GameObject gameObject, bool isActive)
+    private void AcceptWarning()
     {
-        gameObject.GetComponent<Button>().enabled = isActive;
-
-        if (isActive)
-        {
-            gameObject.GetComponent<Image>().color = Color.white;
-        }
-        else
-        {
-            gameObject.GetComponent<Image>().color = Color.gray;
-        }
+        ChangeVisibilityStatus(new[] { _warningWindow });
+        _isPlayable = true;
+        _startButton.GetComponent<Image>().color = Color.white;
+        _focus.color = Color.white;
+        StartGame();
     }
 }

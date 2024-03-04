@@ -8,7 +8,7 @@ public class ScaleChanger : MonoBehaviour
 
     private Tweener _tween;
     private readonly Vector3 _initialScale = Vector3.one;
-
+    
     private void OnDisable()
     {
         _rectTransform.DOKill();

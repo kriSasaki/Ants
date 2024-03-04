@@ -756,6 +756,7 @@ Transform:
   - {fileID: 8008700892218558570}
   - {fileID: 2077907624067293280}
   - {fileID: 8554958980820380155}
+  - {fileID: 6307201776054423732}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &513293963313707748
@@ -790,6 +791,64 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _leanLocalization: {fileID: 513293963313707748}
+--- !u!1 &4511523527113409626
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6307201776054423732}
+  - component: {fileID: 8293847453962316604}
+  m_Layer: 0
+  m_Name: Warning
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6307201776054423732
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4511523527113409626}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2267570911693457717}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8293847453962316604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4511523527113409626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb15fa0e7301ff849bf4d6dcede7c12b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: 0
+  entries:
+  - Language: Russian
+    Text: "\u0412\u044B \u043D\u0435 \u043A\u0443\u043F\u0438\u043B\u0438 \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u044B\u0435
+      \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u044B. \u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C
+      \u0441 \u043B\u0443\u0447\u0448\u0438\u043C\u0438 \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u044B\u043C\u0438?"
+    Object: {fileID: 0}
+  - Language: English
+    Text: You have not bought the selected items. Continue with the best available?
+    Object: {fileID: 0}
+  - Language: Turkish
+    Text: "Se\xE7ti\u011Finiz e\u015Fyalar\u0131 sat\u0131n almad\u0131n\u0131z.
+      Mevcut en iyiyle devam etmek mi?"
+    Object: {fileID: 0}
 --- !u!1 &4857755842154514908
 GameObject:
   m_ObjectHideFlags: 0

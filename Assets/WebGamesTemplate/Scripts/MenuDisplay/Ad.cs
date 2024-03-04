@@ -44,12 +44,19 @@ public class Ad : MonoBehaviour
 
     private void OnCloseCallback(bool obj)
     {
-        AdClosed?.Invoke();
+        Debug.Log(obj);
+
+        if (obj)
+        {
+            AdClosed?.Invoke();
+            Debug.Log("OnCloseCallback");
+        }
     }
 
     private void OnOpenCallback()
     {
         AdOpened?.Invoke();
+        Debug.Log("OnOpenCallback");
     }
 
     private void VideoAdShow()

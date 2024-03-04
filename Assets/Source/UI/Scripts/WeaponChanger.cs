@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class WeaponChanger : ObjectChanger, ISaveLoadItem
@@ -39,7 +40,7 @@ public class WeaponChanger : ObjectChanger, ISaveLoadItem
     {
         _characterChanger.ItemBuyed += UpdateDisplay;
         _wallet.GoldAmountChanged += UpdateDisplay;
-        _player.OnPlayerEnable += GiveWeapon;
+        _player.OnPlayerEnable += TryGiveWeapon;
         _buyButton.onClick.AddListener(TryBuyWeapon);
     }
 
@@ -47,7 +48,7 @@ public class WeaponChanger : ObjectChanger, ISaveLoadItem
     {
         _characterChanger.ItemBuyed -= UpdateDisplay;
         _wallet.GoldAmountChanged -= UpdateDisplay;
-        _player.OnPlayerEnable -= GiveWeapon;
+        _player.OnPlayerEnable -= TryGiveWeapon;
         _buyButton.onClick.RemoveListener(TryBuyWeapon);
     }
 
@@ -85,12 +86,26 @@ public class WeaponChanger : ObjectChanger, ISaveLoadItem
         OnSaveDataNeeded?.Invoke(CurrentItemKey + weaponIndex.ToString(), weaponIndex);
     }
 
-    private void GiveWeapon()
+    private void TryGiveWeapon()
     {
         _weapon = (Weapon)_scriptableObjects[CurrentWeapon];
+        
+        if (_weapon.IsBuyed)
+        {
+            GiveWeapon();
+        }
+        else
+        {
+            _weapon = _scriptableObjects.OfType<Weapon>().LastOrDefault(weapon => weapon.IsBuyed);
+            GiveWeapon();
+        }
+    }
+
+    private void GiveWeapon()
+    {
         _player.GetWeapon(_weapon);
 
-        if (_weapon.Model != null && CurrentWeapon != NoModelItemIndex)
+        if (_weapon.Model != null && _weapon.Price != NoModelItemIndex)
         {
             _player.SpawnWeapon();
         }

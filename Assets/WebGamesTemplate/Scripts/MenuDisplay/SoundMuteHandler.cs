@@ -12,6 +12,7 @@ public class SoundMuteHandler : MonoBehaviour
     [SerializeField] private Image _image;
     [SerializeField] private Button _button;
     [SerializeField] private Ad _ad;
+    [SerializeField] private RewardWindow _rewardWindow;
 
     private bool _isSoundMute;
     private bool _isAdActive;
@@ -75,11 +76,12 @@ public class SoundMuteHandler : MonoBehaviour
     
     private void OnInBackgroundChange(bool inBackground)
     {
-        if (!_isSoundMute)
+        if (_isSoundMute == false)
         {
+            Debug.Log("OnInBackgroundChange");
             _isPause = inBackground || _isAdActive;
             ChangeAudio(_isPause);
-            Time.timeScale = _isPause ? 0 : 1;
+            Time.timeScale = _isPause || _rewardWindow.IsWindowActice ? 0 : 1;
         }
     }
     
@@ -110,6 +112,7 @@ public class SoundMuteHandler : MonoBehaviour
 
     private void OnVideoOpened()
     {
+        Debug.Log("OnVideoOpened");
         _isAdActive = true;
         
         OnInBackgroundChange(_isAdActive);
