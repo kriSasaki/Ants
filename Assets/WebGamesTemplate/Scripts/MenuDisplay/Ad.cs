@@ -39,24 +39,30 @@ public class Ad : MonoBehaviour
 
     private void InterestialAdShow()
     {
-        InterstitialAd.Show(OnOpenCallback, OnCloseCallback);
+        InterstitialAd.Show(OnOpenCallback, OnCloseCallback, OnErrorCallback, OnOfflineCallback);
+    }
+
+    private void OnOfflineCallback()
+    {
+        AdClosed?.Invoke();
+    }
+
+    private void OnErrorCallback(string obj)
+    {
+        AdClosed?.Invoke();
     }
 
     private void OnCloseCallback(bool obj)
     {
-        Debug.Log(obj);
-
         if (obj)
         {
             AdClosed?.Invoke();
-            Debug.Log("OnCloseCallback");
         }
     }
 
     private void OnOpenCallback()
     {
         AdOpened?.Invoke();
-        Debug.Log("OnOpenCallback");
     }
 
     private void VideoAdShow()

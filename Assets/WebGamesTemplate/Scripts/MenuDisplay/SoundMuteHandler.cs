@@ -78,7 +78,6 @@ public class SoundMuteHandler : MonoBehaviour
     {
         if (_isSoundMute == false)
         {
-            Debug.Log("OnInBackgroundChange");
             _isPause = inBackground || _isAdActive;
             ChangeAudio(_isPause);
             Time.timeScale = _isPause || _rewardWindow.IsWindowActice ? 0 : 1;
@@ -112,7 +111,6 @@ public class SoundMuteHandler : MonoBehaviour
 
     private void OnVideoOpened()
     {
-        Debug.Log("OnVideoOpened");
         _isAdActive = true;
         
         OnInBackgroundChange(_isAdActive);

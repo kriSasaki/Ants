@@ -43,8 +43,8 @@ public class RewardWindow : MonoBehaviour
     private void OnEnable()
     {
         _ad.VideoClosed += CloseRebornButton;
-        _nextButton.onClick.AddListener(delegate { OnNextButtonPressed?.Invoke(); });
-        _rebornButton.onClick.AddListener(delegate { OnRebornButtonPressed?.Invoke(); });
+        _nextButton.onClick.AddListener(ShowAd);
+        _rebornButton.onClick.AddListener(Reborn);
         _closeButton.onClick.AddListener(LoseLevel);
         _player.OnDeath += LoseLevel;
         _playerChecker.ConditionIsDone += CompleteLevel;
@@ -53,8 +53,8 @@ public class RewardWindow : MonoBehaviour
     private void OnDisable()
     {
         _ad.VideoClosed -= CloseRebornButton;
-        _nextButton.onClick.RemoveListener(delegate { OnNextButtonPressed?.Invoke(); });
-        _rebornButton.onClick.RemoveListener(delegate { OnRebornButtonPressed?.Invoke(); });
+        _nextButton.onClick.RemoveListener(ShowAd);
+        _rebornButton.onClick.RemoveListener(Reborn);
         _closeButton.onClick.RemoveListener(LoseLevel);
         _player.OnDeath -= LoseLevel;
         _playerChecker.ConditionIsDone -= CompleteLevel;
@@ -113,5 +113,15 @@ public class RewardWindow : MonoBehaviour
         IsWindowActice = false;
         _rebornButton.gameObject.SetActive(false);
         Time.timeScale = 1;
+    }
+
+    private void ShowAd()
+    {
+        OnNextButtonPressed?.Invoke();
+    }
+
+    private void Reborn()
+    {
+        OnRebornButtonPressed?.Invoke();
     }
 }
