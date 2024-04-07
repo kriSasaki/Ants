@@ -1,16 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class EggResourceIcon : ResourceIcon
+namespace Source.UI.Scripts
 {
-    private void OnEnable()
+    public class EggResourceIcon : ResourceIcon
     {
-        _playerChecker.OnResearchEggsNeeded += ResearchRecources;
-    }
+        private void OnEnable()
+        {
+            PlayerChecker.OnResearchEggsNeeded += ResearchRecources;
+        }
 
-    private void OnDisable()
-    {
-        _playerChecker.OnResearchEggsNeeded -= ResearchRecources;
+        private void OnDisable()
+        {
+            PlayerChecker.OnResearchEggsNeeded -= ResearchRecources;
+        }
     }
 }

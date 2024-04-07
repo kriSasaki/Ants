@@ -1,39 +1,37 @@
 using UnityEngine;
 
-public class AnimationPlayer : MonoBehaviour
+namespace Source.Player.Scripts
 {
-    private const string Speed = "Speed";
-    private const string Attack = "Attack";
-    private const string SwordAttack = "SwordAttack";
-    private const string GetHit = "GetHit";
-
-    private Animator _animator;
-
-    private void Start()
+    public class AnimationPlayer : MonoBehaviour
     {
-        _animator = GetComponent<Animator>();
-    }
+        private static readonly int Speed1 = Animator.StringToHash("Speed");
+        private static readonly int Attack1 = Animator.StringToHash("Attack");
+        private static readonly int SwordAttack1 = Animator.StringToHash("SwordAttack");
+        private static readonly int GetHit = Animator.StringToHash("GetHit");
 
-    public void SetSpeed(float speed)
-    {
-        _animator.SetFloat(Speed, speed);
-    }
+        [SerializeField] private Animator _animator;
 
-    public void PlayAttack()
-    {
-        _animator.SetTrigger(Attack);
-    }
-
-    public void PlaySwordAttack()
-    {
-        _animator.SetTrigger(SwordAttack);
-    }
-
-    public void PlayGetHit()
-    {
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName(GetHit) == false)
+        public void SetSpeed(float speed)
         {
-            _animator.SetTrigger(GetHit);
+            _animator.SetFloat(Speed1, speed);
+        }
+
+        public void PlayAttack()
+        {
+            _animator.SetTrigger(Attack1);
+        }
+
+        public void PlaySwordAttack()
+        {
+            _animator.SetTrigger(SwordAttack1);
+        }
+
+        public void PlayGetHit()
+        {
+            if (_animator.GetCurrentAnimatorStateInfo(0).GetHashCode() != GetHit)
+            {
+                _animator.SetTrigger(GetHit);
+            }
         }
     }
 }

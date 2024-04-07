@@ -1,17 +1,21 @@
+using System;
 using UnityEngine;
 
-public class DetectableObject : MonoBehaviour, IDetectableObject
+namespace Source.World.Scripts
 {
-    public event ObjectDetectedHandler OnGameObjectDetectEvent;
-    public event ObjectDetectedHandler OnGameObjectDetectionReleasedEvent;
-
-    public void Detected(GameObject detectionSource)
+    public class DetectableObject : MonoBehaviour, IDetectableObject
     {
-        OnGameObjectDetectEvent?.Invoke(detectionSource, gameObject);
-    }
+        public event Action<GameObject, GameObject> GameObjectDetected;
+        public event Action<GameObject, GameObject> GameObjectDetectionReleased;
 
-    public void DetectionReleased(GameObject detectionSource)
-    {
-        OnGameObjectDetectionReleasedEvent?.Invoke(detectionSource, gameObject);
+        public void Detected(GameObject detectionSource)
+        {
+            GameObjectDetected?.Invoke(detectionSource, gameObject);
+        }
+
+        public void DetectionReleased(GameObject detectionSource)
+        {
+            GameObjectDetectionReleased?.Invoke(detectionSource, gameObject);
+        }
     }
 }

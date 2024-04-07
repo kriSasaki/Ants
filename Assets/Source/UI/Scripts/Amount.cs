@@ -1,26 +1,22 @@
+using Source.Player.Scripts;
 using TMPro;
 using UnityEngine;
 
-public class Amount : MonoBehaviour
+namespace Source.UI.Scripts
 {
-    protected Inventory _inventory;
-
-    private int _amount;
-    private TMP_Text _textAmount;
-
-    private void Awake()
+    public class Amount : MonoBehaviour
     {
-        _inventory = GetComponentInParent<PlayerTransmitter>().Inventory;
-    }
+        [SerializeField] private Inventory _inventory;
+        [SerializeField] private TMP_Text _textAmount;
 
-    private void Start()
-    {
-        _textAmount = GetComponent<TMP_Text>();
-    }
-
-    public void OnValueChanged(int amount)
-    {
-        _amount = amount;
-        _textAmount.text = _amount.ToString();
+        public Inventory Inventory => _inventory;
+        
+        private int _amount;
+        
+        public void OnValueChanged(int amount)
+        {
+            _amount = amount;
+            _textAmount.text = _amount.ToString();
+        }
     }
 }

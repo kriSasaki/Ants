@@ -1,138 +1,136 @@
 using System;
 using System.Linq;
+using Source.Player.Scripts;
 using UnityEngine;
 
-public class CharacterChanger : ObjectChanger
+namespace Source.UI.Scripts
 {
-    private const string CurrentItemKey = "CharacterKey";
-
-    [SerializeField] private WeaponChanger _weaponChanger;
-    [SerializeField] private CharacterDisplay _characterDisplay;
-    [SerializeField] private Wallet _wallet;
-
-    public event Action<string, Action<int>> OnLoadDataNeeded;
-    public event Action<string, int> OnSaveDataNeeded;
-    public event Action ItemBuyed;
-    private int CurrentCharacter;
-
-    private Character _character;
-
-    private void Awake()
+    public class CharacterChanger : ObjectChanger
     {
-        _player = GetComponentInParent<PlayerTransmitter>().Player;
-        _interfaceVisualizer = GetComponentInParent<InterfaceVisualizer>();
-    }
+        private const string CurrentItemKey = "CharacterKey";
 
-    private void Start()
-    {
-        for (int i = 0; i < _scriptableObjects.Length; i++)
+        [SerializeField] private WeaponChanger _weaponChanger;
+        [SerializeField] private CharacterDisplay _characterDisplay;
+        [SerializeField] private Wallet _wallet;
+
+        public event Action<string, Action<int>> LoadDataNeed;
+        public event Action<string, int> SaveDataNeed;
+        public event Action ItemBuyed;
+        private int CurrentCharacter;
+
+        private Character _character;
+
+        private void Start()
         {
-            OnLoadDataNeeded?.Invoke(CurrentItemKey + i.ToString(), BuyCharacter);
-        }
-
-        OnLoadDataNeeded?.Invoke(CurrentItemKey, data =>
-        {
-            CurrentCharacter = data;
-        });
-
-        ChangeScriptableObject(CurrentCharacter);
-    }
-
-    private void OnEnable()
-    {
-        _weaponChanger.ItemBuyed += UpdateDisplay;
-        _wallet.GoldAmountChanged += UpdateDisplay;
-        _buyButton.onClick.AddListener(TryBuyCharacter);
-        _interfaceVisualizer.OnGameStarted += ChooseCharacter;
-    }
-
-    private void OnDisable()
-    {
-        _weaponChanger.ItemBuyed -= UpdateDisplay;
-        _wallet.GoldAmountChanged -= UpdateDisplay;
-        _buyButton.onClick.RemoveListener(TryBuyCharacter);
-        _interfaceVisualizer.OnGameStarted -= ChooseCharacter;
-    }
-
-    public override void ChangeScriptableObject(int change)
-    {
-        base.ChangeScriptableObject(change);
-        CurrentCharacter = _currentIndex;
-        OnSaveDataNeeded?.Invoke(CurrentItemKey, CurrentCharacter);
-        CheckOpportunityToBuy(CurrentCharacter);
-
-        if (_characterDisplay != null)
-        {
-            _characterDisplay.DisplayCharacter((Character)_scriptableObjects[_currentIndex]);
-        }
-    }
-
-    private void TryBuyCharacter()
-    {
-        _character = (Character)_scriptableObjects[CurrentCharacter];
-
-        if (_wallet.GoldAmount >= _character.CharacterPrice)
-        {
-            BuyCharacter(CurrentCharacter);
-            _wallet.ChangeGoldAmount(-_character.CharacterPrice);
-            _characterDisplay.DisplayCharacter((Character)_scriptableObjects[CurrentCharacter]);
-        }
-    }
-
-    private void BuyCharacter(int characterIndex)
-    {
-        _character = (Character)_scriptableObjects[characterIndex];
-        _characterDisplay.ChangePriceAlertStatus(false);
-        _character.IsBuyed = true;
-        ItemBuyed?.Invoke();
-        OnSaveDataNeeded?.Invoke(CurrentItemKey + characterIndex.ToString(), characterIndex);
-    }
-
-    private void ChooseCharacter()
-    {
-        _character = (Character)_scriptableObjects[CurrentCharacter];
-
-        if (_character.IsBuyed)
-        {
-            SpawnCharacter();
-        }
-        else
-        {
-            _character = _scriptableObjects.OfType<Character>().LastOrDefault(character => character.IsBuyed);
-            SpawnCharacter();
-        }
-    }
-
-    private void SpawnCharacter()
-    {
-        Instantiate(_character.CharacterModel, _player.transform.position, _player.transform.rotation, _player.gameObject.transform);
-        _player.GetHealth(_character.CharacterHealth);
-        _player.gameObject.SetActive(true);
-    }
-    
-    private void CheckOpportunityToBuy(int index)
-    {
-        _character = (Character)_scriptableObjects[index];
-        _characterDisplay.ChangePriceAlertStatus(_character.CharacterPrice <= _wallet.GoldAmount && _character.IsBuyed == false);
-
-        for (int i = index + 1; i < _scriptableObjects.Length; i++)
-        {
-            _character = (Character)_scriptableObjects[i];
-
-            if (_character.CharacterPrice <= _wallet.GoldAmount && _character.IsBuyed == false)
+            for (int i = 0; i < ScriptableObjects.Length; i++)
             {
-                _characterDisplay.ChangeButtonAlertStatus(true);
-                break;
+                LoadDataNeed?.Invoke(CurrentItemKey + i.ToString(), BuyCharacter);
+            }
+
+            LoadDataNeed?.Invoke(CurrentItemKey, data =>
+            {
+                CurrentCharacter = data;
+            });
+
+            ChangeScriptableObject(CurrentCharacter);
+        }
+
+        private void OnEnable()
+        {
+            _weaponChanger.ItemBuyed += UpdateDisplay;
+            _wallet.GoldAmountChanged += UpdateDisplay;
+            BuyButton.onClick.AddListener(TryBuyCharacter);
+            InterfacePresenter.StartButtonPressed += ChooseCharacter;
+        }
+
+        private void OnDisable()
+        {
+            _weaponChanger.ItemBuyed -= UpdateDisplay;
+            _wallet.GoldAmountChanged -= UpdateDisplay;
+            BuyButton.onClick.RemoveListener(TryBuyCharacter);
+            InterfacePresenter.StartButtonPressed -= ChooseCharacter;
+        }
+
+        public override void ChangeScriptableObject(int change)
+        {
+            base.ChangeScriptableObject(change);
+            CurrentCharacter = CurrentIndex;
+            SaveDataNeed?.Invoke(CurrentItemKey, CurrentCharacter);
+            CheckOpportunityToBuy(CurrentCharacter);
+
+            if (_characterDisplay != null)
+            {
+                _characterDisplay.DisplayCharacter((Character)ScriptableObjects[CurrentIndex]);
+            }
+        }
+
+        private void TryBuyCharacter()
+        {
+            _character = (Character)ScriptableObjects[CurrentCharacter];
+
+            if (_wallet.GoldAmount >= _character.Price)
+            {
+                BuyCharacter(CurrentCharacter);
+                _wallet.ChangeGoldAmount(-_character.Price);
+                _characterDisplay.DisplayCharacter((Character)ScriptableObjects[CurrentCharacter]);
+            }
+        }
+
+        private void BuyCharacter(int characterIndex)
+        {
+            _character = (Character)ScriptableObjects[characterIndex];
+            _characterDisplay.ChangePriceAlertStatus(false);
+            _character.IsBuyed = true;
+            ItemBuyed?.Invoke();
+            SaveDataNeed?.Invoke(CurrentItemKey + characterIndex.ToString(), characterIndex);
+        }
+
+        private void ChooseCharacter()
+        {
+            _character = (Character)ScriptableObjects[CurrentCharacter];
+
+            if (_character.IsBuyed)
+            {
+                SpawnCharacter();
             }
             else
             {
-                _characterDisplay.ChangeButtonAlertStatus(false);
+                _character = ScriptableObjects.OfType<Character>().LastOrDefault(character => character.IsBuyed);
+                SpawnCharacter();
             }
         }
-    }
 
-    private void UpdateDisplay()
-    {
-        CheckOpportunityToBuy(CurrentCharacter);
+        private void SpawnCharacter()
+        {
+            Instantiate(_character.Model, Player.transform.position, Player.transform.rotation, Player.gameObject.transform);
+            Player.ChangeHealth(_character.Health);
+            Player.gameObject.SetActive(true);
+        }
+    
+        private void CheckOpportunityToBuy(int index)
+        {
+            _character = (Character)ScriptableObjects[index];
+            _characterDisplay.ChangePriceAlertStatus(_character.Price <= _wallet.GoldAmount && _character.IsBuyed == false);
+
+            for (int i = index + 1; i < ScriptableObjects.Length; i++)
+            {
+                _character = (Character)ScriptableObjects[i];
+
+                if (_character.Price <= _wallet.GoldAmount && _character.IsBuyed == false)
+                {
+                    _characterDisplay.ChangeButtonAlertStatus(true);
+                    break;
+                }
+                else
+                {
+                    _characterDisplay.ChangeButtonAlertStatus(false);
+                }
+            }
+        }
+
+        private void UpdateDisplay()
+        {
+            CheckOpportunityToBuy(CurrentCharacter);
+        }
     }
 }

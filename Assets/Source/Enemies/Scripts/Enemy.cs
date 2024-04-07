@@ -1,75 +1,77 @@
 using System;
+using Source.Player.Scripts;
+using Source.Resources.Scripts;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-[RequireComponent(typeof(Animator))]
-public class Enemy : MonoBehaviour
+namespace Source.Enemies.Scripts
 {
-    private const string GetDamage = "AntHurt";
-
-    [SerializeField] private Player _target;
-    [SerializeField] private int _health;
-    [SerializeField] private Egg _egg;
-    [SerializeField] private int _eggsAmount;
-
-    public Player Target => _target;
-    public int Health => _health;
-    public int Zero => _zero;
-    public event Action<Enemy> Dying;
-    public event Action<int, int> OnHealthChange;
-
-    private AudioSource _audio;
-    private Animator _animator;
-    private Vector3 _position;
-    private int _maxHealth;
-    private int _zero = 0;
-    private bool IsDetected = false;
-
-    private void Start()
+    [RequireComponent(typeof(AudioSource))]
+    [RequireComponent(typeof(Animator))]
+    public class Enemy : MonoBehaviour
     {
-        _maxHealth = _health;
-        _audio = GetComponent<AudioSource>();
-        _animator = GetComponent<Animator>();
-    }
+        private readonly int AntHurt = Animator.StringToHash("AntHurt");
+        private const int _zero = 0;
 
-    public void Detect(PlayerAttackState playerAttackState)
-    {
-        playerAttackState.Attacked += TakeDamage;
-        IsDetected = true;
-    }
+        [SerializeField] private Player.Scripts.Player _target;
+        [SerializeField] private AudioSource _audio;
+        [SerializeField] private Animator _animator;
+        [SerializeField] private int _health;
+        [SerializeField] private Egg _egg;
+        [SerializeField] private int _eggsAmount;
 
-    public void Ignore(PlayerAttackState playerAttackState)
-    {
-        playerAttackState.Attacked -= TakeDamage;
-        IsDetected = false;
-    }
+        public Player.Scripts.Player Target => _target;
+        public int Health => _health;
+        public event Action<Enemy> Dying;
+        public event Action<int, int> HealthChanged;
 
-    private void TakeDamage(int damage)
-    {
-        if (IsDetected)
+        private Vector3 _position;
+        private int _maxHealth;
+        private bool _isDetected = false;
+
+        private void Start()
         {
-            _health -= damage;
-            OnHealthChange?.Invoke(_health, _maxHealth);
-            _animator.SetTrigger(GetDamage);
-            _audio.Play();
+            _maxHealth = _health;
+        }
 
-            if (_health <= 0)
+        public void Detect(PlayerAttackState playerAttackState)
+        {
+            playerAttackState.Attacked += TakeDamage;
+            _isDetected = true;
+        }
+
+        public void Ignore(PlayerAttackState playerAttackState)
+        {
+            playerAttackState.Attacked -= TakeDamage;
+            _isDetected = false;
+        }
+
+        private void TakeDamage(int damage)
+        {
+            if (_isDetected)
             {
-                IsDetected = false;
-                Dying?.Invoke(this);
-                DropResources();
-                Destroy(gameObject, 2);
+                _health -= damage;
+                HealthChanged?.Invoke(_health, _maxHealth);
+                _animator.SetTrigger(AntHurt);
+                _audio.Play();
+
+                if (_health <= 0)
+                {
+                    _isDetected = false;
+                    Dying?.Invoke(this);
+                    DropResources();
+                    Destroy(gameObject, 2);
+                }
             }
         }
-    }
 
-    private void DropResources()
-    {
-        if (_eggsAmount > _zero)
+        private void DropResources()
         {
-            for (int i = 1; i <= _eggsAmount; i++)
+            if (_eggsAmount > _zero)
             {
-                _egg = Instantiate(_egg, transform.position, Quaternion.identity);
+                for (int i = 1; i <= _eggsAmount; i++)
+                {
+                    _egg = Instantiate(_egg, transform.position, Quaternion.identity);
+                }
             }
         }
     }

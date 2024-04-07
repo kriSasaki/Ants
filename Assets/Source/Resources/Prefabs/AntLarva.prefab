@@ -359,6 +359,7 @@ MonoBehaviour:
   _jumpPower: 1.4
   _jumpAmount: 1
   _duration: 1
+  _pickUpAnimation: {fileID: 1422310840592947322}
 --- !u!114 &1422310840592947322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,6 +439,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pickUpDuration: 1
+  _pickUpAnimation: {fileID: 1422310840592947322}
+  _dropAnimation: {fileID: 3293477492844613171}
 --- !u!135 &-1907318829201632870
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -1,20 +1,23 @@
 using UnityEngine;
 
-public class DistanceTransition : Transition
+namespace Source.Enemies.Scripts.StateMachine.Transitions
 {
-    [SerializeField] private float _transitionRange;
-    [SerializeField] private float _rangeSpread;
-
-    private void Start()
+    public class DistanceTransition : Transition
     {
-        _transitionRange += Random.Range(-_rangeSpread, _rangeSpread);
-    }
+        [SerializeField] private float _transitionRange;
+        [SerializeField] private float _rangeSpread;
 
-    private void Update()
-    {        
-        if (Vector3.Distance(transform.position, Target.transform.position) < _transitionRange)
+        private void Start()
         {
-            NeedTransit = true;
+            _transitionRange += Random.Range(-_rangeSpread, _rangeSpread);
+        }
+
+        private void Update()
+        {        
+            if (Vector3.Distance(transform.position, Target.transform.position) < _transitionRange)
+            {
+                NeedTransit = true;
+            }
         }
     }
 }

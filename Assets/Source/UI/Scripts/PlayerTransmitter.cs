@@ -1,10 +1,14 @@
+using Source.Player.Scripts;
 using UnityEngine;
 
-public class PlayerTransmitter : MonoBehaviour
+namespace Source.UI.Scripts
 {
-    [SerializeField] private Player _player;
-    [SerializeField] private Inventory _inventory;
+    public class PlayerTransmitter : MonoBehaviour
+    {
+        [SerializeField] private Player.Scripts.Player _player;
+        [SerializeField] private Inventory _inventory;
 
-    public Player Player => _player;
-    public Inventory Inventory => _inventory;
+        public Player.Scripts.Player Player => _player;
+        public Inventory Inventory => _inventory;
+    }
 }

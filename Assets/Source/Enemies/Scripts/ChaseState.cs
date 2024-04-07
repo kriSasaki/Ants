@@ -1,27 +1,31 @@
+using Source.Enemies.Scripts.StateMachine;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ChaseState : State
+namespace Source.Enemies.Scripts
 {
-    private const string Walking = "Walking";
-
-    private NavMeshAgent _agent;
-
-    private void OnEnable()
+    public class ChaseState : State
     {
-        _agent = GetComponent<NavMeshAgent>();
-        Animator.SetBool(Walking, true);
-        _agent.enabled = true;
-    }
+        private readonly int Walking = Animator.StringToHash("Walking");
 
-    private void OnDisable()
-    {
-        Animator.SetBool(Walking, false);
-        _agent.enabled = false;
-    }
+        private NavMeshAgent _agent;
 
-    private void Update()
-    {
-        _agent.SetDestination(Target.transform.position);
+        private void OnEnable()
+        {
+            _agent = GetComponent<NavMeshAgent>();
+            Animator.SetBool(Walking, true);
+            _agent.enabled = true;
+        }
+
+        private void OnDisable()
+        {
+            Animator.SetBool(Walking, false);
+            _agent.enabled = false;
+        }
+
+        private void Update()
+        {
+            _agent.SetDestination(Target.transform.position);
+        }
     }
 }

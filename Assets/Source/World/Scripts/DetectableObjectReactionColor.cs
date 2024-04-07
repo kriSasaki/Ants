@@ -1,51 +1,55 @@
+using Source.Player.Scripts;
 using UnityEngine;
 
-[RequireComponent(typeof(DetectableObject))]
-public class DetectableObjectReactionColor : MonoBehaviour
+namespace Source.World.Scripts
 {
-    [SerializeField] private ParticleSystem _idleParticle;
-    [SerializeField] private ParticleSystem _verifyingParticle;
-
-    private IDetectableObject _detectableObject;
-
-    private void Awake()
+    [RequireComponent(typeof(DetectableObject))]
+    public class DetectableObjectReactionColor : MonoBehaviour
     {
-        _detectableObject = GetComponent<IDetectableObject>();
-        _idleParticle.gameObject.SetActive(true);
-        _verifyingParticle.gameObject.SetActive(false);
-    }
+        [SerializeField] private ParticleSystem _idleParticle;
+        [SerializeField] private ParticleSystem _verifyingParticle;
 
-    private void OnEnable()
-    {
-        _detectableObject.OnGameObjectDetectEvent += OnGameObjectDetect;
-        _detectableObject.OnGameObjectDetectionReleasedEvent += OnGameObjectDetectionReleased;
-    }
+        private IDetectableObject _detectableObject;
 
-    private void OnDisable()
-    {
-        _detectableObject.OnGameObjectDetectEvent -= OnGameObjectDetect;
-        _detectableObject.OnGameObjectDetectionReleasedEvent -= OnGameObjectDetectionReleased;
-    }
-
-    private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
-    {
-        if (source.TryGetComponent(out Inventory inventory))
+        private void Awake()
         {
-            ChangeParticle();
+            _detectableObject = GetComponent<IDetectableObject>();
+            _idleParticle.gameObject.SetActive(true);
+            _verifyingParticle.gameObject.SetActive(false);
         }
-    }
 
-    private void OnGameObjectDetectionReleased(GameObject source, GameObject detectedObject)
-    {
-        if (source.TryGetComponent(out Inventory inventory))
+        private void OnEnable()
         {
-            ChangeParticle();
+            _detectableObject.GameObjectDetected += OnGameObjectDetect;
+            _detectableObject.GameObjectDetectionReleased += OnGameObjectDetectionReleased;
         }
-    }
 
-    private void ChangeParticle()
-    {
-        _idleParticle.gameObject.SetActive(!_idleParticle.gameObject.activeSelf);
-        _verifyingParticle.gameObject.SetActive(!_verifyingParticle.gameObject.activeSelf);
+        private void OnDisable()
+        {
+            _detectableObject.GameObjectDetected -= OnGameObjectDetect;
+            _detectableObject.GameObjectDetectionReleased -= OnGameObjectDetectionReleased;
+        }
+
+        private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
+        {
+            if (source.TryGetComponent(out Inventory inventory))
+            {
+                ChangeParticle();
+            }
+        }
+
+        private void OnGameObjectDetectionReleased(GameObject source, GameObject detectedObject)
+        {
+            if (source.TryGetComponent(out Inventory inventory))
+            {
+                ChangeParticle();
+            }
+        }
+
+        private void ChangeParticle()
+        {
+            _idleParticle.gameObject.SetActive(!_idleParticle.gameObject.activeSelf);
+            _verifyingParticle.gameObject.SetActive(!_verifyingParticle.gameObject.activeSelf);
+        }
     }
 }

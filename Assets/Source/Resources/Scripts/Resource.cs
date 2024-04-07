@@ -1,41 +1,45 @@
+using System.Collections;
+using Source.Player.Scripts;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public abstract class Resource : MonoBehaviour
+namespace Source.Resources.Scripts
 {
-    [SerializeReference] protected float _pickUpDuration;
-    
-    private bool ResourceCollected = false;
-
-    protected Player _target;
-    protected int _amount = 1;
-    protected DropAnimation _dropAnimation;
-    protected PickUpAnimation _pickUpAnimation;
-    protected Coroutine _coroutine;
-    protected float _time;
-    
-    void Start()
+    public abstract class Resource : MonoBehaviour
     {
-        _pickUpAnimation = GetComponent<PickUpAnimation>();
-        _dropAnimation = GetComponent<DropAnimation>();
-    }
+        private const int _amount = 1;
 
-    protected abstract void NoticeResource(Inventory inventory, int amount);
+        [SerializeField] private float _pickUpDuration;
+        [SerializeField] private PickUpAnimation _pickUpAnimation;
+        [SerializeField] private DropAnimation _dropAnimation;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent(out Player target) && ResourceCollected == false)
+        public bool IsPickUpInProgress => _time < _pickUpDuration;
+    
+        private bool ResourceCollected = false;
+        private Player.Scripts.Player _target;
+        private float _time = 0.1f;
+    
+        public abstract IEnumerator GiveResource(Inventory inventory, int amount);
+
+        private void OnTriggerEnter(Collider other)
         {
-            ResourceCollected = true;
-            _target = target;
-            DropResource();
+            if (other.TryGetComponent(out Player.Scripts.Player target) && ResourceCollected == false)
+            {
+                ResourceCollected = true;
+                _target = target;
+                Drop();
+            }
         }
-    }
 
-    private void DropResource()
-    {
-        _pickUpAnimation.SetPosition3(_target.transform);
-        NoticeResource(_target.GetComponent<Inventory>(), _amount);
-        _dropAnimation.enabled = true;
+        public void HandleTick()
+        {
+            _time += Time.deltaTime;
+        }
+    
+        private void Drop()
+        {
+            _pickUpAnimation.SetTargetPosition(_target.transform);
+            StartCoroutine(GiveResource(_target.GetComponent<Inventory>(), _amount));
+            _dropAnimation.enabled = true;
+        }
     }
 }

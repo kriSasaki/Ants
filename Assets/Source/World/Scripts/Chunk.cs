@@ -1,41 +1,40 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-public class Chunk : MonoBehaviour
+namespace Source.World.Scripts
 {
-    [SerializeField] private PlayerChecker _playerChecker;
-
-    private PieceOfChunk[] _pieces;
-    private AudioSource _audioSource;
-
-    private void Awake()
+    [RequireComponent(typeof(AudioSource))]
+    [RequireComponent(typeof(PieceOfChunk[]))]
+    public class Chunk : MonoBehaviour
     {
-        _audioSource = GetComponent<AudioSource>();
-    }
+        [SerializeField] private PlayerChecker _playerChecker;
+        [SerializeField] private AudioSource _audioSource;
 
-    private void OnEnable()
-    {
-        _playerChecker.ConditionIsDone += GetUp;
-    }
+        private PieceOfChunk[] _pieces;
 
-    private void OnDisable()
-    {
-        _playerChecker.ConditionIsDone -= GetUp;
-    }
-
-    private void Start()
-    {
-        _pieces = GetComponentsInChildren<PieceOfChunk>();
-    }
-
-    private void GetUp()
-    {
-        _audioSource.Play();
-        
-        foreach(PieceOfChunk piece in _pieces)
+        private void OnEnable()
         {
-            piece.GetUp();
+            _playerChecker.ConditionIsDone += GetUp;
+        }
+
+        private void OnDisable()
+        {
+            _playerChecker.ConditionIsDone -= GetUp;
+        }
+
+        private void Start()
+        {
+            _pieces = GetComponentsInChildren<PieceOfChunk>();
+        }
+
+        private void GetUp()
+        {
+            _audioSource.Play();
+        
+            foreach(PieceOfChunk piece in _pieces)
+            {
+                piece.GetUp();
+            }
         }
     }
 }

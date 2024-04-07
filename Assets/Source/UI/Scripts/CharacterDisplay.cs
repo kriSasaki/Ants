@@ -1,57 +1,59 @@
 using System;
+using Source.Player.Scripts;
 using TMPro;
 using UnityEngine;
 
-public class CharacterDisplay : ItemDisplay
+namespace Source.UI.Scripts
 {
-    private const string Buyed = "Куплено";
-
-    [SerializeField] private TMP_Text _characterHealth;
-    [SerializeField] private Transform _rankStars;
-    [SerializeField] private GameObject _coin;
-    [SerializeField] private Transform _characterHolder;
-    [SerializeField] private ParticleSystem _particleSystem;
-
-    public bool ItemIsBuyed { get; private set; }
-    public event Action ItemChanged;
-
-    public void DisplayCharacter(Character character)
+    public class CharacterDisplay : ItemDisplay
     {
-        _characterHealth.text = character.CharacterHealth.ToString();
-        _particleSystem.Stop();
-        var main = _particleSystem.main;
-        main.startColor = character.Color;
-        _particleSystem.Play();
-        _buyed.enabled = character.IsBuyed;
-        _price.enabled = !character.IsBuyed;
+        private const string BuyedString = "Куплено";
+    
+        [SerializeField] private TMP_Text _characterHealth;
+        [SerializeField] private GameObject _coin;
+        [SerializeField] private Transform _characterHolder;
+        [SerializeField] private ParticleSystem _particleSystem;
 
-        if (character.IsBuyed == false) 
-        {
-            _buyButton.enabled = true;
-            _coin.gameObject.SetActive(true);
-            _price.text = character.CharacterPrice.ToString();
-            ItemIsBuyed = false;
-            ItemChanged?.Invoke();
-        }
-        else
-        {
-            _buyButton.enabled = false;
-            _coin.gameObject.SetActive(false);
-            _price.text = Lean.Localization.LeanLocalization.GetTranslationText(Buyed);
-            ItemIsBuyed = true;
-            ItemChanged?.Invoke();
-        }
+        public bool ItemIsBuyed { get; private set; }
+        public event Action ItemChanged;
 
-        for (int star = 0; star < _rankStars.childCount; star++)
-        {
-            _rankStars.GetChild(star).GetChild(0).gameObject.SetActive(star < character.CharacterRank);
-        }
+        private GameObject _appearance;
 
-        if (_characterHolder.childCount > 0)
+        public void DisplayCharacter(Character character)
         {
-            Destroy(_characterHolder.GetChild(0).gameObject);
-        }
+            _characterHealth.text = character.Health.ToString();
+            _particleSystem.Stop();
+            var main = _particleSystem.main;
+            main.startColor = character.Color;
+            _particleSystem.Play();
+            Buyed.enabled = character.IsBuyed;
+            Price.enabled = !character.IsBuyed;
 
-        Instantiate(character.CharacterModel, _characterHolder.position, _characterHolder.rotation, _characterHolder);
+            if (character.IsBuyed == false) 
+            {
+                BuyButton.enabled = true;
+                _coin.gameObject.SetActive(true);
+                Price.text = character.Price.ToString();
+                ItemIsBuyed = false;
+                ItemChanged?.Invoke();
+            }
+            else
+            {
+                BuyButton.enabled = false;
+                _coin.gameObject.SetActive(false);
+                Price.text = Lean.Localization.LeanLocalization.GetTranslationText(BuyedString);
+                ItemIsBuyed = true;
+                ItemChanged?.Invoke();
+            }
+
+            RankStars.ShowStars(character.Rank);
+
+            if (_characterHolder.childCount > 0)
+            {
+                Destroy(_appearance);
+            }
+
+            _appearance = Instantiate(character.Model, _characterHolder.position, _characterHolder.rotation, _characterHolder);
+        }
     }
 }

@@ -1,58 +1,62 @@
+using Source.World.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MapDisplay : MonoBehaviour
+namespace Source.UI.Scripts
 {
-    [SerializeField] private TMP_Text _mapName;
-    [SerializeField] private Image _mapImage;
-    [SerializeField] private GameObject _lockIcon;
-    [SerializeField] private GameObject _checkIcon;
-
-    private Button _chooseButton;
-    private LevelService _levelService;
-    private bool _mapUnlocked;
-    private bool _mapSelected;
-    private int _selectedMap;
-
-    private void Awake()
+    public class MapDisplay : MonoBehaviour
     {
-        _chooseButton = GetComponent<Button>();
-        _levelService = GetComponentInParent<LevelService>();
-    }
+        [SerializeField] private TMP_Text _mapName;
+        [SerializeField] private Image _mapImage;
+        [SerializeField] private GameObject _lockIcon;
+        [SerializeField] private GameObject _checkIcon;
 
-    public void DisplayMap(Map map)
-    {
-        _mapName.text = map.MapName;
-        _mapName.color = map.NameColor;
-        _mapImage.sprite = map.MapImage;
+        private Button _chooseButton;
+        private LevelService _levelService;
+        private bool _mapUnlocked;
+        private bool _mapSelected;
+        private int _selectedMap;
 
-        _mapUnlocked = _levelService.OpenedLevels >= map.MapIndex;
-        _lockIcon.SetActive(!_mapUnlocked);
-        _chooseButton.enabled = _mapUnlocked;
-
-        if (_mapUnlocked)
+        private void Awake()
         {
-            _mapImage.color = Color.white;
-            _selectedMap = map.MapIndex;
-        }
-        else
-        {
-            _mapImage.color = Color.gray;
+            _chooseButton = GetComponent<Button>();
+            _levelService = GetComponentInParent<LevelService>();
         }
 
-        _mapSelected = _levelService.CurrentLevel == map.MapIndex;
-        _chooseButton.enabled = !_mapSelected && _mapUnlocked;
-        _checkIcon.SetActive(_mapSelected);
-    }
+        public void DisplayMap(Map map)
+        {
+            _mapName.text = map.MapName;
+            _mapName.color = map.NameColor;
+            _mapImage.sprite = map.MapImage;
 
-    public void ChangeButtonInteractivity(bool isEnable)
-    {
-        _chooseButton.enabled = isEnable;
-    }
+            _mapUnlocked = _levelService.OpenedLevels >= map.MapIndex;
+            _lockIcon.SetActive(!_mapUnlocked);
+            _chooseButton.enabled = _mapUnlocked;
 
-    public void ChooseMap()
-    {
-        _levelService.LoadLevel(_selectedMap);
+            if (_mapUnlocked)
+            {
+                _mapImage.color = Color.white;
+                _selectedMap = map.MapIndex;
+            }
+            else
+            {
+                _mapImage.color = Color.gray;
+            }
+
+            _mapSelected = _levelService.CurrentLevel == map.MapIndex;
+            _chooseButton.enabled = !_mapSelected && _mapUnlocked;
+            _checkIcon.SetActive(_mapSelected);
+        }
+
+        public void ChangeButtonInteractivity(bool isEnable)
+        {
+            _chooseButton.enabled = isEnable;
+        }
+
+        public void ChooseMap()
+        {
+            _levelService.LoadLevel(_selectedMap);
+        }
     }
 }

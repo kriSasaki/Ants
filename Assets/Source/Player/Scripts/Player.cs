@@ -1,91 +1,102 @@
 using System;
+using Source.Enemies.Scripts;
+using Source.Weapons.Scripts;
+using Source.World.Scripts;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+namespace Source.Player.Scripts
 {
-    [SerializeField] private int _health;
-    [SerializeField] private int _damage;
-
-    public int MaxHealth { get; private set; }
-    public int CurrentHealth => _health;
-    public bool HasWeapon => _weapon;
-    public int Damage => _damage;
-    public event Action<int, int> OnHealthChange;
-    public event Action OnPlayerEnable;
-    public event Action OnDeath;
-
-    private readonly int _minHealth = 0;
-    private Weapon _weapon;
-    private PlayerAttackState _playerAttackState;
-    private AnimationPlayer _animationPlayer;
-    private IDetectableObject _detectableObject;
-
-    private void Awake()
+    public class Player : MonoBehaviour
     {
-        _animationPlayer= GetComponent<AnimationPlayer>();
-        _detectableObject = GetComponent<IDetectableObject>();
-        _playerAttackState = GetComponent<PlayerAttackState>();
-    }
+        private const int _minHealth = 0;
+    
+        [SerializeField] private int _health;
+        [SerializeField] private int _damage;
+        [SerializeField] private Weapon _weapon;
+        [SerializeField] private PlayerAttackState _playerAttackState;
+        [SerializeField] private AnimationPlayer _animationPlayer;
 
-    private void OnEnable()
-    {
-        _detectableObject.OnGameObjectDetectEvent += OnGameObjectDetect;
-        _detectableObject.OnGameObjectDetectionReleasedEvent += OnGameObjectDetectionReleased;
-        OnPlayerEnable?.Invoke();
-    }
+        public int MaxHealth { get; private set; }
+        public int CurrentHealth => _health;
+        public bool HasWeapon => _weapon;
+        public int Damage => _damage;
+        public event Action<int, int> HealthChanged;
+        public event Action PlayerEnabled;
+        public event Action Dead;
+        
+        private IDetectableObject _detectableObject;
 
-    private void OnDisable()
-    {
-        _detectableObject.OnGameObjectDetectEvent -= OnGameObjectDetect;
-        _detectableObject.OnGameObjectDetectionReleasedEvent -= OnGameObjectDetectionReleased;
-    }
-
-    public void GetDamage(int damage)
-    {
-        _health-=damage;
-        _animationPlayer.PlayGetHit();
-        OnHealthChange?.Invoke(_health, MaxHealth);
-
-        if(_health <= _minHealth)
+        private void Awake()
         {
-            OnDeath?.Invoke();
+            _detectableObject = GetComponent<IDetectableObject>();
         }
-    }
 
-    public void GetWeapon(Weapon weapon)
-    {
-        if(weapon != null)
+        private void OnEnable()
         {
-            _weapon = weapon;
-            _damage = weapon.Damage;
+            _detectableObject.GameObjectDetected += OnGameObjectDetect;
+            _detectableObject.GameObjectDetectionReleased += OnGameObjectDetectionReleased;
+            PlayerEnabled?.Invoke();
         }
-    }
 
-    public void GetHealth(int health)
-    {
-        _health = health;
-        MaxHealth = _health;
-    }
-
-    private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
-    {
-        if (source.TryGetComponent(out Enemy enemy))
+        private void OnDisable()
         {
-            _playerAttackState.AddEnemy(enemy);
+            _detectableObject.GameObjectDetected -= OnGameObjectDetect;
+            _detectableObject.GameObjectDetectionReleased -= OnGameObjectDetectionReleased;
         }
-    }
 
-    private void OnGameObjectDetectionReleased(GameObject source, GameObject detectedObject)
-    {
-        if (source.TryGetComponent(out Enemy enemy))
+        public void TakeDamage(int damage)
         {
-            _playerAttackState.RemoveEnemy(enemy);
-        }
-    }
+            _health-=damage;
+            _animationPlayer.PlayGetHit();
+            HealthChanged?.Invoke(_health, MaxHealth);
 
-    public void SpawnWeapon()
-    {
-        Arm arm = GetComponentInChildren<Arm>();
-        Instantiate(_weapon.Model, arm.gameObject.transform.position, arm.transform.rotation, arm.transform);
+            if(_health <= _minHealth)
+            {
+                Dead?.Invoke();
+            }
+        }
+
+        public void Revive(int health)
+        {
+            _health = health;
+            HealthChanged?.Invoke(_health, MaxHealth);
+        }
+
+        public void EquipWeapon(Weapon weapon)
+        {
+            if(weapon != null)
+            {
+                _weapon = weapon;
+                _damage = weapon.Damage;
+            }
+        }
+
+        public void ChangeHealth(int health)
+        {
+            _health = health;
+            MaxHealth = _health;
+        }
+
+        private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
+        {
+            if (source.TryGetComponent(out Enemy enemy))
+            {
+                _playerAttackState.AddEnemy(enemy);
+            }
+        }
+
+        private void OnGameObjectDetectionReleased(GameObject source, GameObject detectedObject)
+        {
+            if (source.TryGetComponent(out Enemy enemy))
+            {
+                _playerAttackState.RemoveEnemy(enemy);
+            }
+        }
+
+        public void SpawnWeapon()
+        {
+            Arm arm = GetComponentInChildren<Arm>();
+            Instantiate(_weapon.Model, arm.gameObject.transform.position, arm.transform.rotation, arm.transform);
+        }
     }
 }

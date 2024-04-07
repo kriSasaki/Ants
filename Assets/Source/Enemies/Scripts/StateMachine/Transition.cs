@@ -1,24 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Transition : MonoBehaviour
+namespace Source.Enemies.Scripts.StateMachine
 {
-    [SerializeField] private State _targetState;
-
-    protected Player Target { get; private set; }
-
-    public State TargetState => _targetState;
-
-    public bool NeedTransit { get; protected set; }
-
-    public void Initiate(Player target)
+    public class Transition : MonoBehaviour
     {
-        Target = target;
-    }
+        [SerializeField] private State _targetState;
 
-    private void OnEnable()
-    {
-        NeedTransit = false;
+        public Player.Scripts.Player Target { get; private set; }
+
+        public State TargetState => _targetState;
+
+        public bool NeedTransit { get; protected set; }
+
+        public void Initiate(Player.Scripts.Player target)
+        {
+            Target = target;
+        }
+
+        private void OnEnable()
+        {
+            NeedTransit = false;
+        }
     }
 }

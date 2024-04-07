@@ -1,60 +1,62 @@
 using System;
+using Source.Weapons.Scripts;
 using TMPro;
 using UnityEngine;
 
-public class WeaponDisplay : ItemDisplay
+namespace Source.UI.Scripts
 {
-    private const string Buyed = "Куплено";
-
-    [SerializeField] private TMP_Text _weaponDamage;
-    [SerializeField] private Transform _rankStars;
-    [SerializeField] private GameObject _coin;
-    [SerializeField] private Transform _weaponHolder;
-    [SerializeField] private ParticleSystem _particleSystem;
-
-    public bool ItemIsBuyed { get; private set; }
-    public event Action ItemChanged;
-
-    public void DisplayWeapon(Weapon weapon)
+    public class WeaponDisplay : ItemDisplay
     {
-        _weaponDamage.text = weapon.Damage.ToString();
-        _particleSystem.Stop();
-        var main = _particleSystem.main;
-        main.startColor = weapon.Color;
-        _particleSystem.Play();
-        _buyed.enabled = weapon.IsBuyed;
-        _price.enabled = !weapon.IsBuyed;
+        private const string BuyedString = "Куплено";
 
-        if (weapon.IsBuyed == false)
-        {
-            _buyButton.enabled = true;
-            _coin.SetActive(true);
-            _price.text = weapon.Price.ToString();
-            ItemIsBuyed = false;
-            ItemChanged?.Invoke();
-        }
-        else
-        {
-             _buyButton.enabled = false;
-            _coin.SetActive(false);
-            _price.text = Lean.Localization.LeanLocalization.GetTranslationText(Buyed);
-            ItemIsBuyed = true;
-            ItemChanged?.Invoke();
-        }
+        [SerializeField] private TMP_Text _weaponDamage;
+        [SerializeField] private GameObject _coin;
+        [SerializeField] private Transform _weaponHolder;
+        [SerializeField] private ParticleSystem _particleSystem;
 
-        for (int star = 0; star < _rankStars.childCount; star++)
-        {
-            _rankStars.GetChild(star).GetChild(0).gameObject.SetActive(star < weapon.Rank);
-        }
+        public bool ItemIsBuyed { get; private set; }
+        public event Action ItemChanged;
 
-        if (_weaponHolder.childCount > 0)
-        {
-            Destroy(_weaponHolder.GetChild(0).gameObject);
-        }
+        private GameObject _weapon;
 
-        if (weapon.Model != null)
+        public void DisplayWeapon(Weapon weapon)
         {
-            Instantiate(weapon.Model, _weaponHolder.position, _weaponHolder.rotation, _weaponHolder);
+            _weaponDamage.text = weapon.Damage.ToString();
+            _particleSystem.Stop();
+            var main = _particleSystem.main;
+            main.startColor = weapon.Color;
+            _particleSystem.Play();
+            Buyed.enabled = weapon.IsBuyed;
+            Price.enabled = !weapon.IsBuyed;
+
+            if (weapon.IsBuyed == false)
+            {
+                BuyButton.enabled = true;
+                _coin.SetActive(true);
+                Price.text = weapon.Price.ToString();
+                ItemIsBuyed = false;
+                ItemChanged?.Invoke();
+            }
+            else
+            {
+                BuyButton.enabled = false;
+                _coin.SetActive(false);
+                Price.text = Lean.Localization.LeanLocalization.GetTranslationText(BuyedString);
+                ItemIsBuyed = true;
+                ItemChanged?.Invoke();
+            }
+
+            RankStars.ShowStars(weapon.Rank);
+            
+            if (_weaponHolder.childCount > 0)
+            {
+                Destroy(_weapon);
+            }
+
+            if (weapon.Model != null)
+            {
+                _weapon = Instantiate(weapon.Model, _weaponHolder.position, _weaponHolder.rotation, _weaponHolder);
+            }
         }
     }
 }

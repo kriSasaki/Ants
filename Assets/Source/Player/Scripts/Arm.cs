@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Arm : MonoBehaviour
+namespace Source.Player.Scripts
 {
+    public class Arm : MonoBehaviour
+    {
 
+    }
 }

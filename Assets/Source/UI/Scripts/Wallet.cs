@@ -1,41 +1,44 @@
 using System;
 using UnityEngine;
 
-public class Wallet : MonoBehaviour
+namespace Source.UI.Scripts
 {
-    private const string GoldAmountKey = "GoldAmount";
-
-    public event Action GoldAmountChanged;
-    public event Action<string, Action<int>> OnLoadDataNeeded;
-    public event Action<string, int> OnSaveDataNeeded;
-    public int GoldAmount { get; private set; }
-
-    private Ad _ad;
-
-    private void Awake()
+    public class Wallet : MonoBehaviour
     {
-        _ad = GetComponentInParent<Ad>();
-    }
+        private const string GoldAmountKey = "GoldAmount";
 
-    private void Start()
-    {
-        OnLoadDataNeeded?.Invoke(GoldAmountKey, ChangeGoldAmount);
-    }
+        public event Action GoldAmountChanged;
+        public event Action<string, Action<int>> LoadDataNeeded;
+        public event Action<string, int> SaveDataNeeded;
+        public int GoldAmount { get; private set; }
 
-    private void OnEnable()
-    {
-        _ad.Rewarded += ChangeGoldAmount;
-    }
+        private AdShower _adShower;
 
-    private void OnDisable()
-    {
-        _ad.Rewarded -= ChangeGoldAmount;
-    }
+        private void Awake()
+        {
+            _adShower = GetComponentInParent<AdShower>();
+        }
 
-    public void ChangeGoldAmount(int amount)
-    {
-        GoldAmount += amount;
-        GoldAmountChanged?.Invoke();
-        OnSaveDataNeeded?.Invoke(GoldAmountKey, GoldAmount);
+        private void Start()
+        {
+            LoadDataNeeded?.Invoke(GoldAmountKey, ChangeGoldAmount);
+        }
+
+        private void OnEnable()
+        {
+            _adShower.Rewarded += ChangeGoldAmount;
+        }
+
+        private void OnDisable()
+        {
+            _adShower.Rewarded -= ChangeGoldAmount;
+        }
+
+        public void ChangeGoldAmount(int amount)
+        {
+            GoldAmount += amount;
+            GoldAmountChanged?.Invoke();
+            SaveDataNeeded?.Invoke(GoldAmountKey, GoldAmount);
+        }
     }
 }

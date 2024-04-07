@@ -1,44 +1,48 @@
 using System;
+using Source.Player.Scripts;
 using UnityEngine;
 
-public class PlayerChecker : MonoBehaviour
+namespace Source.World.Scripts
 {
-    public event Action<int> OnResearchMushroomNeeded;
-    public event Action<int> OnResearchEggsNeeded;
-    public event Action ConditionIsDone;
-
-    private ResourceChecker _resourceChecker;
-    private IDetectableObject _detectableObject;
-
-    private void Awake()
+    public class PlayerChecker : MonoBehaviour
     {
-        _resourceChecker = GetComponent<ResourceChecker>();
-        _detectableObject = GetComponent<IDetectableObject>();
-    }
+        [SerializeField] private ResourceChecker _resourceChecker;
+        
+        public event Action<int> OnResearchMushroomNeeded;
+        public event Action<int> OnResearchEggsNeeded;
+        public event Action ConditionIsDone;
 
-    private void OnEnable()
-    {
-        _detectableObject.OnGameObjectDetectEvent += OnGameObjectDetect;
-    }
+        private IDetectableObject _detectableObject;
 
-    private void OnDisable()
-    {
-        _detectableObject.OnGameObjectDetectEvent -= OnGameObjectDetect;
-    }
-
-    private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
-    {
-        if (source.TryGetComponent(out Inventory inventory))
+        private void Awake()
         {
-            OnResearchMushroomNeeded?.Invoke(inventory.MushroomsCount);
-            OnResearchEggsNeeded?.Invoke(inventory.EggsCount);
+            _detectableObject = GetComponent<IDetectableObject>();
+        }
 
-            if (_resourceChecker.ResearchRecources(inventory.MushroomsCount, inventory.EggsCount))
+        private void OnEnable()
+        {
+            _detectableObject.GameObjectDetected += OnGameObjectDetect;
+        }
+
+        private void OnDisable()
+        {
+            _detectableObject.GameObjectDetected -= OnGameObjectDetect;
+        }
+
+        private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
+        {
+            if (source.TryGetComponent(out Inventory inventory))
             {
-                inventory.DeleteResources(_resourceChecker.Mushrooms, _resourceChecker.Eggs);
-                Destroy(gameObject);
+                OnResearchMushroomNeeded?.Invoke(inventory.MushroomsCount);
+                OnResearchEggsNeeded?.Invoke(inventory.EggsCount);
 
-                ConditionIsDone?.Invoke();
+                if (_resourceChecker.ResearchRecources(inventory.MushroomsCount, inventory.EggsCount))
+                {
+                    inventory.DeleteResources(_resourceChecker.Mushrooms, _resourceChecker.Eggs);
+                    Destroy(gameObject);
+
+                    ConditionIsDone?.Invoke();
+                }
             }
         }
     }

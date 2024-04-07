@@ -1,13 +1,16 @@
-
+using System;
 using UnityEngine;
 
-public interface IDetectableObject
+namespace Source.World.Scripts
 {
-    event ObjectDetectedHandler OnGameObjectDetectEvent;
-    event ObjectDetectedHandler OnGameObjectDetectionReleasedEvent;
+    public interface IDetectableObject
+    {
+        event Action<GameObject, GameObject> GameObjectDetected;
+        event Action<GameObject, GameObject> GameObjectDetectionReleased;
 
-    GameObject gameObject { get; }
+        GameObject gameObject { get; }
 
-    void Detected(GameObject detectionSource);
-    void DetectionReleased(GameObject detectionSource);
+        void Detected(GameObject detectionSource);
+        void DetectionReleased(GameObject detectionSource);
+    }
 }

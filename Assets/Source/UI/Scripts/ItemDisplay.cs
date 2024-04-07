@@ -2,46 +2,56 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemDisplay : MonoBehaviour
+namespace Source.UI.Scripts
 {
-    [SerializeField] protected TMP_Text _price;
-    [SerializeField] protected TMP_Text _buyed;
-    [SerializeField] protected ScaleChanger _scaleChanger;
-    [SerializeField] protected GameObject _buttonAlert;
-    [SerializeField] protected Button _buyButton;
-    [SerializeField] protected Button _leftButton;
-    [SerializeField] protected Button _rightButton;
-
-    public void ChangeButtonAlertStatus(bool isNewItemAvailable)
+    public class ItemDisplay : MonoBehaviour
     {
-        if (isNewItemAvailable)
-        {
-            _rightButton.GetComponent<ScaleChanger>().StartTween();
-            _buttonAlert.SetActive(true);
-        }
-        else
-        {
-            _rightButton.GetComponent<ScaleChanger>().StopTween();
-            _buttonAlert.SetActive(false);
-        }
-    }
+        [SerializeField] private TMP_Text _price;
+        [SerializeField] private TMP_Text _buyed;
+        [SerializeField] private ScaleChanger _scaleChanger;
+        [SerializeField] private RankStars _rankStars;
+        [SerializeField] private GameObject _buttonAlert;
+        [SerializeField] private Button _buyButton;
+        [SerializeField] private Button _leftButton;
+        [SerializeField] private Button _rightButton;
+        [SerializeField] private ScaleChanger _rightButtonScaleChanger;
 
-    public void ChangePriceAlertStatus(bool isNewItemAvailable)
-    {
-        if (isNewItemAvailable)
-        {
-            _scaleChanger.StartTween();
-        }
-        else
-        {
-            _scaleChanger.StopTween();
-        }
-    }
+        public TMP_Text Price => _price;
+        public TMP_Text Buyed => _buyed;
+        public RankStars RankStars => _rankStars;
+        public Button BuyButton => _buyButton;
 
-    public void ChangeInteractivity(bool isEnable)
-    {
-        _buyButton.enabled = isEnable;
-        _leftButton.enabled = isEnable;
-        _rightButton.enabled = isEnable;
+        public void ChangeButtonAlertStatus(bool isNewItemAvailable)
+        {
+            if (isNewItemAvailable)
+            {
+                _rightButtonScaleChanger.StartTween();
+                _buttonAlert.SetActive(true);
+            }
+            else
+            {
+                _rightButtonScaleChanger.StopTween();
+                _buttonAlert.SetActive(false);
+            }
+        }
+
+        public void ChangePriceAlertStatus(bool isNewItemAvailable)
+        {
+            if (isNewItemAvailable)
+            {
+                _scaleChanger.StartTween();
+            }
+            else
+            {
+                _scaleChanger.StopTween();
+            }
+        }
+
+        public void ChangeInteractivity(bool isEnable)
+        {
+            _buyButton.enabled = isEnable;
+            _leftButton.enabled = isEnable;
+            _rightButton.enabled = isEnable;
+        }
     }
 }

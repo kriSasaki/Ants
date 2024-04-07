@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a6dc4d53420e54d85c09d29f7a00ce, type: 3}
   m_Name: Thief
   m_EditorClassIdentifier: 
-  CharacterHealth: 130
-  CharacterPrice: 45
-  CharacterModel: {fileID: 3435932806231733148, guid: cfbc27d754f74d248a496d32fe99d1ae, type: 3}
+  Health: 130
+  Price: 45
+  Model: {fileID: 3435932806231733148, guid: cfbc27d754f74d248a496d32fe99d1ae, type: 3}
   IsBuyed: 0
-  CharacterRank: 2
+  Rank: 2
   Color: {r: 0, g: 0.12941177, b: 0.83137256, a: 0.54901963}

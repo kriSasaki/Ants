@@ -1,17 +1,20 @@
 using UnityEngine;
 
-public class HealthBar : Bar
+namespace Source.UI.Scripts
 {
-    [SerializeField] private Player _player;
-
-    private void OnEnable()
+    public class HealthBar : Bar
     {
-        _player.OnHealthChange += OnValueChanged;
-        Slider.value = 1;
-    }
+        [SerializeField] private Player.Scripts.Player _player;
 
-    private void OnDisable()
-    {
-        _player.OnHealthChange -= OnValueChanged;
+        private void OnEnable()
+        {
+            _player.HealthChanged += ValueChanged;
+            ResetToDefault();
+        }
+
+        private void OnDisable()
+        {
+            _player.HealthChanged -= ValueChanged;
+        }
     }
 }

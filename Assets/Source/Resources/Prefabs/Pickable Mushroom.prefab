@@ -222,6 +222,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _jumpDuration: 1
+  _pickUpAnimation: {fileID: 953051303}
+  _sphereCollider: {fileID: 883598183132388984}
 --- !u!135 &883598183132388984
 SphereCollider:
   m_ObjectHideFlags: 0

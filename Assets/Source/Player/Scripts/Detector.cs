@@ -1,77 +1,81 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using Source.World.Scripts;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class Detector : MonoBehaviour, IDetector
+namespace Source.Player.Scripts
 {
-    public event ObjectDetectedHandler OnGameObjectDetectedEvent;
-    public event ObjectDetectedHandler OnGameObjectDetectionReleasedEvent;
-
-    private List<GameObject> _detectedObjects = new List<GameObject>();
-
-    public void Detect(IDetectableObject detectableObject)
+    [RequireComponent(typeof(Rigidbody))]
+    public class Detector : MonoBehaviour, IDetector
     {
-        if (!_detectedObjects.Contains(detectableObject.gameObject))
+        public event Action<GameObject, GameObject> GameObjectDetected;
+        public event Action<GameObject, GameObject> GameObjectDetectionReleased;
+
+        private List<GameObject> _detectedObjects = new List<GameObject>();
+
+        public void Detect(IDetectableObject detectableObject)
         {
-            detectableObject.Detected(gameObject);
-            _detectedObjects.Add(detectableObject.gameObject);
+            if (!_detectedObjects.Contains(detectableObject.gameObject))
+            {
+                detectableObject.Detected(gameObject);
+                _detectedObjects.Add(detectableObject.gameObject);
 
-            OnGameObjectDetectedEvent?.Invoke(gameObject, detectableObject.gameObject);
+                GameObjectDetected?.Invoke(gameObject, detectableObject.gameObject);
+            }
         }
-    }
 
-    public void Detect(GameObject detectedObject)
-    {
-        if (!_detectedObjects.Contains(detectedObject))
+        public void Detect(GameObject detectedObject)
         {
-            _detectedObjects.Add(detectedObject);
+            if (!_detectedObjects.Contains(detectedObject))
+            {
+                _detectedObjects.Add(detectedObject);
 
-            OnGameObjectDetectedEvent?.Invoke(gameObject, detectedObject);
+                GameObjectDetected?.Invoke(gameObject, detectedObject);
+            }
         }
-    }
 
-    public void ReleaseDetection(IDetectableObject detectableObject)
-    {
-        if (_detectedObjects.Contains(detectableObject.gameObject))
+        public void ReleaseDetection(IDetectableObject detectableObject)
         {
-            detectableObject.DetectionReleased(gameObject);
-            _detectedObjects.Remove(detectableObject.gameObject);
+            if (_detectedObjects.Contains(detectableObject.gameObject))
+            {
+                detectableObject.DetectionReleased(gameObject);
+                _detectedObjects.Remove(detectableObject.gameObject);
 
-            OnGameObjectDetectionReleasedEvent?.Invoke(gameObject, detectableObject.gameObject);
+                GameObjectDetectionReleased?.Invoke(gameObject, detectableObject.gameObject);
+            }
         }
-    }
 
-    public void ReleaseDetection(GameObject detectedObject)
-    {
-        if (_detectedObjects.Contains(detectedObject))
+        public void ReleaseDetection(GameObject detectedObject)
         {
-            _detectedObjects.Remove(detectedObject);
+            if (_detectedObjects.Contains(detectedObject))
+            {
+                _detectedObjects.Remove(detectedObject);
 
-            OnGameObjectDetectionReleasedEvent?.Invoke(gameObject, detectedObject);
+                GameObjectDetectionReleased?.Invoke(gameObject, detectedObject);
+            }
         }
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (IsColliderDetectableObject(other, out var detectedObject))
+        private void OnTriggerEnter(Collider other)
         {
-            Detect(detectedObject);
+            if (IsColliderDetectableObject(other, out var detectedObject))
+            {
+                Detect(detectedObject);
+            }
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (IsColliderDetectableObject(other, out var detectedObject))
+        private void OnTriggerExit(Collider other)
         {
-            ReleaseDetection(detectedObject);
+            if (IsColliderDetectableObject(other, out var detectedObject))
+            {
+                ReleaseDetection(detectedObject);
+            }
         }
-    }
 
-    private bool IsColliderDetectableObject(Collider collider, out IDetectableObject detectedObject)
-    {
-        detectedObject = collider.GetComponentInParent<IDetectableObject>();
+        private bool IsColliderDetectableObject(Collider collider, out IDetectableObject detectedObject)
+        {
+            detectedObject = collider.GetComponentInParent<IDetectableObject>();
 
-        return detectedObject != null;
+            return detectedObject != null;
+        }
     }
 }

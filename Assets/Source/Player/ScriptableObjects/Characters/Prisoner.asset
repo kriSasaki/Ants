@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a6dc4d53420e54d85c09d29f7a00ce, type: 3}
   m_Name: Prisoner
   m_EditorClassIdentifier: 
-  CharacterHealth: 170
-  CharacterPrice: 90
-  CharacterModel: {fileID: 2240836781792897101, guid: 6455358725813ce419e4da17115c87fc, type: 3}
+  Health: 170
+  Price: 90
+  Model: {fileID: 2240836781792897101, guid: 6455358725813ce419e4da17115c87fc, type: 3}
   IsBuyed: 0
-  CharacterRank: 5
+  Rank: 5
   Color: {r: 0.58431375, g: 0, b: 0.7529412, a: 0.54901963}

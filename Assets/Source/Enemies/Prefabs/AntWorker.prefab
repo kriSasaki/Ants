@@ -1860,6 +1860,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 0}
+  _audio: {fileID: 5886161632070768480}
+  _animator: {fileID: 5886161632291899408}
   _health: 40
   _egg: {fileID: 2323902828698548118, guid: d1fe305ddc3d4cd40afe635f347a9ac2, type: 3}
   _eggsAmount: 1
@@ -1890,6 +1892,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transitions:
   - {fileID: 5886161632070768508}
+  _animator: {fileID: 5886161632291899408}
 --- !u!114 &5886161632070768508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1919,6 +1922,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transitions:
   - {fileID: 3115399626918750527}
+  _animator: {fileID: 5886161632291899408}
 --- !u!114 &3115399626918750527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1949,6 +1953,7 @@ MonoBehaviour:
   _transitions:
   - {fileID: 5275387200201226710}
   - {fileID: 8465178532342035221}
+  _animator: {fileID: 5886161632291899408}
   _damage: 5
   _delay: 1
   _radianAngle: 2
@@ -1981,6 +1986,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetState: {fileID: -4410772452102806400}
+  _enemy: {fileID: 5886161632070768487}
 --- !u!114 &-4410772452102806400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1994,6 +2000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _transitions: []
+  _animator: {fileID: 5886161632291899408}
 --- !u!195 &5886161632070768483
 NavMeshAgent:
   m_ObjectHideFlags: 0

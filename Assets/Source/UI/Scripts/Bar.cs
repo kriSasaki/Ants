@@ -1,13 +1,22 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class Bar : MonoBehaviour
+namespace Source.UI.Scripts
 {
-    [SerializeField] protected Slider Slider;
-     
-    protected void OnValueChanged(int value, int maxValue)
+    public abstract class Bar : MonoBehaviour
     {
-        Slider.value = (float)value / maxValue;
+        private const float DefaultSliderValue = 1;
+        
+        [SerializeField] private Slider Slider;
+     
+        public void ValueChanged(int value, int maxValue)
+        {
+            Slider.value = (float)value / maxValue;
+        }
+
+        public void ResetToDefault()
+        {
+            Slider.value = DefaultSliderValue;
+        }
     }
 }

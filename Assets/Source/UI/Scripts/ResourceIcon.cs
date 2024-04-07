@@ -1,37 +1,39 @@
+using Source.World.Scripts;
 using TMPro;
 using UnityEngine;
 
-public class ResourceIcon : MonoBehaviour
+namespace Source.UI.Scripts
 {
-    [SerializeField] private TMP_Text _text;
-
-    protected PlayerChecker _playerChecker;
-    protected float _neededAmount;
-    private float _collectedAmount;
-
-    private void Awake()
+    public class ResourceIcon : MonoBehaviour
     {
-        _playerChecker = GetComponentInParent<PlayerChecker>();
-    }
+        [SerializeField] private TMP_Text _text;
 
-    private void Start()
-    {    
-        SetAmount();
-    }
+        public PlayerChecker PlayerChecker => _playerChecker;
 
-    public void SetNeededAmount(int amount)
-    {
-        _neededAmount = amount;
-    }
+        private PlayerChecker _playerChecker;
+        private float _neededAmount;
+        private float _collectedAmount;
 
-    protected void SetAmount() 
-    {
-        _text.text = $"{_collectedAmount}/{_neededAmount}";
-    }
+        private void Start()
+        {    
+            SetAmount();
+        }
 
-    protected void ResearchRecources(int amount)
-    {
-        _collectedAmount = amount;
-        SetAmount();
+        public void Initialize(PlayerChecker playerChecker, int amount)
+        {
+            _neededAmount = amount;
+            _playerChecker = playerChecker;
+        }
+        
+        public void ResearchRecources(int amount)
+        {
+            _collectedAmount = amount;
+            SetAmount();
+        }
+
+        private void SetAmount() 
+        {
+            _text.text = $"{_collectedAmount}/{_neededAmount}";
+        }
     }
 }

@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Appearance : MonoBehaviour
+namespace Source.Player.Scripts
 {
+    public class Appearance : MonoBehaviour
+    {
 
+    }
 }

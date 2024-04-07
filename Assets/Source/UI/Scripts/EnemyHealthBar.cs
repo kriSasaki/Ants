@@ -1,17 +1,21 @@
+using Source.Enemies.Scripts;
 using UnityEngine;
 
-public class EnemyHealthBar : Bar
+namespace Source.UI.Scripts
 {
-    [SerializeField] private Enemy _enemy;
-
-    private void OnEnable()
+    public class EnemyHealthBar : Bar
     {
-        _enemy.OnHealthChange += OnValueChanged;
-        Slider.value = 1;
-    }
+        [SerializeField] private Enemy _enemy;
 
-    private void OnDisable()
-    {
-        _enemy.OnHealthChange -= OnValueChanged;
+        private void OnEnable()
+        {
+            _enemy.HealthChanged += ValueChanged;
+            ResetToDefault();
+        }
+
+        private void OnDisable()
+        {
+            _enemy.HealthChanged -= ValueChanged;
+        }
     }
 }

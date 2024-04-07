@@ -1,4 +1,7 @@
 using System;
+using Source.Save.Scripts;
+using Source.UI.Scripts;
+using Source.World.Scripts;
 using UnityEngine;
 
 public class SaveLoadService : MonoBehaviour
@@ -11,7 +14,6 @@ public class SaveLoadService : MonoBehaviour
 
     private IStorageService _storageService;
     private int _data;
-    //private List<ISaveLoadItem> _items = new List<ISaveLoadItem>();
 
     private void Awake()
     {
@@ -20,45 +22,31 @@ public class SaveLoadService : MonoBehaviour
 
     private void OnEnable()
     {
-        _levelService.OnLoadDataNeeded += Load;
-        _levelService.OnSaveDataNeeded += Save;
-        _weaponChanger.OnLoadDataNeeded += Load;
-        _weaponChanger.OnSaveDataNeeded += Save;
-        _characterChanger.OnLoadDataNeeded += Load;
-        _characterChanger.OnSaveDataNeeded += Save;
-        _wallet.OnLoadDataNeeded += Load;
-        _wallet.OnSaveDataNeeded += Save;
-        _leaderBoardDisplay.OnLoadDataNeeded += Load;
-        _leaderBoardDisplay.OnSaveDataNeeded += Save;
+        _levelService.LoadDataNeeded += Load;
+        _levelService.SaveDataNeeded += Save;
+        _weaponChanger.LoadDataNeeded += Load;
+        _weaponChanger.SaveDataNeeded += Save;
+        _characterChanger.LoadDataNeed += Load;
+        _characterChanger.SaveDataNeed += Save;
+        _wallet.LoadDataNeeded += Load;
+        _wallet.SaveDataNeeded += Save;
+        _leaderBoardDisplay.LoadDataNeeded += Load;
+        _leaderBoardDisplay.SaveDataNeeded += Save;
     }
 
     private void OnDisable()
     {
-        _levelService.OnLoadDataNeeded -= Load;
-        _levelService.OnSaveDataNeeded -= Save;
-        _weaponChanger.OnLoadDataNeeded -= Load;
-        _weaponChanger.OnSaveDataNeeded -= Save;
-        _characterChanger.OnLoadDataNeeded -= Load;
-        _characterChanger.OnSaveDataNeeded -= Save;
-        _wallet.OnLoadDataNeeded -= Load;
-        _wallet.OnSaveDataNeeded -= Save;
-        _leaderBoardDisplay.OnLoadDataNeeded -= Load;
-        _leaderBoardDisplay.OnSaveDataNeeded -= Save;
+        _levelService.LoadDataNeeded -= Load;
+        _levelService.SaveDataNeeded -= Save;
+        _weaponChanger.LoadDataNeeded -= Load;
+        _weaponChanger.SaveDataNeeded -= Save;
+        _characterChanger.LoadDataNeed -= Load;
+        _characterChanger.SaveDataNeed -= Save;
+        _wallet.LoadDataNeeded -= Load;
+        _wallet.SaveDataNeeded -= Save;
+        _leaderBoardDisplay.LoadDataNeeded -= Load;
+        _leaderBoardDisplay.SaveDataNeeded -= Save;
     }
-
-    //public void Register(ISaveLoadItem saveLoadItem)
-    //{
-    //    _items.Add(saveLoadItem);
-    //    saveLoadItem.OnLoadDataNeeded += Load;
-    //    saveLoadItem.OnSaveDataNeeded += Save;
-    //}
-
-    //public void Unregister(ISaveLoadItem saveLoadItem)
-    //{
-    //    _items.Remove(saveLoadItem);
-    //    saveLoadItem.OnLoadDataNeeded -= Load;
-    //    saveLoadItem.OnSaveDataNeeded -= Save;
-    //}
 
     public void DeleteAll()
     {

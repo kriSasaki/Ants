@@ -1,24 +1,26 @@
-using System;
 using TMPro;
 using UnityEngine;
 
-public class CoinsDisplay : MonoBehaviour
+namespace Source.UI.Scripts
 {
-    [SerializeField] private Wallet _wallet;
-    [SerializeField] private TMP_Text _goldDisplay;
-
-    private void OnEnable()
+    public class CoinsDisplay : MonoBehaviour
     {
-        _wallet.GoldAmountChanged += ChangeCoinView;
-    }
+        [SerializeField] private Wallet _wallet;
+        [SerializeField] private TMP_Text _goldDisplay;
 
-    private void OnDisable()
-    {
-        _wallet.GoldAmountChanged -= ChangeCoinView;
-    }
+        private void OnEnable()
+        {
+            _wallet.GoldAmountChanged += ChangeCoinView;
+        }
 
-    private void ChangeCoinView()
-    {
-        _goldDisplay.text = _wallet.GoldAmount.ToString();
+        private void OnDisable()
+        {
+            _wallet.GoldAmountChanged -= ChangeCoinView;
+        }
+
+        private void ChangeCoinView()
+        {
+            _goldDisplay.text = _wallet.GoldAmount.ToString();
+        }
     }
 }

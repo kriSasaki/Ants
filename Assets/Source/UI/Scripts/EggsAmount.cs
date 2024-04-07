@@ -1,12 +1,15 @@
-public class EggsAmount : Amount
+namespace Source.UI.Scripts
 {
-    private void OnEnable()
+    public class EggsAmount : Amount
     {
-        _inventory.EggsAmountChanged += OnValueChanged;
-    }
+        private void OnEnable()
+        {
+            Inventory.EggsAmountChanged += OnValueChanged;
+        }
 
-    private void OnDisable()
-    {
-        _inventory.EggsAmountChanged -= OnValueChanged;
+        private void OnDisable()
+        {
+            Inventory.EggsAmountChanged -= OnValueChanged;
+        }
     }
 }

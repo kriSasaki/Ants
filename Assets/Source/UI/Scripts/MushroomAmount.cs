@@ -1,12 +1,15 @@
-public class MushroomAmount : Amount
+namespace Source.UI.Scripts
 {
-    private void OnEnable()
+    public class MushroomAmount : Amount
     {
-        _inventory.MushroomsAmountChanged += OnValueChanged;
-    }
+        private void OnEnable()
+        {
+            Inventory.MushroomsAmountChanged += OnValueChanged;
+        }
 
-    private void OnDisable()
-    {
-        _inventory.MushroomsAmountChanged -= OnValueChanged;
+        private void OnDisable()
+        {
+            Inventory.MushroomsAmountChanged -= OnValueChanged;
+        }
     }
 }

@@ -1,23 +1,19 @@
 using System.Collections;
-using UnityEngine;
+using Source.Player.Scripts;
 
-public class Egg : Resource
+namespace Source.Resources.Scripts
 {
-    protected override void NoticeResource(Inventory inventory, int amount)
+    public class Egg : Resource
     {
-        _coroutine = StartCoroutine(GiveResource(inventory, amount));
-    }
-    
-    private IEnumerator GiveResource(Inventory inventory, int amount)
-    {
-        _time = 0.1f;
-        
-        while (_time < _pickUpDuration)
+        public override IEnumerator GiveResource(Inventory inventory, int amount)
         {
-            _time += Time.deltaTime;
-            yield return null;
+            while (IsPickUpInProgress)
+            {
+                HandleTick();
+                yield return null;
+            }
+        
+            inventory.ChangeEggsAmount(amount);
         }
-    
-        inventory.ChangeEggsAmount(amount);
     }
 }

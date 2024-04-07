@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class PlayerReviver : MonoBehaviour
+namespace Source.Player.Scripts
 {
-    [SerializeField] private Player _player;
-
-    public void RevivePlayer()
+    public class PlayerReviver : MonoBehaviour
     {
-        if (_player.CurrentHealth <= 0)
+        [SerializeField] private Player _player;
+
+        public void RevivePlayer()
         {
-            _player.GetDamage(-_player.MaxHealth);
+            if (_player.CurrentHealth <= 0)
+            {
+                _player.Revive(_player.MaxHealth);
+            }
         }
     }
 }

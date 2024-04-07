@@ -1,16 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class MushroomResourceIcon : ResourceIcon
+namespace Source.UI.Scripts
 {
-    private void OnEnable()
+    public class MushroomResourceIcon : ResourceIcon
     {
-        _playerChecker.OnResearchMushroomNeeded += ResearchRecources;
-    }
+        private void OnEnable()
+        {
+            PlayerChecker.OnResearchMushroomNeeded += ResearchRecources;
+        }
 
-    private void OnDisable()
-    {
-        _playerChecker.OnResearchMushroomNeeded -= ResearchRecources;
+        private void OnDisable()
+        {
+            PlayerChecker.OnResearchMushroomNeeded -= ResearchRecources;
+        }
     }
 }

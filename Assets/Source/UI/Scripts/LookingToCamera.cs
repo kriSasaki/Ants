@@ -1,12 +1,15 @@
 using UnityEngine;
 
-public class LookingToCamera : MonoBehaviour
+namespace Source.UI.Scripts
 {
-    void Update()
+    public class LookingToCamera : MonoBehaviour
     {
-        if(transform.rotation != Camera.main.transform.rotation)
+        void Update()
         {
-            transform.rotation = Camera.main.transform.rotation;
+            if(transform.rotation != UnityEngine.Camera.main.transform.rotation)
+            {
+                transform.rotation = UnityEngine.Camera.main.transform.rotation;
+            }
         }
     }
 }

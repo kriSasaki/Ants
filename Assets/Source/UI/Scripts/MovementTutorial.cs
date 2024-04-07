@@ -1,33 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class MovementTutorial : MonoBehaviour
+namespace Source.UI.Scripts
 {
-    [FormerlySerializedAs("_interfaceAnimator")] [SerializeField] private InterfaceVisualizer interfaceVisualizer;
-    [SerializeField] private GameObject _computerTutorial;
-    [SerializeField] private GameObject _mobileTutorial;
-
-    private void OnEnable()
+    public class MovementTutorial : MonoBehaviour
     {
-        interfaceVisualizer.OnGameStarted += ShowTutorial;
-    }
+        [FormerlySerializedAs("_interfaceAnimator")] [SerializeField] private InterfacePresenter interfacePresenter;
+        [SerializeField] private GameObject _computerTutorial;
+        [SerializeField] private GameObject _mobileTutorial;
 
-    private void OnDisable()
-    {
-        interfaceVisualizer.OnGameStarted -= ShowTutorial;
-    }
-
-    private void ShowTutorial()
-    {
-        if (Application.isMobilePlatform)
+        private void OnEnable()
         {
-            _mobileTutorial.SetActive(true);
+            interfacePresenter.StartButtonPressed += ShowTutorial;
         }
-        else
+
+        private void OnDisable()
         {
-            _computerTutorial.SetActive(true);
+            interfacePresenter.StartButtonPressed -= ShowTutorial;
+        }
+
+        private void ShowTutorial()
+        {
+            if (Application.isMobilePlatform)
+            {
+                _mobileTutorial.SetActive(true);
+            }
+            else
+            {
+                _computerTutorial.SetActive(true);
+            }
         }
     }
 }

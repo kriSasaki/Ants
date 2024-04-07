@@ -1,38 +1,32 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-public class State : MonoBehaviour
+namespace Source.Enemies.Scripts.StateMachine
 {
-    [SerializeField] private List<Transition> _transitions;
-
-    protected Player Target { get; set; }
-    protected Animator Animator { get; set; }
-
-    private void Awake()
+    public class State : MonoBehaviour
     {
-        Animator = GetComponent<Animator>();
-    }
+        [SerializeField] private List<Transition> _transitions;
+        [SerializeField] private Animator _animator;
 
-    public void Enter(Player target)
-    {
-        if (enabled == false)
+        public Player.Scripts.Player Target { get; private set; }
+        public Animator Animator => _animator;
+
+        public void Enter(Player.Scripts.Player target)
         {
-            Target = target;
-            enabled = true;
-
-            foreach (var transition in _transitions)
+            if (enabled == false)
             {
-                transition.enabled = true;
-                transition.Initiate(Target);
+                Target = target;
+                enabled = true;
+
+                foreach (var transition in _transitions)
+                {
+                    transition.enabled = true;
+                    transition.Initiate(Target);
+                }
             }
         }
-    }
 
-    public void Exit()
-    {
-        if (enabled == true)
+        public void Exit()
         {
             foreach (var transition in _transitions)
             {
@@ -41,18 +35,18 @@ public class State : MonoBehaviour
 
             enabled = false;
         }
-    }
 
-    public State GetNextState()
-    {
-        foreach (var transition in _transitions)
+        public State GetNextState()
         {
-            if (transition.NeedTransit)
+            foreach (var transition in _transitions)
             {
-                return transition.TargetState;
+                if (transition.NeedTransit)
+                {
+                    return transition.TargetState;
+                }
             }
-        }
 
-        return null;
+            return null;
+        }
     }
 }

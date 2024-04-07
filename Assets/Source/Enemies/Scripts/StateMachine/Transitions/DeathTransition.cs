@@ -1,21 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DeathTransition : Transition
+namespace Source.Enemies.Scripts.StateMachine.Transitions
 {
-    private int _zero;
-
-    private void Start()
+    public class DeathTransition : Transition
     {
-        _zero = GetComponent<Enemy>().Zero;
-    }
-
-    private void Update()
-    {
-        if (GetComponent<Enemy>().Health<= _zero)
+        private const int _zero = 0;
+    
+        [SerializeField] private Enemy _enemy; 
+    
+        private void Update()
         {
-            NeedTransit = true;
+            if (_enemy.Health <= _zero)
+            {
+                NeedTransit = true;
+            }
         }
     }
 }

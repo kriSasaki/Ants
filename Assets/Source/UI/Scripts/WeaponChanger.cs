@@ -1,139 +1,135 @@
 using System;
 using System.Linq;
+using Source.Weapons.Scripts;
 using UnityEngine;
 
-public class WeaponChanger : ObjectChanger, ISaveLoadItem
+namespace Source.UI.Scripts
 {
-    private const string CurrentItemKey = "WeaponKey";
-    private const int NoModelItemIndex = 0;
-
-    [SerializeField] private CharacterChanger _characterChanger;
-    [SerializeField] private WeaponDisplay _weaponDisplay;
-    [SerializeField] private Wallet _wallet;
-
-    public event Action<string, Action<int>> OnLoadDataNeeded;
-    public event Action<string, int> OnSaveDataNeeded;
-    public event Action ItemBuyed;
-    private int CurrentWeapon;
-
-    private Weapon _weapon;
-
-    private void Awake()
+    public class WeaponChanger : ObjectChanger
     {
-        _player = GetComponentInParent<PlayerTransmitter>().Player;
-        _interfaceVisualizer = GetComponentInParent<InterfaceVisualizer>();
-    }
+        private const string CurrentItemKey = "WeaponKey";
+        private const int NoModelItemIndex = 0;
 
-    private void Start()
-    {
-        for (int i = 0; i < _scriptableObjects.Length; i++)
+        [SerializeField] private CharacterChanger _characterChanger;
+        [SerializeField] private WeaponDisplay _weaponDisplay;
+        [SerializeField] private Wallet _wallet;
+
+        public event Action<string, Action<int>> LoadDataNeeded;
+        public event Action<string, int> SaveDataNeeded;
+        public event Action ItemBuyed;
+        private int CurrentWeapon;
+
+        private Weapon _weapon;
+
+        private void Start()
         {
-            OnLoadDataNeeded?.Invoke(CurrentItemKey + i.ToString(), BuyWeapon);
-        }
-
-        OnLoadDataNeeded?.Invoke(CurrentItemKey, data => { CurrentWeapon = data; });
-
-        ChangeScriptableObject(CurrentWeapon);
-    }
-
-    private void OnEnable()
-    {
-        _characterChanger.ItemBuyed += UpdateDisplay;
-        _wallet.GoldAmountChanged += UpdateDisplay;
-        _player.OnPlayerEnable += TryGiveWeapon;
-        _buyButton.onClick.AddListener(TryBuyWeapon);
-    }
-
-    private void OnDisable()
-    {
-        _characterChanger.ItemBuyed -= UpdateDisplay;
-        _wallet.GoldAmountChanged -= UpdateDisplay;
-        _player.OnPlayerEnable -= TryGiveWeapon;
-        _buyButton.onClick.RemoveListener(TryBuyWeapon);
-    }
-
-    public override void ChangeScriptableObject(int change)
-    {
-        base.ChangeScriptableObject(change);
-        CurrentWeapon = _currentIndex;
-        OnSaveDataNeeded?.Invoke(CurrentItemKey, CurrentWeapon);
-        CheckOpportunityToBuy(CurrentWeapon);
-
-        if (_weaponDisplay != null)
-        {
-            _weaponDisplay.DisplayWeapon((Weapon)_scriptableObjects[_currentIndex]);
-        }
-    }
-
-    private void TryBuyWeapon()
-    {
-        _weapon = (Weapon)_scriptableObjects[CurrentWeapon];
-
-        if (_wallet.GoldAmount >= _weapon.Price)
-        {
-            BuyWeapon(CurrentWeapon);
-            _wallet.ChangeGoldAmount(-_weapon.Price);
-            _weaponDisplay.DisplayWeapon((Weapon)_scriptableObjects[CurrentWeapon]);
-        }
-    }
-
-    private void BuyWeapon(int weaponIndex)
-    {
-        _weapon = (Weapon)_scriptableObjects[weaponIndex];
-        _weaponDisplay.ChangePriceAlertStatus(false);
-        _weapon.BuyItem();
-        ItemBuyed?.Invoke();
-        OnSaveDataNeeded?.Invoke(CurrentItemKey + weaponIndex.ToString(), weaponIndex);
-    }
-
-    private void TryGiveWeapon()
-    {
-        _weapon = (Weapon)_scriptableObjects[CurrentWeapon];
-        
-        if (_weapon.IsBuyed)
-        {
-            GiveWeapon();
-        }
-        else
-        {
-            _weapon = _scriptableObjects.OfType<Weapon>().LastOrDefault(weapon => weapon.IsBuyed);
-            GiveWeapon();
-        }
-    }
-
-    private void GiveWeapon()
-    {
-        _player.GetWeapon(_weapon);
-
-        if (_weapon.Model != null && _weapon.Price != NoModelItemIndex)
-        {
-            _player.SpawnWeapon();
-        }
-    }
-
-    private void CheckOpportunityToBuy(int index)
-    {
-        _weapon = (Weapon)_scriptableObjects[index];
-        _weaponDisplay.ChangePriceAlertStatus(_weapon.Price <= _wallet.GoldAmount && _weapon.IsBuyed == false);
-
-        for (int i = index + 1; i < _scriptableObjects.Length; i++)
-        {
-            _weapon = (Weapon)_scriptableObjects[i];
-
-            if (_weapon.Price <= _wallet.GoldAmount && _weapon.IsBuyed == false)
+            for (int i = 0; i < ScriptableObjects.Length; i++)
             {
-                _weaponDisplay.ChangeButtonAlertStatus(true);
-                break;
+                LoadDataNeeded?.Invoke(CurrentItemKey + i.ToString(), BuyWeapon);
+            }
+
+            LoadDataNeeded?.Invoke(CurrentItemKey, data => { CurrentWeapon = data; });
+
+            ChangeScriptableObject(CurrentWeapon);
+        }
+
+        private void OnEnable()
+        {
+            _characterChanger.ItemBuyed += UpdateDisplay;
+            _wallet.GoldAmountChanged += UpdateDisplay;
+            Player.PlayerEnabled += TryGiveWeapon;
+            BuyButton.onClick.AddListener(TryBuyWeapon);
+        }
+
+        private void OnDisable()
+        {
+            _characterChanger.ItemBuyed -= UpdateDisplay;
+            _wallet.GoldAmountChanged -= UpdateDisplay;
+            Player.PlayerEnabled -= TryGiveWeapon;
+            BuyButton.onClick.RemoveListener(TryBuyWeapon);
+        }
+
+        public override void ChangeScriptableObject(int change)
+        {
+            base.ChangeScriptableObject(change);
+            CurrentWeapon = CurrentIndex;
+            SaveDataNeeded?.Invoke(CurrentItemKey, CurrentWeapon);
+            CheckOpportunityToBuy(CurrentWeapon);
+
+            if (_weaponDisplay != null)
+            {
+                _weaponDisplay.DisplayWeapon((Weapon)ScriptableObjects[CurrentIndex]);
+            }
+        }
+
+        private void TryBuyWeapon()
+        {
+            _weapon = (Weapon)ScriptableObjects[CurrentWeapon];
+
+            if (_wallet.GoldAmount >= _weapon.Price)
+            {
+                BuyWeapon(CurrentWeapon);
+                _wallet.ChangeGoldAmount(-_weapon.Price);
+                _weaponDisplay.DisplayWeapon((Weapon)ScriptableObjects[CurrentWeapon]);
+            }
+        }
+
+        private void BuyWeapon(int weaponIndex)
+        {
+            _weapon = (Weapon)ScriptableObjects[weaponIndex];
+            _weaponDisplay.ChangePriceAlertStatus(false);
+            _weapon.BuyItem();
+            ItemBuyed?.Invoke();
+            SaveDataNeeded?.Invoke(CurrentItemKey + weaponIndex.ToString(), weaponIndex);
+        }
+
+        private void TryGiveWeapon()
+        {
+            _weapon = (Weapon)ScriptableObjects[CurrentWeapon];
+        
+            if (_weapon.IsBuyed)
+            {
+                GiveWeapon();
             }
             else
             {
+                _weapon = ScriptableObjects.OfType<Weapon>().LastOrDefault(weapon => weapon.IsBuyed);
+                GiveWeapon();
+            }
+        }
+
+        private void GiveWeapon()
+        {
+            Player.EquipWeapon(_weapon);
+
+            if (_weapon.Model != null && _weapon.Price != NoModelItemIndex)
+            {
+                Player.SpawnWeapon();
+            }
+        }
+
+        private void CheckOpportunityToBuy(int index)
+        {
+            _weapon = (Weapon)ScriptableObjects[index];
+            _weaponDisplay.ChangePriceAlertStatus(_weapon.Price <= _wallet.GoldAmount && _weapon.IsBuyed == false);
+
+            for (int i = index + 1; i < ScriptableObjects.Length; i++)
+            {
+                _weapon = (Weapon)ScriptableObjects[i];
+
+                if (_weapon.Price <= _wallet.GoldAmount && _weapon.IsBuyed == false)
+                {
+                    _weaponDisplay.ChangeButtonAlertStatus(true);
+                    break;
+                }
+
                 _weaponDisplay.ChangeButtonAlertStatus(false);
             }
         }
-    }
     
-    private void UpdateDisplay()
-    {
-        CheckOpportunityToBuy(CurrentWeapon);
+        private void UpdateDisplay()
+        {
+            CheckOpportunityToBuy(CurrentWeapon);
+        }
     }
 }

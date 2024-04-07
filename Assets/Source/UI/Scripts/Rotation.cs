@@ -1,16 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Rotation : MonoBehaviour
+namespace Source.UI.Scripts
 {
-    [SerializeField] private float _rotarionX;
-    [SerializeField] private float _rotarionY;
-    [SerializeField] private float _rotarionZ;
-
-
-    void Update()
+    public class Rotation : MonoBehaviour
     {
-        transform.Rotate(_rotarionX * Time.unscaledDeltaTime, _rotarionY * Time.unscaledDeltaTime, _rotarionZ * Time.unscaledDeltaTime);
+        [SerializeField] private float _rotarionX;
+        [SerializeField] private float _rotarionY;
+        [SerializeField] private float _rotarionZ;
+
+
+        void Update()
+        {
+            transform.Rotate(_rotarionX * Time.unscaledDeltaTime, _rotarionY * Time.unscaledDeltaTime, _rotarionZ * Time.unscaledDeltaTime);
+        }
     }
 }

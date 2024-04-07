@@ -1,61 +1,60 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Enemy))]
-public class EnemyStateMachine : MonoBehaviour
+namespace Source.Enemies.Scripts.StateMachine
 {
-    [SerializeField] private State _fisrtState;
-    
-    Player _target;
-
-    private State _currentState;
-
-    public State Current => _currentState;
-
-    private void Start()
+    [RequireComponent(typeof(Enemy))]
+    public class EnemyStateMachine : MonoBehaviour
     {
-        _target = GetComponent<Enemy>().Target;
-        Reset(_fisrtState);
-    }
+        [SerializeField] private State _fisrtState;
 
-    private void Update()
-    {
-        if (_currentState == null)
+        private Player.Scripts.Player _target;
+
+        private State _currentState;
+
+        private void Start()
         {
-            return;
+            _target = GetComponent<Enemy>().Target;
+            Reset(_fisrtState);
         }
 
-        var nextState = _currentState.GetNextState();
-
-        if (nextState != null)
+        private void Update()
         {
-            Transit(nextState);
-        }
-    }
+            if (_currentState == null)
+            {
+                return;
+            }
 
-    private void Reset(State startState)
-    {
-        _currentState = startState;
+            var nextState = _currentState.GetNextState();
 
-        if (_currentState != null)
-        {
-            _currentState.Enter(_target);
-        }
-    }
-
-    private void Transit(State nextState)
-    {
-        if (_currentState != null)
-        {
-            _currentState.Exit();
+            if (nextState != null)
+            {
+                Transit(nextState);
+            }
         }
 
-        _currentState = nextState;
-
-        if(_currentState != null)
+        private void Reset(State startState)
         {
-            _currentState.Enter(_target);
+            _currentState = startState;
+
+            if (_currentState != null)
+            {
+                _currentState.Enter(_target);
+            }
+        }
+
+        private void Transit(State nextState)
+        {
+            if (_currentState != null)
+            {
+                _currentState.Exit();
+            }
+
+            _currentState = nextState;
+
+            if(_currentState != null)
+            {
+                _currentState.Enter(_target);
+            }
         }
     }
 }

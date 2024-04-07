@@ -1,28 +1,26 @@
+using Source.UI.Scripts;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+namespace Source.Camera
 {
-    [SerializeField] private InterfaceVisualizer _interfaceVisualizer;
-
-    private CameraFollower _cameraFollower;
-
-    private void Awake()
+    public class CameraController : MonoBehaviour
     {
-        _cameraFollower = GetComponent<CameraFollower>();
-    }
+        [SerializeField] private InterfacePresenter interfacePresenter;
+        [SerializeField] private CameraFollower _cameraFollower;
 
-    private void OnEnable()
-    {
-        _interfaceVisualizer.OnGameStarted += Enable;
-    }
+        private void OnEnable()
+        {
+            interfacePresenter.StartButtonPressed += Enable;
+        }
 
-    private void OnDisable()
-    {
-        _interfaceVisualizer.OnGameStarted -= Enable;
-    }
+        private void OnDisable()
+        {
+            interfacePresenter.StartButtonPressed -= Enable;
+        }
     
-    private void Enable()
-    {
-        _cameraFollower.enabled = true;
+        private void Enable()
+        {
+            _cameraFollower.enabled = true;
+        }
     }
 }

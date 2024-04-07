@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Source.Enemies.Scripts.StateMachine;
 
-public class IdleState : State
+namespace Source.Enemies.Scripts
 {
-    private void Update()
+    public class IdleState : State
     {
-
+        private void Update()
+        {
+        }
     }
 }
