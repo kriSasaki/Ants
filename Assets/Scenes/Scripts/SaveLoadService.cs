@@ -1,7 +1,7 @@
 using System;
 using Source.Save.Scripts;
-using Source.UI.Scripts;
-using Source.World.Scripts;
+using Source.Scripts.UI;
+using Source.Scripts.World;
 using UnityEngine;
 
 public class SaveLoadService : MonoBehaviour

@@ -1,0 +1,45 @@
+using System.Collections;
+using Source.Scripts.Player;
+using UnityEngine;
+
+namespace Source.Scripts.Resources
+{
+    public abstract class Resource : MonoBehaviour
+    {
+        private const int Amount = 1;
+
+        [SerializeField] private float _pickUpDuration;
+        [SerializeField] private PickUpAnimation _pickUpAnimation;
+        [SerializeField] private DropAnimation _dropAnimation;
+
+        public bool IsPickUpInProgress => _time < _pickUpDuration;
+    
+        private bool _resourceCollected = false;
+        private Player.Player _target;
+        private float _time = 0.1f;
+        
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.TryGetComponent(out Player.Player target) && _resourceCollected == false)
+            {
+                _resourceCollected = true;
+                _target = target;
+                Drop();
+            }
+        }
+        
+        public abstract IEnumerator Give(Inventory inventory, int amount);
+
+        public void HandleTick()
+        {
+            _time += Time.deltaTime;
+        }
+    
+        private void Drop()
+        {
+            _pickUpAnimation.SetTargetPosition(_target.transform);
+            StartCoroutine(Give(_target.GetComponent<Inventory>(), Amount));
+            _dropAnimation.enabled = true;
+        }
+    }
+}
