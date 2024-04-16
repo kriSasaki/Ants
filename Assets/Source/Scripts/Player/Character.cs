@@ -2,14 +2,28 @@ using UnityEngine;
 
 namespace Source.Scripts.Player
 {
-    [CreateAssetMenu(fileName = "New Character", menuName = "Scriptable Objects/Character")]
-    public class Character : ScriptableObject
+    public class Character : MonoBehaviour
     {
-        public int Health;
-        public int Price;
-        public GameObject Model;
-        public bool IsBought = false;
-        public int Rank;
-        public Color Color;
+        public int Health { get; private set; }
+        public int Price { get; private set; }
+        public GameObject Model { get; private set; }
+        public bool IsBought { get; private set; }
+        public int Rank { get; private set; }
+        public Color Color { get; private set; }
+
+        public Character(CharacterConfig characterConfig)
+        {
+            Health = characterConfig.Health;
+            Price = characterConfig.Price;
+            Model = characterConfig.Model;
+            IsBought = characterConfig.IsBought;
+            Rank = characterConfig.Rank;
+            Color = characterConfig.Color;
+        }
+
+        public void BuyItem()
+        {
+            IsBought = true;
+        }
     }
 }

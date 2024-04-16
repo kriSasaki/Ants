@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Source.Scripts.Weapon;
 using UnityEngine;
 
 namespace Source.Scripts.UI
@@ -16,20 +18,31 @@ namespace Source.Scripts.UI
         public event Action<string, Action<int>> LoadDataNeeded;
         public event Action<string, int> SaveDataNeeded;
         public event Action ItemBought;
-        private int CurrentWeapon;
 
+        private int _currentWeaponIndex;
         private Weapon.Weapon _weapon;
+        private List<Weapon.Weapon> _weapons;
 
         private void Start()
         {
-            for (int i = 0; i < ScriptableObjects.Length; i++)
+            _weapons = new List<Weapon.Weapon>();
+
+            foreach (ScriptableObject scriptableObject in ScriptableObjects)
             {
-                LoadDataNeeded?.Invoke(CurrentItemKey + i.ToString(), BuyWeapon);
+                _weapons.Add(new Weapon.Weapon((WeaponConfig) scriptableObject));
+            }
+            
+            for (var i = 0; i < _weapons.Count; i++)
+            {
+                LoadDataNeeded?.Invoke(CurrentItemKey + i, BuyWeapon);
             }
 
-            LoadDataNeeded?.Invoke(CurrentItemKey, data => { CurrentWeapon = data; });
+            LoadDataNeeded?.Invoke(CurrentItemKey, data =>
+            {
+                _currentWeaponIndex = data;
+            });
 
-            ChangeScriptableObject(CurrentWeapon);
+            ChangeScriptableObject(_currentWeaponIndex);
         }
 
         private void OnEnable()
@@ -51,40 +64,40 @@ namespace Source.Scripts.UI
         public override void ChangeScriptableObject(int change)
         {
             base.ChangeScriptableObject(change);
-            CurrentWeapon = CurrentIndex;
-            SaveDataNeeded?.Invoke(CurrentItemKey, CurrentWeapon);
-            CheckOpportunityToBuy(CurrentWeapon);
+            _currentWeaponIndex = CurrentIndex;
+            SaveDataNeeded?.Invoke(CurrentItemKey, _currentWeaponIndex);
+            CheckOpportunityToBuy(_currentWeaponIndex);
 
             if (_weaponDisplay != null)
             {
-                _weaponDisplay.DisplayWeapon((Weapon.Weapon)ScriptableObjects[CurrentIndex]);
+                _weaponDisplay.DisplayWeapon(_weapons[_currentWeaponIndex]);
             }
         }
 
         private void TryBuyWeapon()
         {
-            _weapon = (Weapon.Weapon)ScriptableObjects[CurrentWeapon];
+            _weapon = _weapons[_currentWeaponIndex];
 
             if (_wallet.GoldAmount >= _weapon.Price)
             {
-                BuyWeapon(CurrentWeapon);
+                BuyWeapon(_currentWeaponIndex);
                 _wallet.ChangeGoldAmount(-_weapon.Price);
-                _weaponDisplay.DisplayWeapon((Weapon.Weapon)ScriptableObjects[CurrentWeapon]);
+                _weaponDisplay.DisplayWeapon(_weapons[_currentWeaponIndex]);
             }
         }
 
         private void BuyWeapon(int weaponIndex)
         {
-            _weapon = (Weapon.Weapon)ScriptableObjects[weaponIndex];
+            _weapon = _weapons[weaponIndex];
             _weaponDisplay.ChangePriceAlertStatus(false);
             _weapon.BuyItem();
             ItemBought?.Invoke();
-            SaveDataNeeded?.Invoke(CurrentItemKey + weaponIndex.ToString(), weaponIndex);
+            SaveDataNeeded?.Invoke(CurrentItemKey + weaponIndex, weaponIndex);
         }
 
         private void TryGiveWeapon()
         {
-            _weapon = (Weapon.Weapon)ScriptableObjects[CurrentWeapon];
+            _weapon = _weapons[_currentWeaponIndex];
         
             if (_weapon.IsBought)
             {
@@ -92,7 +105,7 @@ namespace Source.Scripts.UI
             }
             else
             {
-                _weapon = ScriptableObjects.OfType<Weapon.Weapon>().LastOrDefault(weapon => weapon.IsBought);
+                _weapon = _weapons.OfType<Weapon.Weapon>().LastOrDefault(weapon => weapon.IsBought);
                 GiveWeapon();
             }
         }
@@ -109,12 +122,12 @@ namespace Source.Scripts.UI
 
         private void CheckOpportunityToBuy(int index)
         {
-            _weapon = (Weapon.Weapon)ScriptableObjects[index];
+            _weapon = _weapons[_currentWeaponIndex];
             _weaponDisplay.ChangePriceAlertStatus(_weapon.Price <= _wallet.GoldAmount && _weapon.IsBought == false);
 
             for (int i = index + 1; i < ScriptableObjects.Length; i++)
             {
-                _weapon = (Weapon.Weapon)ScriptableObjects[i];
+                _weapon = _weapons[i];
 
                 if (_weapon.Price <= _wallet.GoldAmount && _weapon.IsBought == false)
                 {
@@ -128,7 +141,7 @@ namespace Source.Scripts.UI
     
         private void UpdateDisplay()
         {
-            CheckOpportunityToBuy(CurrentWeapon);
+            CheckOpportunityToBuy(_currentWeaponIndex);
         }
     }
-}
+}       

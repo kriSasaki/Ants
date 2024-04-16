@@ -15,12 +15,12 @@ namespace Source.Scripts.Resources
         public bool IsPickUpInProgress => _time < _pickUpDuration;
     
         private bool _resourceCollected = false;
-        private Player.Player _target;
+        private Inventory _target;
         private float _time = 0.1f;
         
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out Player.Player target) && _resourceCollected == false)
+            if (other.TryGetComponent(out Inventory target) && _resourceCollected == false)
             {
                 _resourceCollected = true;
                 _target = target;
@@ -38,7 +38,7 @@ namespace Source.Scripts.Resources
         private void Drop()
         {
             _pickUpAnimation.SetTargetPosition(_target.transform);
-            StartCoroutine(Give(_target.GetComponent<Inventory>(), Amount));
+            StartCoroutine(Give(_target, Amount));
             _dropAnimation.enabled = true;
         }
     }

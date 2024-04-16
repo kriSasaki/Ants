@@ -18,21 +18,21 @@ namespace Source.Scripts.UI
 
         private GameObject _weapon;
 
-        public void DisplayWeapon(Weapon.Weapon weapon)
+        public void DisplayWeapon(Weapon.Weapon weaponConfig)
         {
-            _weaponDamage.text = weapon.Damage.ToString();
+            _weaponDamage.text = weaponConfig.Damage.ToString();
             _particleSystem.Stop();
             var main = _particleSystem.main;
-            main.startColor = weapon.Color;
+            main.startColor = weaponConfig.Color;
             _particleSystem.Play();
-            Bought.enabled = weapon.IsBought;
-            Price.enabled = !weapon.IsBought;
+            Bought.enabled = weaponConfig.IsBought;
+            Price.enabled = !weaponConfig.IsBought;
 
-            if (weapon.IsBought == false)
+            if (weaponConfig.IsBought == false)
             {
                 BuyButton.enabled = true;
                 _coin.SetActive(true);
-                Price.text = weapon.Price.ToString();
+                Price.text = weaponConfig.Price.ToString();
                 ItemIsBought = false;
                 ItemChanged?.Invoke();
             }
@@ -45,16 +45,16 @@ namespace Source.Scripts.UI
                 ItemChanged?.Invoke();
             }
 
-            RankStars.ShowStars(weapon.Rank);
+            RankStars.ShowStars(weaponConfig.Rank);
             
             if (_weaponHolder.childCount > 0)
             {
                 Destroy(_weapon);
             }
 
-            if (weapon.Model != null)
+            if (weaponConfig.Model != null)
             {
-                _weapon = Instantiate(weapon.Model, _weaponHolder.position, _weaponHolder.rotation, _weaponHolder);
+                _weapon = Instantiate(weaponConfig.Model, _weaponHolder.position, _weaponHolder.rotation, _weaponHolder);
             }
         }
     }

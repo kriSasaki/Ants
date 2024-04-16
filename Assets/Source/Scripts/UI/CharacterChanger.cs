@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Source.Scripts.Player;
 using UnityEngine;
@@ -17,22 +18,30 @@ namespace Source.Scripts.UI
         public event Action<string, int> SaveDataNeed;
         public event Action ItemPurchased;
 
-        private int _currentCharacter;
+        private int _currentCharacterIndex;
         private Character _character;
+        private List<Character> _characters;
 
         private void Start()
         {
-            for (int i = 0; i < ScriptableObjects.Length; i++)
+            _characters = new List<Character>();
+
+            foreach (ScriptableObject scriptableObject in ScriptableObjects)
             {
-                LoadDataNeed?.Invoke(CurrentItemKey + i.ToString(), BuyCharacter);
+                _characters.Add(new Character((CharacterConfig) scriptableObject));
+            }
+            
+            for (var i = 0; i < _characters.Count; i++)
+            {
+                LoadDataNeed?.Invoke(CurrentItemKey + i, BuyCharacter);
             }
 
             LoadDataNeed?.Invoke(CurrentItemKey, data =>
             {
-                _currentCharacter = data;
+                _currentCharacterIndex = data;
             });
 
-            ChangeScriptableObject(_currentCharacter);
+            ChangeScriptableObject(_currentCharacterIndex);
         }
 
         private void OnEnable()
@@ -54,40 +63,40 @@ namespace Source.Scripts.UI
         public override void ChangeScriptableObject(int change)
         {
             base.ChangeScriptableObject(change);
-            _currentCharacter = CurrentIndex;
-            SaveDataNeed?.Invoke(CurrentItemKey, _currentCharacter);
-            CheckOpportunityToBuy(_currentCharacter);
+            _currentCharacterIndex = CurrentIndex;
+            SaveDataNeed?.Invoke(CurrentItemKey, _currentCharacterIndex);
+            CheckOpportunityToBuy(_currentCharacterIndex);
 
             if (_characterDisplay != null)
             {
-                _characterDisplay.DisplayCharacter((Character)ScriptableObjects[CurrentIndex]);
+                _characterDisplay.DisplayCharacter(_characters[_currentCharacterIndex]);
             }
         }
 
         private void TryBuyCharacter()
         {
-            _character = (Character)ScriptableObjects[_currentCharacter];
+            _character = _characters[_currentCharacterIndex];
 
             if (_wallet.GoldAmount >= _character.Price)
             {
-                BuyCharacter(_currentCharacter);
+                BuyCharacter(_currentCharacterIndex);
                 _wallet.ChangeGoldAmount(-_character.Price);
-                _characterDisplay.DisplayCharacter((Character)ScriptableObjects[_currentCharacter]);
+                _characterDisplay.DisplayCharacter(_characters[_currentCharacterIndex]);
             }
         }
 
         private void BuyCharacter(int characterIndex)
         {
-            _character = (Character)ScriptableObjects[characterIndex];
+            _character = _characters[characterIndex];
             _characterDisplay.ChangePriceAlertStatus(false);
-            _character.IsBought = true;
+            _character.BuyItem();
             ItemPurchased?.Invoke();
             SaveDataNeed?.Invoke(CurrentItemKey + characterIndex.ToString(), characterIndex);
         }
 
         private void ChooseCharacter()
         {
-            _character = (Character)ScriptableObjects[_currentCharacter];
+            _character = _characters[_currentCharacterIndex];
 
             if (_character.IsBought)
             {
@@ -95,7 +104,7 @@ namespace Source.Scripts.UI
             }
             else
             {
-                _character = ScriptableObjects.OfType<Character>().LastOrDefault(character => character.IsBought);
+                _character = _characters.OfType<Character>().LastOrDefault(character => character.IsBought);
                 SpawnCharacter();
             }
         }
@@ -109,12 +118,12 @@ namespace Source.Scripts.UI
     
         private void CheckOpportunityToBuy(int index)
         {
-            _character = (Character)ScriptableObjects[index];
+            _character = _characters[index];
             _characterDisplay.ChangePriceAlertStatus(_character.Price <= _wallet.GoldAmount && _character.IsBought == false);
 
             for (int i = index + 1; i < ScriptableObjects.Length; i++)
             {
-                _character = (Character)ScriptableObjects[i];
+                _character = _characters[i];
 
                 if (_character.Price <= _wallet.GoldAmount && _character.IsBought == false)
                 {
@@ -130,7 +139,7 @@ namespace Source.Scripts.UI
 
         private void UpdateDisplay()
         {
-            CheckOpportunityToBuy(_currentCharacter);
+            CheckOpportunityToBuy(_currentCharacterIndex);
         }
     }
 }

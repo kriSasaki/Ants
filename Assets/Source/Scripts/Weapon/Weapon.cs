@@ -2,26 +2,28 @@ using UnityEngine;
 
 namespace Source.Scripts.Weapon
 {
-    [CreateAssetMenu(fileName = "New Weapon", menuName = "Scriptable Objects/Weapon")]
-    public class Weapon : ScriptableObject
+    public class Weapon : MonoBehaviour
     {
-        [SerializeField] private int _damage;
-        [SerializeField] private int _price;
-        [SerializeField] private GameObject _model;
-        [SerializeField] private bool _isBought = false;
-        [SerializeField] private int _rank;
-        [SerializeField] private Color _color;
+        public Weapon(WeaponConfig weaponConfig)
+        {
+            Damage = weaponConfig.Damage;
+            Price = weaponConfig.Price;
+            Model = weaponConfig.Model;
+            IsBought = weaponConfig.IsBought;
+            Rank = weaponConfig.Rank;
+            Color = weaponConfig.Color;
+        }
 
-        public int Damage => _damage;
-        public int Price => _price;
-        public GameObject Model => _model;
-        public bool IsBought => _isBought;
-        public int Rank => _rank;
-        public Color Color => _color;
+        public int Damage { get; private set; }
+        public int Price { get; private set; }
+        public GameObject Model { get; private set; }
+        public bool IsBought { get; private set; } = false;
+        public int Rank { get; private set; }
+        public Color Color { get; private set; }
 
         public void BuyItem()
         {
-            _isBought = true;
+            IsBought = true;
         }
     }
 }
