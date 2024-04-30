@@ -7,7 +7,7 @@ namespace Source.Scripts.UI
     {
         [SerializeField] private InterfacePresenter _interfacePresenter;
         [SerializeField] private TMP_Text _tmpText;
- 
+
         private void OnEnable()
         {
             _interfacePresenter.StartButtonPressed += ShowTutorial;

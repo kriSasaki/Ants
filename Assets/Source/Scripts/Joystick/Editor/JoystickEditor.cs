@@ -14,7 +14,7 @@ namespace Source.Scripts.Joystick.Editor
         protected SerializedProperty background;
         private SerializedProperty handle;
 
-        protected Vector2 center = new Vector2(0.5f, 0.5f);
+        protected Vector2 center = new(0.5f, 0.5f);
 
         protected virtual void OnEnable()
         {
@@ -37,9 +37,9 @@ namespace Source.Scripts.Joystick.Editor
 
             serializedObject.ApplyModifiedProperties();
 
-            if(handle != null)
+            if (handle != null)
             {
-                RectTransform handleRect = (RectTransform)handle.objectReferenceValue;
+                var handleRect = (RectTransform)handle.objectReferenceValue;
                 handleRect.anchorMax = center;
                 handleRect.anchorMin = center;
                 handleRect.pivot = center;
@@ -49,16 +49,21 @@ namespace Source.Scripts.Joystick.Editor
 
         protected virtual void DrawValues()
         {
-            EditorGUILayout.PropertyField(handleRange, new GUIContent("Handle Range", "The distance the visual handle can move from the center of the joystick."));
-            EditorGUILayout.PropertyField(deadZone, new GUIContent("Dead Zone", "The distance away from the center input has to be before registering."));
+            EditorGUILayout.PropertyField(handleRange,
+                new GUIContent("Handle Range",
+                    "The distance the visual handle can move from the center of the joystick."));
+            EditorGUILayout.PropertyField(deadZone,
+                new GUIContent("Dead Zone", "The distance away from the center input has to be before registering."));
             EditorGUILayout.PropertyField(axisOptions, new GUIContent("Axis Options", "Which axes the joystick uses."));
-            EditorGUILayout.PropertyField(snapX, new GUIContent("Snap X", "Snap the horizontal input to a whole value."));
+            EditorGUILayout.PropertyField(snapX,
+                new GUIContent("Snap X", "Snap the horizontal input to a whole value."));
             EditorGUILayout.PropertyField(snapY, new GUIContent("Snap Y", "Snap the vertical input to a whole value."));
         }
 
         protected virtual void DrawComponents()
         {
-            EditorGUILayout.ObjectField(background, new GUIContent("Background", "The background's RectTransform component."));
+            EditorGUILayout.ObjectField(background,
+                new GUIContent("Background", "The background's RectTransform component."));
             EditorGUILayout.ObjectField(handle, new GUIContent("Handle", "The handle's RectTransform component."));
         }
     }

@@ -13,11 +13,11 @@ namespace Source.Scripts.Resources
         [SerializeField] private DropAnimation _dropAnimation;
 
         public bool IsPickUpInProgress => _time < _pickUpDuration;
-    
+
         private bool _resourceCollected = false;
         private Inventory _target;
         private float _time = 0.1f;
-        
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out Inventory target) && _resourceCollected == false)
@@ -27,14 +27,14 @@ namespace Source.Scripts.Resources
                 Drop();
             }
         }
-        
+
         public abstract IEnumerator Give(Inventory inventory, int amount);
 
         public void HandleTick()
         {
             _time += Time.deltaTime;
         }
-    
+
         private void Drop()
         {
             _pickUpAnimation.SetTargetPosition(_target.transform);

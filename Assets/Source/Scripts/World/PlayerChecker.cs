@@ -7,7 +7,7 @@ namespace Source.Scripts.World
     public class PlayerChecker : MonoBehaviour
     {
         [SerializeField] private ResourceChecker _resourceChecker;
-        
+
         public event Action<int> OnResearchMushroomNeeded;
         public event Action<int> OnResearchEggsNeeded;
         public event Action ConditionIsDone;

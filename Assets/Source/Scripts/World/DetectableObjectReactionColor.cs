@@ -32,18 +32,12 @@ namespace Source.Scripts.World
 
         private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
         {
-            if (source.TryGetComponent(out Inventory inventory))
-            {
-                ChangeParticle();
-            }
+            if (source.TryGetComponent(out Inventory inventory)) ChangeParticle();
         }
 
         private void OnGameObjectDetectionReleased(GameObject source, GameObject detectedObject)
         {
-            if (source.TryGetComponent(out Inventory inventory))
-            {
-                ChangeParticle();
-            }
+            if (source.TryGetComponent(out Inventory inventory)) ChangeParticle();
         }
 
         private void ChangeParticle()

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Source.Scripts.Weapon
 {
-    public class Weapon : MonoBehaviour
+    public class Weapon
     {
         public Weapon(WeaponConfig weaponConfig)
         {

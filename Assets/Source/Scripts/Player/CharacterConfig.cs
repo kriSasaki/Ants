@@ -11,7 +11,7 @@ namespace Source.Scripts.Player
         [SerializeField] private bool _isBought = false;
         [SerializeField] private int _rank;
         [SerializeField] private Color _color;
-        
+
         public int Health => _health;
         public int Price => _price;
         public GameObject Model => _model;

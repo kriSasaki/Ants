@@ -13,10 +13,9 @@ namespace Source.Scripts.SDK
         private IEnumerator Start()
         {
 #if !UNITY_WEBGL || UNITY_EDITOR
-        OnYandexSDKInitialize();
-        yield break;
+            OnYandexSDKInitialize();
+            yield break;
 #endif
-
             yield return YandexGamesSdk.Initialize(OnYandexSDKInitialize);
             YandexGamesSdk.GameReady();
         }
@@ -24,13 +23,9 @@ namespace Source.Scripts.SDK
         private void OnYandexSDKInitialize()
         {
             if (PlayerPrefs.HasKey(CurrentLevelKey))
-            {
-                SceneManager.LoadScene(PlayerPrefs.GetInt(CurrentLevelKey)+1);
-            }
+                SceneManager.LoadScene(PlayerPrefs.GetInt(CurrentLevelKey) + 1);
             else
-            {
                 SceneManager.LoadScene(Tutorial);
-            }
         }
     }
 }

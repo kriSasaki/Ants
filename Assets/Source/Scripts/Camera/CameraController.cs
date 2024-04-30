@@ -17,7 +17,7 @@ namespace Source.Scripts.Camera
         {
             _interfacePresenter.StartButtonPressed -= Enable;
         }
-    
+
         private void Enable()
         {
             _transformFollower.enabled = true;

@@ -6,6 +6,9 @@ namespace Source.Scripts.UI
 {
     public class LeaderBoardButton : MonoBehaviour
     {
+        private readonly Vector3 _enabledSize = new(1f, 1f, 1f);
+        private readonly Vector3 _disabledSize = new(0f, 0f, 0f);
+
         [SerializeField] private GameObject _authorizationWindow;
         [SerializeField] private Button _authorizeButton;
         [SerializeField] private Button _cancelButton;
@@ -34,14 +37,10 @@ namespace Source.Scripts.UI
 
         private void OnClick()
         {
-            if (_leaderBoardDisplay.transform.localScale == new Vector3(1.0f, 1.0f, 1.0f))
-            {
+            if (_leaderBoardDisplay.transform.localScale == _enabledSize)
                 Hide();
-            }
-            else 
-            {
+            else
                 Show();
-            }
         }
 
         private void Show()
@@ -56,13 +55,16 @@ namespace Source.Scripts.UI
             }
             else
             {
-                _leaderBoardDisplay.transform.localScale += new Vector3(1.0f, 1.0f, 1.0f);
+                _leaderBoardDisplay.transform.localScale += _enabledSize;
                 _leaderBoardDisplay.SetLeaderboardScore();
                 _leaderBoardDisplay.OpenYandexLeaderboard();
             }
         }
 
-        private void Hide() => _leaderBoardDisplay.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+        private void Hide()
+        {
+            _leaderBoardDisplay.transform.localScale = _disabledSize;
+        }
 
         private void CloseAuthorization()
         {

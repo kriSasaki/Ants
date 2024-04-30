@@ -19,16 +19,17 @@ namespace Source.Scripts.UI
         [SerializeField] private TimeScaleChanger _timeScaleChanger;
 
         public bool IsAuthorized => PlayerAccount.IsAuthorized;
+
         public event Action<string, Action<int>> LoadDataNeeded;
         public event Action<string, int> SaveDataNeeded;
-        public int PlayerScore { get; private set; }
+
+        private int _playerScore;
+
+        private int _leadersNumber;
 
         private void Start()
         {
-            LoadDataNeeded?.Invoke(PlayerScoreKey, data =>
-            {
-                PlayerScore = data;
-            });
+            LoadDataNeeded?.Invoke(PlayerScoreKey, data => { _playerScore = data; });
         }
 
         private void OnEnable()
@@ -43,17 +44,17 @@ namespace Source.Scripts.UI
 
         public void OpenYandexLeaderboard()
         {
-            if (PlayerAccount.IsAuthorized == false)
-            {
-                return;
-            }
+            if (PlayerAccount.IsAuthorized == false) return;
 
             Leaderboard.GetEntries(_leaderboardName, (result) =>
             {
-                int leadersNumber = result.entries.Length >= _leaderNames.Length ? _leaderNames.Length : result.entries.Length;
-                for (int i = 0; i < leadersNumber; i++)
+                _leadersNumber = result.entries.Length >= _leaderNames.Length
+                    ? _leaderNames.Length
+                    : result.entries.Length;
+
+                for (var i = 0; i < _leadersNumber; i++)
                 {
-                    string name = result.entries[i].player.publicName;
+                    var name = result.entries[i].player.publicName;
 
                     if (string.IsNullOrEmpty(name))
                     {
@@ -70,10 +71,7 @@ namespace Source.Scripts.UI
 
         public void SetLeaderboardScore()
         {
-            if (YandexGamesSdk.IsInitialized)
-            {
-                Leaderboard.GetPlayerEntry(_leaderboardName, OnSuccessCallback);
-            }
+            if (YandexGamesSdk.IsInitialized) Leaderboard.GetPlayerEntry(_leaderboardName, OnSuccessCallback);
         }
 
         public void Authorize()
@@ -91,18 +89,15 @@ namespace Source.Scripts.UI
             _timeScaleChanger.Start();
         }
 
-        public void SetScore(int score)
+        private void SetScore(int score)
         {
-            PlayerScore += score;
-            SaveDataNeeded?.Invoke(PlayerScoreKey, PlayerScore);
+            _playerScore += score;
+            SaveDataNeeded?.Invoke(PlayerScoreKey, _playerScore);
         }
 
         private void OnSuccessCallback(LeaderboardEntryResponse result)
         {
-            if (result==null || PlayerScore > result.score)
-            {
-                Leaderboard.SetScore(_leaderboardName, PlayerScore);
-            }      
+            if (result == null || _playerScore > result.score) Leaderboard.SetScore(_leaderboardName, _playerScore);
         }
     }
 }

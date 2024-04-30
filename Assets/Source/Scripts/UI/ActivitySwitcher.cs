@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Source.Scripts.UI
 {
-    public class RankStar : MonoBehaviour
+    public class ActivitySwitcher : MonoBehaviour
     {
         public void Show()
         {

@@ -8,9 +8,9 @@ namespace Source.Scripts.World
 {
     public class LevelService : MonoBehaviour
     {
+        private readonly string[] _keys = { OpenedLevelsKey, CurrentLevelKey };
         private const string OpenedLevelsKey = "OpenedLevels";
         private const string CurrentLevelKey = "CurrentLevel";
-        private readonly string[] _keys = { OpenedLevelsKey, CurrentLevelKey };
 
         [SerializeField] private RewardWindow _rewardWindow;
         [SerializeField] private AdShower adShower;
@@ -19,13 +19,25 @@ namespace Source.Scripts.World
         public event Action<string, Action<int>> LoadDataNeeded;
         public event Action<string, int> SaveDataNeeded;
         public event Action OnLevelLoaded;
+
+        private enum SceneName
+        {
+            Tutorial,
+            Level1,
+            Level2,
+            Level3,
+            Level4,
+            Level5,
+            Level6,
+            Level7
+        }
+
         public int OpenedLevels { get; private set; }
         public int CurrentLevel { get; private set; }
 
         private void Start()
         {
             foreach (var key in _keys)
-            {
                 LoadDataNeeded?.Invoke(key, data =>
                 {
                     switch (key)
@@ -38,7 +50,6 @@ namespace Source.Scripts.World
                             break;
                     }
                 });
-            }
 
             OnLevelLoaded?.Invoke();
         }
@@ -90,7 +101,7 @@ namespace Source.Scripts.World
                     break;
             }
         }
-    
+
         private void RestartGame()
         {
             LoadLevel(CurrentLevel);
@@ -98,7 +109,7 @@ namespace Source.Scripts.World
 
         private void LevelComplete(bool isLost)
         {
-            if (!isLost && OpenedLevels == CurrentLevel && OpenedLevels != (int)SceneName. Level7)
+            if (!isLost && OpenedLevels == CurrentLevel && OpenedLevels != (int)SceneName.Level7)
             {
                 OpenedLevels++;
                 SaveDataNeeded?.Invoke(OpenedLevelsKey, OpenedLevels);
@@ -112,20 +123,8 @@ namespace Source.Scripts.World
                 CurrentLevel++;
                 SaveDataNeeded?.Invoke(CurrentLevelKey, CurrentLevel);
             }
-        
-            LoadLevel(CurrentLevel);
-        }
 
-        private enum SceneName
-        {
-            Tutorial,
-            Level1,
-            Level2,
-            Level3,
-            Level4,
-            Level5,
-            Level6,
-            Level7
+            LoadLevel(CurrentLevel);
         }
     }
 }

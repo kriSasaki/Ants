@@ -10,17 +10,17 @@ namespace Source.Scripts.UI
         [SerializeField] private Image _buttonImage;
         [SerializeField] private Image _focusImage;
         [SerializeField] private ScaleChanger _scaleChanger;
-    
+
         public event Action OnClick;
-    
+
         private void OnEnable()
         {
-            _startButton.onClick.AddListener(ButtonPressed);    
+            _startButton.onClick.AddListener(ButtonPressed);
         }
 
         private void OnDisable()
         {
-            _startButton.onClick.RemoveListener(ButtonPressed);  
+            _startButton.onClick.RemoveListener(ButtonPressed);
         }
 
         private void ButtonPressed()

@@ -10,6 +10,7 @@ namespace Source.Scripts.UI
         public event Action GoldAmountChanged;
         public event Action<string, Action<int>> LoadDataNeeded;
         public event Action<string, int> SaveDataNeeded;
+
         public int GoldAmount { get; private set; }
 
         private AdShower _adShower;

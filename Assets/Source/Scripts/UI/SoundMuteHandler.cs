@@ -9,7 +9,7 @@ namespace Source.Scripts.UI
     public class SoundMuteHandler : MonoBehaviour
     {
         private const string IsSoundOn = "isSoundOn";
-    
+
         [SerializeField] private Sprite _mute;
         [SerializeField] private Sprite _unmute;
         [SerializeField] private Image _image;
@@ -56,7 +56,7 @@ namespace Source.Scripts.UI
             adShower.AdOpened += OnVideoOpened;
             adShower.AdClosed += OnVideoClosed;
         }
-    
+
         private void OnDisable()
         {
             _button.onClick.RemoveListener(SoundMuteButtonOn);
@@ -67,7 +67,7 @@ namespace Source.Scripts.UI
             adShower.AdOpened -= OnVideoOpened;
             adShower.AdClosed -= OnVideoClosed;
         }
-    
+
         private void OnInBackgroundChangeApp(bool inBackground)
         {
             OnInBackgroundChange(!inBackground);
@@ -77,25 +77,21 @@ namespace Source.Scripts.UI
         {
             OnInBackgroundChange(inBackground);
         }
-    
+
         private void OnInBackgroundChange(bool inBackground)
         {
             if (_isSoundMute == false)
             {
                 _isPause = inBackground || _isAdActive;
                 ChangeAudio(_isPause);
-                
+
                 if (_isPause || _rewardWindow.IsWindowActice)
-                {
                     _timeScaleChanger.Stop();
-                }
                 else
-                {
                     _timeScaleChanger.Start();
-                }
             }
         }
-    
+
         private void SoundMuteButtonOn()
         {
             if (_isSoundMute == false)
@@ -124,15 +120,14 @@ namespace Source.Scripts.UI
         private void OnVideoOpened()
         {
             _isAdActive = true;
-        
+
             OnInBackgroundChange(_isAdActive);
         }
 
         private void ChangeAudio(bool value)
         {
             AudioListener.pause = value;
-            AudioListener.volume = value ? 0 : 1; 
+            AudioListener.volume = value ? 0 : 1;
         }
     }
 }
-

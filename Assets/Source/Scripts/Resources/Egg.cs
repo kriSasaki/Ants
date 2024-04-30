@@ -12,7 +12,7 @@ namespace Source.Scripts.Resources
                 HandleTick();
                 yield return null;
             }
-        
+
             inventory.ChangeEggsAmount(amount);
         }
     }

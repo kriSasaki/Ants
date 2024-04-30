@@ -21,25 +21,18 @@ namespace Source.Scripts.UI
         private int _currentCharacterIndex;
         private Character _character;
         private List<Character> _characters;
+        private bool _isCharacterAvailable;
 
         private void Start()
         {
             _characters = new List<Character>();
 
-            foreach (ScriptableObject scriptableObject in ScriptableObjects)
-            {
-                _characters.Add(new Character((CharacterConfig) scriptableObject));
-            }
-            
-            for (var i = 0; i < _characters.Count; i++)
-            {
-                LoadDataNeed?.Invoke(CurrentItemKey + i, BuyCharacter);
-            }
+            foreach (var scriptableObject in ScriptableObjects)
+                _characters.Add(new Character((CharacterConfig)scriptableObject));
 
-            LoadDataNeed?.Invoke(CurrentItemKey, data =>
-            {
-                _currentCharacterIndex = data;
-            });
+            for (var i = 0; i < _characters.Count; i++) LoadDataNeed?.Invoke(CurrentItemKey + i, BuyCharacter);
+
+            LoadDataNeed?.Invoke(CurrentItemKey, data => { _currentCharacterIndex = data; });
 
             ChangeScriptableObject(_currentCharacterIndex);
         }
@@ -67,10 +60,7 @@ namespace Source.Scripts.UI
             SaveDataNeed?.Invoke(CurrentItemKey, _currentCharacterIndex);
             CheckOpportunityToBuy(_currentCharacterIndex);
 
-            if (_characterDisplay != null)
-            {
-                _characterDisplay.DisplayCharacter(_characters[_currentCharacterIndex]);
-            }
+            if (_characterDisplay != null) _characterDisplay.DisplayCharacter(_characters[_currentCharacterIndex]);
         }
 
         private void TryBuyCharacter()
@@ -111,17 +101,19 @@ namespace Source.Scripts.UI
 
         private void SpawnCharacter()
         {
-            Instantiate(_character.Model, Player.transform.position, Player.transform.rotation, Player.gameObject.transform);
+            Instantiate(_character.Model, Player.transform.position, Player.transform.rotation,
+                Player.gameObject.transform);
             Player.ChangeHealth(_character.Health);
             Player.gameObject.SetActive(true);
         }
-    
+
         private void CheckOpportunityToBuy(int index)
         {
             _character = _characters[index];
-            _characterDisplay.ChangePriceAlertStatus(_character.Price <= _wallet.GoldAmount && _character.IsBought == false);
+            _isCharacterAvailable = _character.Price <= _wallet.GoldAmount && _character.IsBought;
+            _characterDisplay.ChangePriceAlertStatus(_isCharacterAvailable == false);
 
-            for (int i = index + 1; i < ScriptableObjects.Length; i++)
+            for (var i = index + 1; i < ScriptableObjects.Length; i++)
             {
                 _character = _characters[i];
 

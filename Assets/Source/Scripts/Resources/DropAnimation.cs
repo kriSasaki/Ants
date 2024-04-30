@@ -16,20 +16,26 @@ namespace Source.Scripts.Resources
 
         private float _deviationX;
         private float _deviationZ;
+        private float _targetPositionX;
+        private float _targetPositionZ;
         private float _time;
+        private Vector3 _targetPosition;
 
         private void Awake()
         {
             _deviationX = Random.Range(_minDeviationX, _maxDeviationX);
             _deviationZ = Random.Range(_minDeviationZ, _maxDeviationZ);
-            transform.DOJump(new Vector3(transform.position.x + _deviationX, transform.position.y, transform.position.z + _deviationZ), _jumpPower, _jumpAmount, _duration);
+            _targetPositionX = transform.position.x + _deviationX;
+            _targetPositionZ = transform.position.z + _deviationZ;
+            _targetPosition = new Vector3(_targetPositionX, transform.position.y, _targetPositionZ);
+            transform.DOJump(_targetPosition, _jumpPower, _jumpAmount, _duration);
         }
 
         private void Update()
         {
-            _time+= Time.deltaTime;
+            _time += Time.deltaTime;
 
-            if(_time >= _duration)
+            if (_time >= _duration)
             {
                 _pickUpAnimation.enabled = true;
                 Destroy(gameObject, _duration);

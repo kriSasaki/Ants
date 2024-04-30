@@ -11,7 +11,7 @@ namespace Source.Scripts.UI
         private const float ChangeDuration = 0.4f;
 
         [SerializeField] private CanvasGroup _canvasGroup;
-        
+
         public void Show()
         {
             _canvasGroup.interactable = true;

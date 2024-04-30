@@ -38,7 +38,7 @@ namespace Source.Scripts.UI
         private void OnEnable()
         {
             _startButton.OnClick += OnStartButtonPressed;
-            _pauseButton.OnClick += OnPauseButtonPressed;
+            _pauseButton.ButtonClicked += OnPauseButtonPressed;
             _continueButton.onClick.AddListener(AcceptWarning);
             _cancelButton.onClick.AddListener(_warningWindow.Hide);
             _weaponDisplay.ItemChanged += CheckPossibilityToPlay;
@@ -49,7 +49,7 @@ namespace Source.Scripts.UI
         private void OnDisable()
         {
             _startButton.OnClick -= OnStartButtonPressed;
-            _pauseButton.OnClick -= OnPauseButtonPressed;
+            _pauseButton.ButtonClicked -= OnPauseButtonPressed;
             _continueButton.onClick.RemoveListener(AcceptWarning);
             _cancelButton.onClick.RemoveListener(_warningWindow.Hide);
             _weaponDisplay.ItemChanged -= CheckPossibilityToPlay;
@@ -65,7 +65,7 @@ namespace Source.Scripts.UI
                 _startButton.Hide();
                 _pauseButton.Show();
                 _timeScaleChanger.Start();
-                
+
                 if (_isPlaying == false)
                 {
                     _isPlaying = true;
@@ -101,24 +101,17 @@ namespace Source.Scripts.UI
         {
             _rewardWindowView.Show();
 
-            if (isLost)
-            {
-                _restartButton.Show();
-            }
+            if (isLost) _restartButton.Show();
         }
 
         private void CheckPossibilityToPlay()
         {
             _isPlayable = _weaponDisplay.ItemIsBought && _characterDisplay.ItemIsBought;
-        
+
             if (_isPlayable)
-            {
                 _startButton.SetPlayable();
-            }
             else
-            {
                 _startButton.SetUnplayable();
-            }
         }
 
         private void AcceptWarning()

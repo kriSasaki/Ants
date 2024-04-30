@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Source.Scripts.World
 {
-    [CreateAssetMenu (fileName = "New Map", menuName = "Scriptable Objects/Maps")]
+    [CreateAssetMenu(fileName = "New Map", menuName = "Scriptable Objects/Maps")]
     public class Map : ScriptableObject
     {
         [SerializeField] private int _mapIndex;

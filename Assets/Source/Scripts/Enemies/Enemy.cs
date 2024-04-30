@@ -9,8 +9,9 @@ namespace Source.Scripts.Enemies
     [RequireComponent(typeof(Animator))]
     public class Enemy : MonoBehaviour
     {
-        private readonly int AntHurt = Animator.StringToHash("AntHurt");
         private const int Zero = 0;
+        private const int DestroyDelay = 2;
+        private readonly int _antHurt = Animator.StringToHash("AntHurt");
 
         [SerializeField] private Player.Player _target;
         [SerializeField] private AudioSource _audio;
@@ -21,6 +22,7 @@ namespace Source.Scripts.Enemies
 
         public Player.Player Target => _target;
         public int Health => _health;
+
         public event Action<Enemy> Dying;
         public event Action<int, int> HealthChanged;
 
@@ -51,15 +53,15 @@ namespace Source.Scripts.Enemies
             {
                 _health -= damage;
                 HealthChanged?.Invoke(_health, _maxHealth);
-                _animator.SetTrigger(AntHurt);
+                _animator.SetTrigger(_antHurt);
                 _audio.Play();
 
-                if (_health <= 0)
+                if (_health <= Zero)
                 {
                     _isDetected = false;
                     Dying?.Invoke(this);
                     DropResources();
-                    Destroy(gameObject, 2);
+                    Destroy(gameObject, DestroyDelay);
                 }
             }
         }
@@ -67,12 +69,8 @@ namespace Source.Scripts.Enemies
         private void DropResources()
         {
             if (_eggsAmount > Zero)
-            {
-                for (int i = 1; i <= _eggsAmount; i++)
-                {
+                for (var i = 1; i <= _eggsAmount; i++)
                     _egg = Instantiate(_egg, transform.position, Quaternion.identity);
-                }
-            }
         }
     }
 }

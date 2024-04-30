@@ -6,23 +6,23 @@ namespace Source.Scripts.UI
 {
     public class PauseButton : UIElement
     {
-        [SerializeField] private Button _pauseButton; 
-    
-        public event Action OnClick;
-    
+        [SerializeField] private Button _pauseButton;
+
+        public event Action ButtonClicked;
+
         private void OnEnable()
         {
-            _pauseButton.onClick.AddListener(ButtonPressed);    
+            _pauseButton.onClick.AddListener(ButtonPressed);
         }
 
         private void OnDisable()
         {
-            _pauseButton.onClick.RemoveListener(ButtonPressed);  
+            _pauseButton.onClick.RemoveListener(ButtonPressed);
         }
 
         private void ButtonPressed()
         {
-            OnClick?.Invoke();
+            ButtonClicked?.Invoke();
         }
     }
 }

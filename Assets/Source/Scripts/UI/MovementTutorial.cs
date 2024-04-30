@@ -21,13 +21,9 @@ namespace Source.Scripts.UI
         private void ShowTutorial()
         {
             if (Application.isMobilePlatform)
-            {
                 _mobileTutorial.SetActive(true);
-            }
             else
-            {
                 _computerTutorial.SetActive(true);
-            }
         }
     }
 }

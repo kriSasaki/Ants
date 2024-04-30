@@ -6,12 +6,12 @@ using UnityEngine;
 namespace Source.Scripts.Player
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class Detector : MonoBehaviour, IDetector
+    public class Detector : MonoBehaviour
     {
         public event Action<GameObject, GameObject> GameObjectDetected;
         public event Action<GameObject, GameObject> GameObjectDetectionReleased;
 
-        private List<GameObject> _detectedObjects = new List<GameObject>();
+        private List<GameObject> _detectedObjects = new();
 
         public void Detect(IDetectableObject detectableObject)
         {
@@ -38,7 +38,7 @@ namespace Source.Scripts.Player
         {
             if (_detectedObjects.Contains(detectableObject.gameObject))
             {
-                detectableObject.DetectionRelease(gameObject);
+                detectableObject.ReleaseDetection(gameObject);
                 _detectedObjects.Remove(detectableObject.gameObject);
 
                 GameObjectDetectionReleased?.Invoke(gameObject, detectableObject.gameObject);
@@ -57,18 +57,12 @@ namespace Source.Scripts.Player
 
         private void OnTriggerEnter(Collider other)
         {
-            if (IsColliderDetectableObject(other, out var detectedObject))
-            {
-                Detect(detectedObject);
-            }
+            if (IsColliderDetectableObject(other, out var detectedObject)) Detect(detectedObject);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (IsColliderDetectableObject(other, out var detectedObject))
-            {
-                ReleaseDetection(detectedObject);
-            }
+            if (IsColliderDetectableObject(other, out var detectedObject)) ReleaseDetection(detectedObject);
         }
 
         private bool IsColliderDetectableObject(Collider collider, out IDetectableObject detectedObject)

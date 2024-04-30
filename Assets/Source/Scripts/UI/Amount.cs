@@ -10,9 +10,9 @@ namespace Source.Scripts.UI
         [SerializeField] private TMP_Text _textAmount;
 
         public Inventory Inventory => _inventory;
-        
+
         private int _amount;
-        
+
         public void OnValueChanged(int amount)
         {
             _amount = amount;

@@ -49,11 +49,6 @@ namespace Source.Scripts.UI
             _checkIcon.SetActive(_mapSelected);
         }
 
-        public void ChangeButtonInteractivity(bool isEnable)
-        {
-            _chooseButton.enabled = isEnable;
-        }
-
         public void ChooseMap()
         {
             _levelService.LoadLevel(_selectedMap);

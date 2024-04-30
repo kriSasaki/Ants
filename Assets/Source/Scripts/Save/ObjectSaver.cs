@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Source.Save.Scripts
+namespace Source.Scripts.Save
 {
     public class ObjectSaver : IStorageService
     {

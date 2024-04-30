@@ -8,7 +8,7 @@ namespace Source.Scripts.Player
     public class Player : MonoBehaviour
     {
         private const int MinHealth = 0;
-    
+
         [SerializeField] private int _health;
         [SerializeField] private int _damage;
         [SerializeField] private Weapon.Weapon _weapon;
@@ -17,12 +17,13 @@ namespace Source.Scripts.Player
 
         public int MaxHealth { get; private set; }
         public int CurrentHealth => _health;
-        public bool HasWeapon => _weapon;
+        public bool HasWeapon => _weapon != null;
         public int Damage => _damage;
+
         public event Action<int, int> HealthChanged;
         public event Action PlayerEnabled;
         public event Action Died;
-        
+
         private IDetectableObject _detectableObject;
 
         private void Awake()
@@ -45,14 +46,11 @@ namespace Source.Scripts.Player
 
         public void TakeDamage(int damage)
         {
-            _health-=damage;
+            _health -= damage;
             _animationPlayer.PlayGetHit();
             HealthChanged?.Invoke(_health, MaxHealth);
 
-            if(_health <= MinHealth)
-            {
-                Died?.Invoke();
-            }
+            if (_health <= MinHealth) Died?.Invoke();
         }
 
         public void Revive(int health)
@@ -63,7 +61,7 @@ namespace Source.Scripts.Player
 
         public void EquipWeapon(Weapon.Weapon weapon)
         {
-            if(weapon != null)
+            if (weapon != null)
             {
                 _weapon = weapon;
                 _damage = weapon.Damage;
@@ -76,26 +74,20 @@ namespace Source.Scripts.Player
             MaxHealth = _health;
         }
 
+        public void SpawnWeapon()
+        {
+            var arm = GetComponentInChildren<Arm>();
+            Instantiate(_weapon.Model, arm.gameObject.transform.position, arm.transform.rotation, arm.transform);
+        }
+
         private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
         {
-            if (source.TryGetComponent(out Enemy enemy))
-            {
-                _playerAttackState.AddEnemy(enemy);
-            }
+            if (source.TryGetComponent(out Enemy enemy)) _playerAttackState.AddEnemy(enemy);
         }
 
         private void OnGameObjectDetectionReleased(GameObject source, GameObject detectedObject)
         {
-            if (source.TryGetComponent(out Enemy enemy))
-            {
-                _playerAttackState.RemoveEnemy(enemy);
-            }
-        }
-
-        public void SpawnWeapon()
-        {
-            Arm arm = GetComponentInChildren<Arm>();
-            Instantiate(_weapon.Model, arm.gameObject.transform.position, arm.transform.rotation, arm.transform);
+            if (source.TryGetComponent(out Enemy enemy)) _playerAttackState.RemoveEnemy(enemy);
         }
     }
 }

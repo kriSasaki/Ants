@@ -22,25 +22,18 @@ namespace Source.Scripts.UI
         private int _currentWeaponIndex;
         private Weapon.Weapon _weapon;
         private List<Weapon.Weapon> _weapons;
+        private bool _isWeaponAvailable;
 
         private void Start()
         {
             _weapons = new List<Weapon.Weapon>();
 
-            foreach (ScriptableObject scriptableObject in ScriptableObjects)
-            {
-                _weapons.Add(new Weapon.Weapon((WeaponConfig) scriptableObject));
-            }
-            
-            for (var i = 0; i < _weapons.Count; i++)
-            {
-                LoadDataNeeded?.Invoke(CurrentItemKey + i, BuyWeapon);
-            }
+            foreach (var scriptableObject in ScriptableObjects)
+                _weapons.Add(new Weapon.Weapon((WeaponConfig)scriptableObject));
 
-            LoadDataNeeded?.Invoke(CurrentItemKey, data =>
-            {
-                _currentWeaponIndex = data;
-            });
+            for (var i = 0; i < _weapons.Count; i++) LoadDataNeeded?.Invoke(CurrentItemKey + i, BuyWeapon);
+
+            LoadDataNeeded?.Invoke(CurrentItemKey, data => { _currentWeaponIndex = data; });
 
             ChangeScriptableObject(_currentWeaponIndex);
         }
@@ -68,10 +61,7 @@ namespace Source.Scripts.UI
             SaveDataNeeded?.Invoke(CurrentItemKey, _currentWeaponIndex);
             CheckOpportunityToBuy(_currentWeaponIndex);
 
-            if (_weaponDisplay != null)
-            {
-                _weaponDisplay.DisplayWeapon(_weapons[_currentWeaponIndex]);
-            }
+            if (_weaponDisplay != null) _weaponDisplay.DisplayWeapon(_weapons[_currentWeaponIndex]);
         }
 
         private void TryBuyWeapon()
@@ -98,7 +88,7 @@ namespace Source.Scripts.UI
         private void TryGiveWeapon()
         {
             _weapon = _weapons[_currentWeaponIndex];
-        
+
             if (_weapon.IsBought)
             {
                 GiveWeapon();
@@ -114,18 +104,16 @@ namespace Source.Scripts.UI
         {
             Player.EquipWeapon(_weapon);
 
-            if (_weapon.Model != null && _weapon.Price != NoModelItemIndex)
-            {
-                Player.SpawnWeapon();
-            }
+            if (_weapon.Model != null && _weapon.Price != NoModelItemIndex) Player.SpawnWeapon();
         }
 
         private void CheckOpportunityToBuy(int index)
         {
             _weapon = _weapons[_currentWeaponIndex];
-            _weaponDisplay.ChangePriceAlertStatus(_weapon.Price <= _wallet.GoldAmount && _weapon.IsBought == false);
+            _isWeaponAvailable = _weapon.Price <= _wallet.GoldAmount && _weapon.IsBought;
+            _weaponDisplay.ChangePriceAlertStatus(_isWeaponAvailable == false);
 
-            for (int i = index + 1; i < ScriptableObjects.Length; i++)
+            for (var i = index + 1; i < ScriptableObjects.Length; i++)
             {
                 _weapon = _weapons[i];
 
@@ -138,10 +126,10 @@ namespace Source.Scripts.UI
                 _weaponDisplay.ChangeButtonAlertStatus(false);
             }
         }
-    
+
         private void UpdateDisplay()
         {
             CheckOpportunityToBuy(_currentWeaponIndex);
         }
     }
-}       
+}

@@ -6,7 +6,7 @@ namespace Source.Scripts.World
     public class PieceOfChunk : MonoBehaviour
     {
         private const int HidedYPosition = -20;
-        
+
         [SerializeField] private float _duration;
 
         private float _positionY;

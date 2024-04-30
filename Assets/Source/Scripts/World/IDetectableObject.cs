@@ -11,6 +11,6 @@ namespace Source.Scripts.World
         GameObject gameObject { get; }
 
         void Detect(GameObject detectionSource);
-        void DetectionRelease(GameObject detectionSource);
+        void ReleaseDetection(GameObject detectionSource);
     }
 }

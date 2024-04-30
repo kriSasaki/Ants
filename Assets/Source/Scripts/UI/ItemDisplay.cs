@@ -38,13 +38,9 @@ namespace Source.Scripts.UI
         public void ChangePriceAlertStatus(bool isNewItemAvailable)
         {
             if (isNewItemAvailable)
-            {
                 _scaleChanger.StartTween();
-            }
             else
-            {
                 _scaleChanger.StopTween();
-            }
         }
     }
 }

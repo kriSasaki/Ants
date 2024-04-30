@@ -8,13 +8,14 @@ namespace Source.Scripts.UI
     public class CharacterDisplay : ItemDisplay
     {
         private const string BoughtString = "Куплено";
-    
+
         [SerializeField] private TMP_Text _characterHealth;
         [SerializeField] private GameObject _coin;
         [SerializeField] private Transform _characterHolder;
         [SerializeField] private ParticleSystem _particleSystem;
 
         public bool ItemIsBought { get; private set; }
+
         public event Action ItemChanged;
 
         private GameObject _appearance;
@@ -29,7 +30,7 @@ namespace Source.Scripts.UI
             Bought.enabled = character.IsBought;
             Price.enabled = !character.IsBought;
 
-            if (character.IsBought == false) 
+            if (character.IsBought == false)
             {
                 BuyButton.enabled = true;
                 _coin.gameObject.SetActive(true);
@@ -48,12 +49,10 @@ namespace Source.Scripts.UI
 
             RankStars.ShowStars(character.Rank);
 
-            if (_characterHolder.childCount > 0)
-            {
-                Destroy(_appearance);
-            }
+            if (_characterHolder.childCount > 0) Destroy(_appearance);
 
-            _appearance = Instantiate(character.Model, _characterHolder.position, _characterHolder.rotation, _characterHolder);
+            _appearance = Instantiate(character.Model, _characterHolder.position, _characterHolder.rotation,
+                _characterHolder);
         }
     }
 }

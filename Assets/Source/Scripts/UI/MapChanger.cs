@@ -9,14 +9,9 @@ namespace Source.Scripts.UI
         [SerializeField] private List<Map> _maps;
         [SerializeField] private MapDisplay _mapDisplay;
         [SerializeField] private GameObject _mapContainer;
+        [SerializeField] private LevelService _levelService;
 
-        private LevelService _levelService;
         private List<MapDisplay> _showedMaps;
-
-        private void Awake()
-        {
-            _levelService = GetComponentInParent<LevelService>();
-        }
 
         private void OnEnable()
         {
@@ -32,10 +27,7 @@ namespace Source.Scripts.UI
         {
             _showedMaps = new List<MapDisplay>();
 
-            for (int mapIndex = 0; mapIndex < _maps.Count; mapIndex++)
-            {
-                AddItem(_maps[mapIndex], mapIndex);
-            }
+            for (var mapIndex = 0; mapIndex < _maps.Count; mapIndex++) AddItem(_maps[mapIndex], mapIndex);
         }
 
         private void AddItem(Map map, int mapIndex)

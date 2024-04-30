@@ -1,6 +1,6 @@
 using System;
 
-namespace Source.Save.Scripts
+namespace Source.Scripts.Save
 {
     public interface IStorageService
     {

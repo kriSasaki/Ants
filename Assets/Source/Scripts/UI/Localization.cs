@@ -14,7 +14,7 @@ namespace Source.Scripts.UI
 
         private void Start()
         {
-            string currentLanguage = YandexGamesSdk.Environment.i18n.lang;
+            var currentLanguage = YandexGamesSdk.Environment.i18n.lang;
 
             switch (currentLanguage)
             {

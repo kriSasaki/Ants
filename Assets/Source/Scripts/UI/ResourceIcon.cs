@@ -15,7 +15,7 @@ namespace Source.Scripts.UI
         private float _collectedAmount;
 
         private void Start()
-        {    
+        {
             SetAmount();
         }
 
@@ -24,14 +24,14 @@ namespace Source.Scripts.UI
             _neededAmount = amount;
             _playerChecker = playerChecker;
         }
-        
+
         public void ResearchResources(int amount)
         {
             _collectedAmount = amount;
             SetAmount();
         }
 
-        private void SetAmount() 
+        private void SetAmount()
         {
             _text.text = $"{_collectedAmount}/{_neededAmount}";
         }

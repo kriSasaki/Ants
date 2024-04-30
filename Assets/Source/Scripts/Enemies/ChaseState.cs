@@ -6,20 +6,20 @@ namespace Source.Scripts.Enemies
 {
     public class ChaseState : State
     {
-        private readonly int Walking = Animator.StringToHash("Walking");
+        private readonly int _walking = Animator.StringToHash("Walking");
 
         private NavMeshAgent _agent;
 
         private void OnEnable()
         {
             _agent = GetComponent<NavMeshAgent>();
-            Animator.SetBool(Walking, true);
+            Animator.SetBool(_walking, true);
             _agent.enabled = true;
         }
 
         private void OnDisable()
         {
-            Animator.SetBool(Walking, false);
+            Animator.SetBool(_walking, false);
             _agent.enabled = false;
         }
 

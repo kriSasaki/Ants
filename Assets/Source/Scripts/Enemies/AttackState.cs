@@ -7,13 +7,21 @@ namespace Source.Scripts.Enemies
     public class AttackState : State
     {
         private const float MaxMagnitudeDelta = 0;
-        
+
         [SerializeField] private int _damage;
         [SerializeField] private float _delay;
         [SerializeField] private float _radianAngle;
 
         private float _lastAttackTime;
         private string _attackType;
+        private Vector3 _direction;
+
+        private enum AttackType
+        {
+            AntAttack0,
+            AntAttack01,
+            AntAttack02
+        }
 
         private void Update()
         {
@@ -36,26 +44,21 @@ namespace Source.Scripts.Enemies
 
         private void Attack(Player.Player target)
         {
-            _attackType = ((AttackType)Random.Range(
-                (int)AttackType.AntAttack0, (int)AttackType.AntAttack02 + 1)).ToString();
+            _attackType = ((AttackType)Random.Range((int)AttackType.AntAttack0, (int)AttackType.AntAttack02 + 1))
+                .ToString();
             Animator.SetTrigger(Animator.StringToHash(_attackType));
             target.TakeDamage(_damage);
         }
 
         private void LookToTarget()
         {
-            Vector3 newDir = Vector3.RotateTowards(transform.forward, 
-                (Target.transform.position - transform.position), 
-                _radianAngle, 
+            _direction = Vector3.RotateTowards(
+                transform.forward,
+                Target.transform.position - transform.position,
+                _radianAngle,
                 MaxMagnitudeDelta);
-            transform.rotation = Quaternion.LookRotation(newDir);
+            transform.rotation = Quaternion.LookRotation(_direction);
         }
 
-        private enum AttackType
-        {
-            AntAttack0,
-            AntAttack01,
-            AntAttack02
-        }
     }
 }

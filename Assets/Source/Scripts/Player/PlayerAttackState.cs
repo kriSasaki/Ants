@@ -9,8 +9,8 @@ namespace Source.Scripts.Player
     [RequireComponent(typeof(AudioSource))]
     public class PlayerAttackState : MonoBehaviour
     {
-        private const int _noTargets = 0;
-    
+        private const int NoTargets = 0;
+
         [SerializeField] private float _delay;
         [SerializeField] private float _rotationDuration = 0.2f;
         [SerializeField] private AudioSource _audioSource;
@@ -20,10 +20,13 @@ namespace Source.Scripts.Player
 
         public event Action<int> Attacked;
 
-        private bool _isStateActive => _enemies.Count > _noTargets;
         private List<Enemy> _enemies;
+
         private Tween _tween;
+
         private Vector3 _enemyPosition;
+
+        private bool _isStateActive => _enemies.Count > NoTargets;
         private int _damage => _player.Damage;
         private int _enemyIndex;
         private float _lastAttackTime;
@@ -47,13 +50,9 @@ namespace Source.Scripts.Player
                 _audioSource.Play();
 
                 if (_player.HasWeapon)
-                {
                     _animationPlayer.PlaySwordAttack();
-                }
                 else
-                {
                     _animationPlayer.PlayAttack();
-                }
 
                 _lastAttackTime = _delay;
             }
@@ -67,10 +66,7 @@ namespace Source.Scripts.Player
             _enemies[^1].Detect(this);
             _enemies[^1].Dying += RemoveEnemy;
 
-            if (_isStateActive)
-            {
-                enabled = true;
-            }
+            if (_isStateActive) enabled = true;
         }
 
         public void RemoveEnemy(Enemy enemy)
@@ -80,10 +76,7 @@ namespace Source.Scripts.Player
             _enemies[_enemyIndex].Dying -= RemoveEnemy;
             _enemies.RemoveAt(_enemyIndex);
 
-            if (_isStateActive == false)
-            {
-                enabled = false;
-            }
+            if (_isStateActive == false) enabled = false;
         }
 
         private void LookAtEnemy(Transform enemy)

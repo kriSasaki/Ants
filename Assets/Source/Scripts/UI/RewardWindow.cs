@@ -9,7 +9,7 @@ namespace Source.Scripts.UI
 {
     public class RewardWindow : MonoBehaviour
     {
-        [SerializeField] private AdShower adShower;
+        [SerializeField] private AdShower _adShower;
         [SerializeField] private PlayerChecker _playerChecker;
         [SerializeField] private Wallet _wallet;
         [SerializeField] private TMP_Text _earnedGold;
@@ -26,8 +26,9 @@ namespace Source.Scripts.UI
         [SerializeField] private TimeScaleChanger _timeScaleChanger;
         [SerializeField] private LevelService _levelService;
         [SerializeField] private Player.Player _player;
-        
+
         public bool IsWindowActice { get; private set; } = false;
+
         public event Action<bool> LevelComplete;
         public event Action<int> Rewarded;
         public event Action NextButtonPressed;
@@ -38,7 +39,7 @@ namespace Source.Scripts.UI
 
         private void OnEnable()
         {
-            adShower.VideoClosed += CloseRebornButton;
+            _adShower.VideoClosed += CloseRebornButton;
             _nextButton.onClick.AddListener(ShowAd);
             _rebornButton.onClick.AddListener(Reborn);
             _closeButton.onClick.AddListener(LoseLevel);
@@ -48,7 +49,7 @@ namespace Source.Scripts.UI
 
         private void OnDisable()
         {
-            adShower.VideoClosed -= CloseRebornButton;
+            _adShower.VideoClosed -= CloseRebornButton;
             _nextButton.onClick.RemoveListener(ShowAd);
             _rebornButton.onClick.RemoveListener(Reborn);
             _closeButton.onClick.RemoveListener(LoseLevel);

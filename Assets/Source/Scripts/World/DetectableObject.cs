@@ -13,7 +13,7 @@ namespace Source.Scripts.World
             GameObjectDetected?.Invoke(detectionSource, gameObject);
         }
 
-        public void DetectionRelease(GameObject detectionSource)
+        public void ReleaseDetection(GameObject detectionSource)
         {
             GameObjectDetectionReleased?.Invoke(detectionSource, gameObject);
         }

@@ -29,11 +29,8 @@ namespace Source.Scripts.World
         private void GetUp()
         {
             _audioSource.Play();
-        
-            foreach(PieceOfChunk piece in _pieces)
-            {
-                piece.GetUp();
-            }
+
+            foreach (var piece in _pieces) piece.GetUp();
         }
     }
 }

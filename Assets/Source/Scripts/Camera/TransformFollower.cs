@@ -12,10 +12,10 @@ namespace Source.Scripts.Camera
         private Vector3 _smoothedPosition;
 
         private void FixedUpdate()
-        {   
+        {
             Follow();
         }
-    
+
         private void Follow()
         {
             _desiredPosition = _target.position + _offset;

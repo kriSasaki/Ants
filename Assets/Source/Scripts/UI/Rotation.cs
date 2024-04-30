@@ -8,11 +8,17 @@ namespace Source.Scripts.UI
         [SerializeField] private float _rotationY;
         [SerializeField] private float _rotationZ;
 
+        private float _xAngle;
+        private float _yAngle;
+        private float _zAngle;
+
         private void Update()
         {
-            transform.Rotate(_rotationX * Time.unscaledDeltaTime, 
-                _rotationY * Time.unscaledDeltaTime, 
-                _rotationZ * Time.unscaledDeltaTime);
+            _xAngle = _rotationX * Time.unscaledDeltaTime;
+            _yAngle = _rotationY * Time.unscaledDeltaTime;
+            _zAngle = _rotationZ * Time.unscaledDeltaTime;
+
+            transform.Rotate(_xAngle, _yAngle, _zAngle);
         }
     }
 }

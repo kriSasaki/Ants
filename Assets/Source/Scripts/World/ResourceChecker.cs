@@ -10,7 +10,7 @@ namespace Source.Scripts.World
         public int Mushrooms => _mushrooms;
         public int Eggs => _eggs;
 
-        public bool ResearchResources(int mushroomsCollected, int  eggsCollected)
+        public bool ResearchResources(int mushroomsCollected, int eggsCollected)
         {
             return mushroomsCollected >= _mushrooms && eggsCollected >= _eggs;
         }

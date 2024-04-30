@@ -10,4 +10,3 @@ namespace Source.Scripts.Enemies
         }
     }
 }
-        
