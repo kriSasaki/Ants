@@ -20,15 +20,13 @@ namespace Source.Scripts.Resources
                 new Keyframe(0, 0),
                 new Keyframe(0.03f, 0.03f),
                 new Keyframe(0.3f, 0.03f),
-                new Keyframe(1, 1, 4.3f, 0)
-            );
+                new Keyframe(1, 1, 4.3f, 0));
 
         [SerializeField] private
             AnimationCurve _rotationInterpolation = new(
                 new Keyframe(0, 0),
                 new Keyframe(0.82f, 5.7f, 26f, 26f),
-                new Keyframe(1, 1)
-            );
+                new Keyframe(1, 1));
 
         private float _time;
 
@@ -59,8 +57,12 @@ namespace Source.Scripts.Resources
                 Gizmos.color = Color.white;
 
                 for (var i = 0; i < NumSteps; i++)
-                    Gizmos.DrawLine(SampleBezierCurve(i * dt, a, b, c, d),
+                {
+                    Gizmos.DrawLine(
+                        SampleBezierCurve(i * dt, a, b, c, d),
                         SampleBezierCurve((i + 1) * dt, a, b, c, d));
+                }
+
                 Gizmos.color = Color.red;
                 Gizmos.DrawLine(a, b);
                 Gizmos.color = Color.green;
@@ -93,7 +95,9 @@ namespace Source.Scripts.Resources
                 _card.position = SampleBezierCurve(
                     _translationInterpolation.Evaluate(t),
                     _p0.position,
-                    _p1.position, _p2.position, _p3.position);
+                    _p1.position, 
+                    _p2.position, 
+                    _p3.position);
                 _card.rotation = Quaternion.SlerpUnclamped(
                     _p0.rotation,
                     _p3.rotation,
@@ -102,12 +106,10 @@ namespace Source.Scripts.Resources
                 yield return null;
                 _time += Time.deltaTime;
             }
-
             _card.position = _p3.position;
             _card.rotation = _p3.rotation;
 
             StartCoroutine(AnimateCard());
         }
-
     }
 }

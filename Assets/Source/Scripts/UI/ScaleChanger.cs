@@ -5,10 +5,10 @@ namespace Source.Scripts.UI
 {
     public class ScaleChanger : MonoBehaviour
     {
-        private readonly Vector3 _initialScale = Vector3.one;
         private const float MaxScale = 1.1f;
         private const float Duration = 0.5f;
         private const int InfiniteLoops = -1;
+        private readonly Vector3 _initialScale = Vector3.one;
 
         [SerializeField] private RectTransform _rectTransform;
 

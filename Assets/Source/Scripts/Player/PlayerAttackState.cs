@@ -18,13 +18,11 @@ namespace Source.Scripts.Player
         [SerializeField] private Player _player;
         [SerializeField] private AnimationPlayer _animationPlayer;
 
-        public event Action<int> Attacked;
-
         private List<Enemy> _enemies;
-
         private Tween _tween;
-
         private Vector3 _enemyPosition;
+
+        public event Action<int> Attacked;
 
         private bool _isStateActive => _enemies.Count > NoTargets;
         private int _damage => _player.Damage;
@@ -50,13 +48,16 @@ namespace Source.Scripts.Player
                 _audioSource.Play();
 
                 if (_player.HasWeapon)
+                {
                     _animationPlayer.PlaySwordAttack();
+                }
                 else
+                {
                     _animationPlayer.PlayAttack();
+                }
 
                 _lastAttackTime = _delay;
             }
-
             _lastAttackTime -= Time.deltaTime;
         }
 
@@ -66,7 +67,10 @@ namespace Source.Scripts.Player
             _enemies[^1].Detect(this);
             _enemies[^1].Dying += RemoveEnemy;
 
-            if (_isStateActive) enabled = true;
+            if (_isStateActive)
+            {
+                enabled = true;
+            }
         }
 
         public void RemoveEnemy(Enemy enemy)
@@ -76,7 +80,10 @@ namespace Source.Scripts.Player
             _enemies[_enemyIndex].Dying -= RemoveEnemy;
             _enemies.RemoveAt(_enemyIndex);
 
-            if (_isStateActive == false) enabled = false;
+            if (_isStateActive == false)
+            {
+                enabled = false;
+            }
         }
 
         private void LookAtEnemy(Transform enemy)

@@ -8,11 +8,11 @@ namespace Source.Scripts.UI
     {
         [SerializeField] private TMP_Text _text;
 
-        public PlayerChecker PlayerChecker => _playerChecker;
-
         private PlayerChecker _playerChecker;
         private float _neededAmount;
         private float _collectedAmount;
+
+        public PlayerChecker PlayerChecker => _playerChecker;
 
         private void Start()
         {

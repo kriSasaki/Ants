@@ -8,7 +8,10 @@ namespace Source.Scripts.Player
 
         public void RevivePlayer()
         {
-            if (_player.CurrentHealth <= 0) _player.Revive(_player.MaxHealth);
+            if (_player.CurrentHealth <= 0)
+            {
+                _player.Revive(_player.MaxHealth);
+            }
         }
     }
 }

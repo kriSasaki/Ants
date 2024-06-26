@@ -20,7 +20,6 @@ namespace Source.Scripts.UI
         public event Action AdOpened;
         public event Action AdClosed;
 
-
         private void OnEnable()
         {
             _adButton.onClick.AddListener(VideoAdShow);
@@ -52,7 +51,10 @@ namespace Source.Scripts.UI
 
         private void OnCloseCallback(bool isClosed)
         {
-            if (isClosed) AdClosed?.Invoke();
+            if (isClosed)
+            {
+                AdClosed?.Invoke();
+            }
         }
 
         private void OnOpenCallback()

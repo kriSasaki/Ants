@@ -5,17 +5,17 @@ namespace Source.Scripts.UI
 {
     public class Tutorial : MonoBehaviour
     {
-        [SerializeField] private InterfacePresenter _interfacePresenter;
+        [SerializeField] private StartButton _startButton;
         [SerializeField] private TMP_Text _tmpText;
 
         private void OnEnable()
         {
-            _interfacePresenter.StartButtonPressed += ShowTutorial;
+            _startButton.OnClick += ShowTutorial;
         }
 
         private void OnDisable()
         {
-            _interfacePresenter.StartButtonPressed -= ShowTutorial;
+            _startButton.OnClick -= ShowTutorial;
         }
 
         private void ShowTutorial()

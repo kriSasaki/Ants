@@ -7,7 +7,9 @@ namespace Source.Scripts.UI
         private void Update()
         {
             if (transform.rotation != UnityEngine.Camera.main.transform.rotation)
+            {
                 transform.rotation = UnityEngine.Camera.main.transform.rotation;
+            }
         }
     }
 }

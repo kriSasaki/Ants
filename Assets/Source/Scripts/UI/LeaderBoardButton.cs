@@ -38,9 +38,13 @@ namespace Source.Scripts.UI
         private void OnClick()
         {
             if (_leaderBoardDisplay.transform.localScale == _enabledSize)
+            {
                 Hide();
+            }
             else
+            {
                 Show();
+            }
         }
 
         private void Show()

@@ -7,13 +7,13 @@ namespace Source.Scripts.UI
     {
         private const string GoldAmountKey = "GoldAmount";
 
+        private AdShower _adShower;
+
         public event Action GoldAmountChanged;
         public event Action<string, Action<int>> LoadDataNeeded;
         public event Action<string, int> SaveDataNeeded;
 
         public int GoldAmount { get; private set; }
-
-        private AdShower _adShower;
 
         private void Awake()
         {

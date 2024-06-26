@@ -14,7 +14,10 @@ namespace Source.Scripts.Enemies.StateMachine.Transitions
 
         private void Update()
         {
-            if (Vector3.Distance(transform.position, Target.transform.position) < _transitionRange) NeedTransit = true;
+            if (Vector3.Distance(transform.position, Target.transform.position) < _transitionRange)
+            {
+                NeedTransit = true;
+            }
         }
     }
 }

@@ -20,15 +20,15 @@ namespace Source.Scripts.Enemies
         [SerializeField] private Egg _egg;
         [SerializeField] private int _eggsAmount;
 
-        public Player.Player Target => _target;
-        public int Health => _health;
+        private Vector3 _position;
+        private int _maxHealth;
+        private bool _isDetected;
 
         public event Action<Enemy> Dying;
         public event Action<int, int> HealthChanged;
 
-        private Vector3 _position;
-        private int _maxHealth;
-        private bool _isDetected = false;
+        public Player.Player Target => _target;
+        public int Health => _health;
 
         private void Start()
         {
@@ -69,8 +69,12 @@ namespace Source.Scripts.Enemies
         private void DropResources()
         {
             if (_eggsAmount > Zero)
+            {
                 for (var i = 1; i <= _eggsAmount; i++)
+                {
                     _egg = Instantiate(_egg, transform.position, Quaternion.identity);
+                }
+            }
         }
     }
 }

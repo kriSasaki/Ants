@@ -14,23 +14,28 @@ namespace Source.Scripts.UI
         [SerializeField] private CharacterDisplay _characterDisplay;
         [SerializeField] private Wallet _wallet;
 
-        public event Action<string, Action<int>> LoadDataNeed;
-        public event Action<string, int> SaveDataNeed;
-        public event Action ItemPurchased;
-
         private int _currentCharacterIndex;
         private Character _character;
         private List<Character> _characters;
         private bool _isCharacterAvailable;
+
+        public event Action<string, Action<int>> LoadDataNeed;
+        public event Action<string, int> SaveDataNeed;
+        public event Action ItemPurchased;
 
         private void Start()
         {
             _characters = new List<Character>();
 
             foreach (var scriptableObject in ScriptableObjects)
+            {
                 _characters.Add(new Character((CharacterConfig)scriptableObject));
+            }
 
-            for (var i = 0; i < _characters.Count; i++) LoadDataNeed?.Invoke(CurrentItemKey + i, BuyCharacter);
+            for (var i = 0; i < _characters.Count; i++)
+            {
+                LoadDataNeed?.Invoke(CurrentItemKey + i, BuyCharacter);
+            }
 
             LoadDataNeed?.Invoke(CurrentItemKey, data => { _currentCharacterIndex = data; });
 
@@ -42,7 +47,7 @@ namespace Source.Scripts.UI
             _weaponChanger.ItemBought += UpdateDisplay;
             _wallet.GoldAmountChanged += UpdateDisplay;
             BuyButton.onClick.AddListener(TryBuyCharacter);
-            InterfacePresenter.StartButtonPressed += ChooseCharacter;
+            StartButton.OnClick += ChooseCharacter;
         }
 
         private void OnDisable()
@@ -50,7 +55,7 @@ namespace Source.Scripts.UI
             _weaponChanger.ItemBought -= UpdateDisplay;
             _wallet.GoldAmountChanged -= UpdateDisplay;
             BuyButton.onClick.RemoveListener(TryBuyCharacter);
-            InterfacePresenter.StartButtonPressed -= ChooseCharacter;
+            StartButton.OnClick -= ChooseCharacter;
         }
 
         public override void ChangeScriptableObject(int change)
@@ -60,7 +65,10 @@ namespace Source.Scripts.UI
             SaveDataNeed?.Invoke(CurrentItemKey, _currentCharacterIndex);
             CheckOpportunityToBuy(_currentCharacterIndex);
 
-            if (_characterDisplay != null) _characterDisplay.DisplayCharacter(_characters[_currentCharacterIndex]);
+            if (_characterDisplay != null)
+            {
+                _characterDisplay.DisplayCharacter(_characters[_currentCharacterIndex]);
+            }
         }
 
         private void TryBuyCharacter()
@@ -79,7 +87,7 @@ namespace Source.Scripts.UI
         {
             _character = _characters[characterIndex];
             _characterDisplay.ChangePriceAlertStatus(false);
-            _character.BuyItem();
+            _character.Buy();
             ItemPurchased?.Invoke();
             SaveDataNeed?.Invoke(CurrentItemKey + characterIndex.ToString(), characterIndex);
         }
@@ -94,14 +102,16 @@ namespace Source.Scripts.UI
             }
             else
             {
-                _character = _characters.OfType<Character>().LastOrDefault(character => character.IsBought);
+                _character = _characters.LastOrDefault(character => character.IsBought);
                 SpawnCharacter();
             }
         }
 
         private void SpawnCharacter()
         {
-            Instantiate(_character.Model, Player.transform.position, Player.transform.rotation,
+            Instantiate(_character.Model, 
+                Player.transform.position, 
+                Player.transform.rotation,
                 Player.gameObject.transform);
             Player.ChangeHealth(_character.Health);
             Player.gameObject.SetActive(true);
@@ -117,7 +127,7 @@ namespace Source.Scripts.UI
             {
                 _character = _characters[i];
 
-                if (_character.Price <= _wallet.GoldAmount && _character.IsBought == false)
+                if (_isCharacterAvailable)
                 {
                     _characterDisplay.ChangeButtonAlertStatus(true);
                     break;

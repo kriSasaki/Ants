@@ -28,7 +28,10 @@ namespace Source.Scripts.Enemies.StateMachine
 
         public void Exit()
         {
-            foreach (var transition in _transitions) transition.enabled = false;
+            foreach (var transition in _transitions)
+            {
+                transition.enabled = false;
+            }
 
             enabled = false;
         }
@@ -36,8 +39,12 @@ namespace Source.Scripts.Enemies.StateMachine
         public State GetNextState()
         {
             foreach (var transition in _transitions)
+            {
                 if (transition.NeedTransit)
+                {
                     return transition.TargetState;
+                }
+            }
 
             return null;
         }

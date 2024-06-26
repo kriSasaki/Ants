@@ -14,7 +14,7 @@ namespace Source.Scripts.Enemies
         {
             AntDeath0,
             AntDeath01,
-            AntDeath02
+            AntDeath02,
         }
 
         private void OnEnable()

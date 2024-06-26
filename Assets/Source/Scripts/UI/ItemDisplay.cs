@@ -12,8 +12,6 @@ namespace Source.Scripts.UI
         [SerializeField] private RankStars _rankStars;
         [SerializeField] private GameObject _buttonAlert;
         [SerializeField] private Button _buyButton;
-        [SerializeField] private Button _leftButton;
-        [SerializeField] private Button _rightButton;
         [SerializeField] private ScaleChanger _rightButtonScaleChanger;
 
         public TMP_Text Price => _price;
@@ -38,9 +36,13 @@ namespace Source.Scripts.UI
         public void ChangePriceAlertStatus(bool isNewItemAvailable)
         {
             if (isNewItemAvailable)
+            {
                 _scaleChanger.StartTween();
+            }
             else
+            {
                 _scaleChanger.StopTween();
+            }
         }
     }
 }

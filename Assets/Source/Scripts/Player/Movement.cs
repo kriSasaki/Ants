@@ -15,8 +15,6 @@ namespace Source.Scripts.Player
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private AnimationPlayer _animationPlayer;
 
-        public bool IsMoving => _moveDirection != Vector3.zero;
-
         private PlayerInput _input;
         private Vector3 _moveDirection;
         private float _animationSpeed;
@@ -28,6 +26,8 @@ namespace Source.Scripts.Player
         private Vector3 _velocityDirection;
         private Vector3 _rayDirection;
 
+        public bool IsMoving => _moveDirection != Vector3.zero;
+
         private void Awake()
         {
             _input = new PlayerInput();
@@ -36,25 +36,37 @@ namespace Source.Scripts.Player
         private void OnEnable()
         {
             if (Application.isMobilePlatform)
+            {
                 _joystick.gameObject.SetActive(true);
+            }
             else
+            {
                 _input.Enable();
+            }
         }
 
         private void OnDisable()
         {
             if (Application.isMobilePlatform)
+            {
                 _joystick.gameObject.SetActive(false);
+            }
             else
+            {
                 _input.Disable();
+            }
         }
 
         private void FixedUpdate()
         {
             if (Application.isMobilePlatform)
+            {
                 _moveDirection = _joystick.Direction;
+            }
             else
+            {
                 _moveDirection = _input.Player.Move.ReadValue<Vector2>();
+            }
 
             Move(_moveDirection);
         }
@@ -82,8 +94,10 @@ namespace Source.Scripts.Player
             }
 
             if (_direction != Vector3.zero)
+            {
                 transform.rotation = Quaternion.Lerp
                     (transform.rotation, Quaternion.LookRotation(_direction), _scaledRotationSpeed);
+            }
         }
     }
 }

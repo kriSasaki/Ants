@@ -8,11 +8,11 @@ namespace Source.Scripts.World
     {
         [SerializeField] private ResourceChecker _resourceChecker;
 
+        private IDetectableObject _detectableObject;
+
         public event Action<int> OnResearchMushroomNeeded;
         public event Action<int> OnResearchEggsNeeded;
         public event Action ConditionIsDone;
-
-        private IDetectableObject _detectableObject;
 
         private void Awake()
         {

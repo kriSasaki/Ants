@@ -21,7 +21,7 @@ namespace Source.Scripts.Weapon
         public int Rank { get; private set; }
         public Color Color { get; private set; }
 
-        public void BuyItem()
+        public void Buy()
         {
             IsBought = true;
         }

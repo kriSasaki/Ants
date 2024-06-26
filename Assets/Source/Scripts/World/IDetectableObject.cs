@@ -8,7 +8,7 @@ namespace Source.Scripts.World
         event Action<GameObject, GameObject> GameObjectDetected;
         event Action<GameObject, GameObject> GameObjectDetectionReleased;
 
-        GameObject gameObject { get; }
+        public GameObject GameObject { get; }
 
         void Detect(GameObject detectionSource);
         void ReleaseDetection(GameObject detectionSource);

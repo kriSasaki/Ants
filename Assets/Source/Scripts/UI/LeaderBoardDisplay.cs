@@ -18,18 +18,20 @@ namespace Source.Scripts.UI
         [SerializeField] private string _leaderboardName = "LeaderBoard";
         [SerializeField] private TimeScaleChanger _timeScaleChanger;
 
-        public bool IsAuthorized => PlayerAccount.IsAuthorized;
-
+        private int _playerScore;
+        private int _leadersNumber;
+        
         public event Action<string, Action<int>> LoadDataNeeded;
         public event Action<string, int> SaveDataNeeded;
 
-        private int _playerScore;
-
-        private int _leadersNumber;
+        public bool IsAuthorized => PlayerAccount.IsAuthorized;
 
         private void Start()
         {
-            LoadDataNeeded?.Invoke(PlayerScoreKey, data => { _playerScore = data; });
+            LoadDataNeeded?.Invoke(PlayerScoreKey, data =>
+            {
+                _playerScore = data;
+            });
         }
 
         private void OnEnable()
@@ -44,7 +46,10 @@ namespace Source.Scripts.UI
 
         public void OpenYandexLeaderboard()
         {
-            if (PlayerAccount.IsAuthorized == false) return;
+            if (PlayerAccount.IsAuthorized == false)
+            {
+                return;
+            }
 
             Leaderboard.GetEntries(_leaderboardName, (result) =>
             {
@@ -71,7 +76,10 @@ namespace Source.Scripts.UI
 
         public void SetLeaderboardScore()
         {
-            if (YandexGamesSdk.IsInitialized) Leaderboard.GetPlayerEntry(_leaderboardName, OnSuccessCallback);
+            if (YandexGamesSdk.IsInitialized)
+            {
+                Leaderboard.GetPlayerEntry(_leaderboardName, OnSuccessCallback);
+            }
         }
 
         public void Authorize()
@@ -97,7 +105,10 @@ namespace Source.Scripts.UI
 
         private void OnSuccessCallback(LeaderboardEntryResponse result)
         {
-            if (result == null || _playerScore > result.score) Leaderboard.SetScore(_leaderboardName, _playerScore);
+            if (result == null || _playerScore > result.score)
+            {
+                Leaderboard.SetScore(_leaderboardName, _playerScore);
+            }
         }
     }
 }

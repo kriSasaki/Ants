@@ -24,11 +24,9 @@ namespace Source.Scripts.UI
         [SerializeField] private RewardWindow _rewardWindow;
         [SerializeField] private WeaponDisplay _weaponDisplay;
         [SerializeField] private CharacterDisplay _characterDisplay;
-
-        public event Action StartButtonPressed;
-
-        private bool _isPlayable = false;
-        private bool _isPlaying = false;
+        
+        private bool _isPlayable;
+        private bool _isPlaying;
 
         private void Start()
         {
@@ -38,7 +36,7 @@ namespace Source.Scripts.UI
         private void OnEnable()
         {
             _startButton.OnClick += OnStartButtonPressed;
-            _pauseButton.ButtonClicked += OnPauseButtonPressed;
+            _pauseButton.Clicked += OnPausePressed;
             _continueButton.onClick.AddListener(AcceptWarning);
             _cancelButton.onClick.AddListener(_warningWindow.Hide);
             _weaponDisplay.ItemChanged += CheckPossibilityToPlay;
@@ -49,7 +47,7 @@ namespace Source.Scripts.UI
         private void OnDisable()
         {
             _startButton.OnClick -= OnStartButtonPressed;
-            _pauseButton.ButtonClicked -= OnPauseButtonPressed;
+            _pauseButton.Clicked -= OnPausePressed;
             _continueButton.onClick.RemoveListener(AcceptWarning);
             _cancelButton.onClick.RemoveListener(_warningWindow.Hide);
             _weaponDisplay.ItemChanged -= CheckPossibilityToPlay;
@@ -75,7 +73,6 @@ namespace Source.Scripts.UI
                     _collectableDisplay.Show();
                     _goldDisplay.Hide();
                     _buttons.Hide();
-                    StartButtonPressed?.Invoke();
                 }
                 else
                 {
@@ -88,7 +85,7 @@ namespace Source.Scripts.UI
             }
         }
 
-        private void OnPauseButtonPressed()
+        private void OnPausePressed()
         {
             _timeScaleChanger.Stop();
             _pauseButton.Hide();
@@ -101,7 +98,10 @@ namespace Source.Scripts.UI
         {
             _rewardWindowView.Show();
 
-            if (isLost) _restartButton.Show();
+            if (isLost)
+            {
+                _restartButton.Show();
+            }
         }
 
         private void CheckPossibilityToPlay()
@@ -109,9 +109,13 @@ namespace Source.Scripts.UI
             _isPlayable = _weaponDisplay.ItemIsBought && _characterDisplay.ItemIsBought;
 
             if (_isPlayable)
+            {
                 _startButton.SetPlayable();
+            }
             else
+            {
                 _startButton.SetUnplayable();
+            }
         }
 
         private void AcceptWarning()

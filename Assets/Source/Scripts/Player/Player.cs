@@ -15,16 +15,16 @@ namespace Source.Scripts.Player
         [SerializeField] private PlayerAttackState _playerAttackState;
         [SerializeField] private AnimationPlayer _animationPlayer;
 
-        public int MaxHealth { get; private set; }
-        public int CurrentHealth => _health;
-        public bool HasWeapon => _weapon != null;
-        public int Damage => _damage;
+        private IDetectableObject _detectableObject;
 
         public event Action<int, int> HealthChanged;
         public event Action PlayerEnabled;
         public event Action Died;
 
-        private IDetectableObject _detectableObject;
+        public int MaxHealth { get; private set; }
+        public int CurrentHealth => _health;
+        public bool HasWeapon => _weapon != null;
+        public int Damage => _damage;
 
         private void Awake()
         {
@@ -50,7 +50,10 @@ namespace Source.Scripts.Player
             _animationPlayer.PlayGetHit();
             HealthChanged?.Invoke(_health, MaxHealth);
 
-            if (_health <= MinHealth) Died?.Invoke();
+            if (_health <= MinHealth)
+            {
+                Died?.Invoke();
+            }
         }
 
         public void Revive(int health)
@@ -82,12 +85,18 @@ namespace Source.Scripts.Player
 
         private void OnGameObjectDetect(GameObject source, GameObject detectedObject)
         {
-            if (source.TryGetComponent(out Enemy enemy)) _playerAttackState.AddEnemy(enemy);
+            if (source.TryGetComponent(out Enemy enemy))
+            {
+                _playerAttackState.AddEnemy(enemy);
+            }
         }
 
         private void OnGameObjectDetectionReleased(GameObject source, GameObject detectedObject)
         {
-            if (source.TryGetComponent(out Enemy enemy)) _playerAttackState.RemoveEnemy(enemy);
+            if (source.TryGetComponent(out Enemy enemy))
+            {
+                _playerAttackState.RemoveEnemy(enemy);
+            }
         }
     }
 }

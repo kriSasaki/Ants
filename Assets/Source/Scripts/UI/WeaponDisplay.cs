@@ -13,11 +13,11 @@ namespace Source.Scripts.UI
         [SerializeField] private Transform _weaponHolder;
         [SerializeField] private ParticleSystem _particleSystem;
 
-        public bool ItemIsBought { get; private set; }
+        private GameObject _weapon;
 
         public event Action ItemChanged;
 
-        private GameObject _weapon;
+        public bool ItemIsBought { get; private set; }
 
         public void DisplayWeapon(Weapon.Weapon weaponConfig)
         {
@@ -48,11 +48,18 @@ namespace Source.Scripts.UI
 
             RankStars.ShowStars(weaponConfig.Rank);
 
-            if (_weaponHolder.childCount > 0) Destroy(_weapon);
+            if (_weaponHolder.childCount > 0)
+            {
+                Destroy(_weapon);
+            }
 
             if (weaponConfig.Model != null)
-                _weapon = Instantiate(weaponConfig.Model, _weaponHolder.position, _weaponHolder.rotation,
+            {
+                _weapon = Instantiate(weaponConfig.Model, 
+                    _weaponHolder.position, 
+                    _weaponHolder.rotation,
                     _weaponHolder);
+            }
         }
     }
 }

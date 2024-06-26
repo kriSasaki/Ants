@@ -20,7 +20,7 @@ namespace Source.Scripts.Enemies
         {
             AntAttack0,
             AntAttack01,
-            AntAttack02
+            AntAttack02,
         }
 
         private void Update()

@@ -27,7 +27,10 @@ namespace Source.Scripts.UI
         {
             _showedMaps = new List<MapDisplay>();
 
-            for (var mapIndex = 0; mapIndex < _maps.Count; mapIndex++) AddItem(_maps[mapIndex], mapIndex);
+            for (var mapIndex = 0; mapIndex < _maps.Count; mapIndex++)
+            {
+                AddItem(_maps[mapIndex], mapIndex);
+            }
         }
 
         private void AddItem(Map map, int mapIndex)

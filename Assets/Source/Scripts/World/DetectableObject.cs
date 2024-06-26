@@ -8,14 +8,16 @@ namespace Source.Scripts.World
         public event Action<GameObject, GameObject> GameObjectDetected;
         public event Action<GameObject, GameObject> GameObjectDetectionReleased;
 
+        public GameObject GameObject { get; }
+
         public void Detect(GameObject detectionSource)
         {
-            GameObjectDetected?.Invoke(detectionSource, gameObject);
+            GameObjectDetected?.Invoke(detectionSource, GameObject);
         }
 
         public void ReleaseDetection(GameObject detectionSource)
         {
-            GameObjectDetectionReleased?.Invoke(detectionSource, gameObject);
+            GameObjectDetectionReleased?.Invoke(detectionSource, GameObject);
         }
     }
 }

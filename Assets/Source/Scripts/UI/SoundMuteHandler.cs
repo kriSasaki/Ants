@@ -85,10 +85,14 @@ namespace Source.Scripts.UI
                 _isPause = inBackground || _isAdActive;
                 ChangeAudio(_isPause);
 
-                if (_isPause || _rewardWindow.IsWindowActice)
+                if (_isPause || _rewardWindow.IsWindowActive)
+                {
                     _timeScaleChanger.Stop();
+                }
                 else
+                {
                     _timeScaleChanger.Start();
+                }
             }
         }
 

@@ -30,7 +30,10 @@ namespace Source.Scripts.World
         {
             _audioSource.Play();
 
-            foreach (var piece in _pieces) piece.GetUp();
+            foreach (var piece in _pieces)
+            {
+                piece.GetUp();
+            }
         }
     }
 }

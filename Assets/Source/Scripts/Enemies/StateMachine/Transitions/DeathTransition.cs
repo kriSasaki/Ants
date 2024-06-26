@@ -10,7 +10,10 @@ namespace Source.Scripts.Enemies.StateMachine.Transitions
 
         private void Update()
         {
-            if (_enemy.Health <= Zero) NeedTransit = true;
+            if (_enemy.Health <= Zero)
+            {
+                NeedTransit = true;
+            }
         }
     }
 }

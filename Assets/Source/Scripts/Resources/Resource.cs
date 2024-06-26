@@ -12,11 +12,11 @@ namespace Source.Scripts.Resources
         [SerializeField] private PickUpAnimation _pickUpAnimation;
         [SerializeField] private DropAnimation _dropAnimation;
 
-        public bool IsPickUpInProgress => _time < _pickUpDuration;
-
         private bool _resourceCollected = false;
         private Inventory _target;
         private float _time = 0.1f;
+
+        public bool IsPickUpInProgress => _time < _pickUpDuration;
 
         private void OnTriggerEnter(Collider other)
         {

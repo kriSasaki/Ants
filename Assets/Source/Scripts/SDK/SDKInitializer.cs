@@ -23,9 +23,13 @@ namespace Source.Scripts.SDK
         private void OnYandexSDKInitialize()
         {
             if (PlayerPrefs.HasKey(CurrentLevelKey))
+            {
                 SceneManager.LoadScene(PlayerPrefs.GetInt(CurrentLevelKey) + 1);
+            }
             else
+            {
                 SceneManager.LoadScene(Tutorial);
+            }
         }
     }
 }

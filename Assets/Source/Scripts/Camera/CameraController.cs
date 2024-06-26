@@ -5,17 +5,17 @@ namespace Source.Scripts.Camera
 {
     public class CameraController : MonoBehaviour
     {
-        [SerializeField] private InterfacePresenter _interfacePresenter;
+        [SerializeField] private StartButton _startButton;
         [SerializeField] private TransformFollower _transformFollower;
 
         private void OnEnable()
         {
-            _interfacePresenter.StartButtonPressed += Enable;
+            _startButton.OnClick += Enable;
         }
 
         private void OnDisable()
         {
-            _interfacePresenter.StartButtonPressed -= Enable;
+            _startButton.OnClick -= Enable;
         }
 
         private void Enable()

@@ -28,7 +28,10 @@ namespace Source.Scripts.Player
 
         public void PlayGetHit()
         {
-            if (_animator.GetCurrentAnimatorStateInfo(0).GetHashCode() != _getHit) _animator.SetTrigger(_getHit);
+            if (_animator.GetCurrentAnimatorStateInfo(0).GetHashCode() != _getHit)
+            {
+                _animator.SetTrigger(_getHit);
+            }
         }
     }
 }

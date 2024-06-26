@@ -23,11 +23,6 @@ namespace Source.Scripts.UI
             _startButton.onClick.RemoveListener(ButtonPressed);
         }
 
-        private void ButtonPressed()
-        {
-            OnClick?.Invoke();
-        }
-
         public void SetPlayable()
         {
             _buttonImage.color = Color.white;
@@ -40,6 +35,11 @@ namespace Source.Scripts.UI
             _buttonImage.color = Color.gray;
             _focusImage.color = Color.gray;
             _scaleChanger.StopTween();
+        }
+
+        private void ButtonPressed()
+        {
+            OnClick?.Invoke();
         }
     }
 }

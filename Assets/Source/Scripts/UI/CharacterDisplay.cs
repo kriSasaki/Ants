@@ -14,11 +14,11 @@ namespace Source.Scripts.UI
         [SerializeField] private Transform _characterHolder;
         [SerializeField] private ParticleSystem _particleSystem;
 
-        public bool ItemIsBought { get; private set; }
+        private GameObject _appearance;
 
         public event Action ItemChanged;
 
-        private GameObject _appearance;
+        public bool ItemIsBought { get; private set; }
 
         public void DisplayCharacter(Character character)
         {
@@ -49,7 +49,10 @@ namespace Source.Scripts.UI
 
             RankStars.ShowStars(character.Rank);
 
-            if (_characterHolder.childCount > 0) Destroy(_appearance);
+            if (_characterHolder.childCount > 0)
+            {
+                Destroy(_appearance);
+            }
 
             _appearance = Instantiate(character.Model, _characterHolder.position, _characterHolder.rotation,
                 _characterHolder);

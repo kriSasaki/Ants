@@ -9,6 +9,8 @@ namespace Source.Scripts.UI
 {
     public class RewardWindow : MonoBehaviour
     {
+        private const int DefeatDivider = 2;
+        
         [SerializeField] private AdShower _adShower;
         [SerializeField] private PlayerChecker _playerChecker;
         [SerializeField] private Wallet _wallet;
@@ -27,15 +29,14 @@ namespace Source.Scripts.UI
         [SerializeField] private LevelService _levelService;
         [SerializeField] private Player.Player _player;
 
-        public bool IsWindowActice { get; private set; } = false;
-
+        private bool _isLost;
+        
         public event Action<bool> LevelComplete;
         public event Action<int> Rewarded;
         public event Action NextButtonPressed;
         public event Action RebornButtonPressed;
 
-        private readonly int _defeatDivider = 2;
-        private bool _isLost = false;
+        public bool IsWindowActive { get; private set; }
 
         private void OnEnable()
         {
@@ -59,7 +60,7 @@ namespace Source.Scripts.UI
 
         private void CompleteLevel()
         {
-            IsWindowActice = true;
+            IsWindowActive = true;
             _victorySound.Play();
             _timeScaleChanger.Stop();
             _isLost = false;
@@ -72,18 +73,18 @@ namespace Source.Scripts.UI
         {
             if (_isLost == false)
             {
-                IsWindowActice = true;
+                IsWindowActive = true;
                 _timeScaleChanger.Stop();
                 _isLost = true;
                 _rebornButton.gameObject.SetActive(_isLost);
             }
             else
             {
-                IsWindowActice = true;
+                IsWindowActive = true;
                 _looseSound.Play();
                 _rebornButton.gameObject.SetActive(false);
                 _timeScaleChanger.Stop();
-                GiveReward(_rewards[_levelService.CurrentLevel] / _defeatDivider);
+                GiveReward(_rewards[_levelService.CurrentLevel] / DefeatDivider);
                 SetRedColors();
                 _nextButton.gameObject.SetActive(!_isLost);
                 LevelComplete?.Invoke(_isLost);
@@ -107,7 +108,7 @@ namespace Source.Scripts.UI
 
         private void CloseRebornButton()
         {
-            IsWindowActice = false;
+            IsWindowActive = false;
             _rebornButton.gameObject.SetActive(false);
             _timeScaleChanger.Start();
         }

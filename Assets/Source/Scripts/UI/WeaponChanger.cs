@@ -15,23 +15,28 @@ namespace Source.Scripts.UI
         [SerializeField] private WeaponDisplay _weaponDisplay;
         [SerializeField] private Wallet _wallet;
 
-        public event Action<string, Action<int>> LoadDataNeeded;
-        public event Action<string, int> SaveDataNeeded;
-        public event Action ItemBought;
-
         private int _currentWeaponIndex;
         private Weapon.Weapon _weapon;
         private List<Weapon.Weapon> _weapons;
         private bool _isWeaponAvailable;
+
+        public event Action<string, Action<int>> LoadDataNeeded;
+        public event Action<string, int> SaveDataNeeded;
+        public event Action ItemBought;
 
         private void Start()
         {
             _weapons = new List<Weapon.Weapon>();
 
             foreach (var scriptableObject in ScriptableObjects)
+            {
                 _weapons.Add(new Weapon.Weapon((WeaponConfig)scriptableObject));
+            }
 
-            for (var i = 0; i < _weapons.Count; i++) LoadDataNeeded?.Invoke(CurrentItemKey + i, BuyWeapon);
+            for (var i = 0; i < _weapons.Count; i++)
+            {
+                LoadDataNeeded?.Invoke(CurrentItemKey + i, BuyWeapon);
+            }
 
             LoadDataNeeded?.Invoke(CurrentItemKey, data => { _currentWeaponIndex = data; });
 
@@ -61,7 +66,10 @@ namespace Source.Scripts.UI
             SaveDataNeeded?.Invoke(CurrentItemKey, _currentWeaponIndex);
             CheckOpportunityToBuy(_currentWeaponIndex);
 
-            if (_weaponDisplay != null) _weaponDisplay.DisplayWeapon(_weapons[_currentWeaponIndex]);
+            if (_weaponDisplay != null)
+            {
+                _weaponDisplay.DisplayWeapon(_weapons[_currentWeaponIndex]);
+            }
         }
 
         private void TryBuyWeapon()
@@ -80,7 +88,7 @@ namespace Source.Scripts.UI
         {
             _weapon = _weapons[weaponIndex];
             _weaponDisplay.ChangePriceAlertStatus(false);
-            _weapon.BuyItem();
+            _weapon.Buy();
             ItemBought?.Invoke();
             SaveDataNeeded?.Invoke(CurrentItemKey + weaponIndex, weaponIndex);
         }
@@ -95,7 +103,7 @@ namespace Source.Scripts.UI
             }
             else
             {
-                _weapon = _weapons.OfType<Weapon.Weapon>().LastOrDefault(weapon => weapon.IsBought);
+                _weapon = _weapons.LastOrDefault(weapon => weapon.IsBought);
                 GiveWeapon();
             }
         }
@@ -104,7 +112,10 @@ namespace Source.Scripts.UI
         {
             Player.EquipWeapon(_weapon);
 
-            if (_weapon.Model != null && _weapon.Price != NoModelItemIndex) Player.SpawnWeapon();
+            if (_weapon.Model != null && _weapon.Price != NoModelItemIndex)
+            {
+                Player.SpawnWeapon();
+            }
         }
 
         private void CheckOpportunityToBuy(int index)

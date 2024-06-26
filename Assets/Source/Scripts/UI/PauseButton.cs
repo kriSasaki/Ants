@@ -8,7 +8,7 @@ namespace Source.Scripts.UI
     {
         [SerializeField] private Button _pauseButton;
 
-        public event Action ButtonClicked;
+        public event Action Clicked;
 
         private void OnEnable()
         {
@@ -22,7 +22,7 @@ namespace Source.Scripts.UI
 
         private void ButtonPressed()
         {
-            ButtonClicked?.Invoke();
+            Clicked?.Invoke();
         }
     }
 }
