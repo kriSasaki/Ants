@@ -20,7 +20,7 @@ namespace Source.Scripts.UI
 
         private int _playerScore;
         private int _leadersNumber;
-        
+
         public event Action<string, Action<int>> LoadDataNeeded;
         public event Action<string, int> SaveDataNeeded;
 
