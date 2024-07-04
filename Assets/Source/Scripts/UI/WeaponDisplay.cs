@@ -55,8 +55,9 @@ namespace Source.Scripts.UI
 
             if (weaponConfig.Model != null)
             {
-                _weapon = Instantiate(weaponConfig.Model, 
-                    _weaponHolder.position, 
+                _weapon = Instantiate(
+                    weaponConfig.Model,
+                    _weaponHolder.position,
                     _weaponHolder.rotation,
                     _weaponHolder);
             }

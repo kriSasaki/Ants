@@ -10,7 +10,7 @@ namespace Source.Scripts.UI
     public class RewardWindow : MonoBehaviour
     {
         private const int DefeatDivider = 2;
-        
+
         [SerializeField] private AdShower _adShower;
         [SerializeField] private PlayerChecker _playerChecker;
         [SerializeField] private Wallet _wallet;
@@ -30,7 +30,7 @@ namespace Source.Scripts.UI
         [SerializeField] private Player.Player _player;
 
         private bool _isLost;
-        
+
         public event Action<bool> LevelComplete;
         public event Action<int> Rewarded;
         public event Action NextButtonPressed;

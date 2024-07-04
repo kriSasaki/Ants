@@ -21,13 +21,13 @@ namespace Source.Scripts.Player
         private List<Enemy> _enemies;
         private Tween _tween;
         private Vector3 _enemyPosition;
+        private int _enemyIndex;
+        private float _lastAttackTime;
 
         public event Action<int> Attacked;
 
-        private bool _isStateActive => _enemies.Count > NoTargets;
-        private int _damage => _player.Damage;
-        private int _enemyIndex;
-        private float _lastAttackTime;
+        private bool IsStateActive => _enemies.Count > NoTargets;
+        private int Damage => _player.Damage;
 
         private void Awake()
         {
@@ -44,7 +44,7 @@ namespace Source.Scripts.Player
             if (_lastAttackTime <= 0 && _movement.IsMoving == false)
             {
                 LookAtEnemy(_enemies[^1].transform);
-                Attacked?.Invoke(_damage);
+                Attacked?.Invoke(Damage);
                 _audioSource.Play();
 
                 if (_player.HasWeapon)
@@ -58,6 +58,7 @@ namespace Source.Scripts.Player
 
                 _lastAttackTime = _delay;
             }
+
             _lastAttackTime -= Time.deltaTime;
         }
 
@@ -67,7 +68,7 @@ namespace Source.Scripts.Player
             _enemies[^1].Detect(this);
             _enemies[^1].Dying += RemoveEnemy;
 
-            if (_isStateActive)
+            if (IsStateActive)
             {
                 enabled = true;
             }
@@ -80,7 +81,7 @@ namespace Source.Scripts.Player
             _enemies[_enemyIndex].Dying -= RemoveEnemy;
             _enemies.RemoveAt(_enemyIndex);
 
-            if (_isStateActive == false)
+            if (IsStateActive == false)
             {
                 enabled = false;
             }

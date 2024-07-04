@@ -95,8 +95,10 @@ namespace Source.Scripts.Player
 
             if (_direction != Vector3.zero)
             {
-                transform.rotation = Quaternion.Lerp
-                    (transform.rotation, Quaternion.LookRotation(_direction), _scaledRotationSpeed);
+                transform.rotation = Quaternion.Lerp(
+                    transform.rotation,
+                    Quaternion.LookRotation(_direction),
+                    _scaledRotationSpeed);
             }
         }
     }

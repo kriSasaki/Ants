@@ -109,8 +109,9 @@ namespace Source.Scripts.UI
 
         private void SpawnCharacter()
         {
-            Instantiate(_character.Model, 
-                Player.transform.position, 
+            Instantiate(
+                _character.Model,
+                Player.transform.position,
                 Player.transform.rotation,
                 Player.gameObject.transform);
             Player.ChangeHealth(_character.Health);

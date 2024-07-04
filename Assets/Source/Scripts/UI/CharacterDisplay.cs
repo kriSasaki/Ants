@@ -54,7 +54,10 @@ namespace Source.Scripts.UI
                 Destroy(_appearance);
             }
 
-            _appearance = Instantiate(character.Model, _characterHolder.position, _characterHolder.rotation,
+            _appearance = Instantiate(
+                character.Model,
+                _characterHolder.position,
+                _characterHolder.rotation,
                 _characterHolder);
         }
     }

@@ -59,6 +59,5 @@ namespace Source.Scripts.Enemies
                 MaxMagnitudeDelta);
             transform.rotation = Quaternion.LookRotation(_direction);
         }
-
     }
 }

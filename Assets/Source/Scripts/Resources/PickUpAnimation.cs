@@ -95,8 +95,8 @@ namespace Source.Scripts.Resources
                 _card.position = SampleBezierCurve(
                     _translationInterpolation.Evaluate(t),
                     _p0.position,
-                    _p1.position, 
-                    _p2.position, 
+                    _p1.position,
+                    _p2.position,
                     _p3.position);
                 _card.rotation = Quaternion.SlerpUnclamped(
                     _p0.rotation,
@@ -106,6 +106,7 @@ namespace Source.Scripts.Resources
                 yield return null;
                 _time += Time.deltaTime;
             }
+
             _card.position = _p3.position;
             _card.rotation = _p3.rotation;
 

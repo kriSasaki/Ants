@@ -24,7 +24,7 @@ namespace Source.Scripts.UI
         [SerializeField] private RewardWindow _rewardWindow;
         [SerializeField] private WeaponDisplay _weaponDisplay;
         [SerializeField] private CharacterDisplay _characterDisplay;
-        
+
         private bool _isPlayable;
         private bool _isPlaying;
 
